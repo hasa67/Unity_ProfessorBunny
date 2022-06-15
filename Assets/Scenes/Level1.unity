@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 196621707}
   - component: {fileID: 196621709}
   m_Layer: 5
-  m_Name: ItemSlot
+  m_Name: AnswerSlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -158,7 +158,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 106, y: 101}
+  m_AnchoredPosition: {x: 101, y: 68}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &196621707
@@ -475,7 +475,7 @@ GameObject:
   - component: {fileID: 1762836908}
   - component: {fileID: 1762836909}
   m_Layer: 5
-  m_Name: Item
+  m_Name: QuestionCard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -497,7 +497,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -108, y: -70}
+  m_AnchoredPosition: {x: 106, y: -147}
   m_SizeDelta: {x: 78.3716, y: 78.3716}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1762836906
