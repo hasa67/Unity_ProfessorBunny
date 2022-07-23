@@ -10,7 +10,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     private Vector3 initiaPosition;
     private AudioSource audioSource;
     private Canvas canvas;
-    private AudioManager am;
+    private AudioManager audioManager;
 
     public string answer;
 
@@ -19,7 +19,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
 
     private void Awake() {
         canvas = FindObjectOfType<Canvas>();
-        am = FindObjectOfType<AudioManager>();
+        audioManager = FindObjectOfType<AudioManager>();
 
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
@@ -58,11 +58,11 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
         if (eventData.pointerEnter != null) {
             if (eventData.pointerEnter.GetComponent<AnswerSlot>() == null) {
                 PlaceBack();
-                am.PlayWrongClip();
+                audioManager.PlayWrongClip();
             }
         } else {
             PlaceBack();
-            am.PlayWrongClip();
+            audioManager.PlayWrongClip();
         }
 
         canvasGroup.blocksRaycasts = true;

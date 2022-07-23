@@ -7,11 +7,13 @@ public class GameManager : MonoBehaviour {
 
     public int score;
 
-    void Start() {
-        DontDestroyOnLoad(this);
+    private PanelManager panelManager;
+
+    private void Awake() {
+        panelManager = FindObjectOfType<PanelManager>();
     }
 
-    public void StartButton() {
-        SceneManager.LoadScene("Level1");
+    void Start() {
+        panelManager.ShowMainPanel();
     }
 }

@@ -9,8 +9,6 @@ public class AudioManager : MonoBehaviour {
     public AudioClip wrongClip;
 
     private void Awake() {
-        DontDestroyOnLoad(this);
-
         audioSource = GetComponent<AudioSource>();
     }
 
