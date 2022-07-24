@@ -5,8 +5,8 @@ using UnityEngine.EventSystems;
 
 public class AnswerSlot : MonoBehaviour, IDropHandler {
 
-    private GameManager gm;
-    private AudioManager am;
+    private GameManager gameManager;
+    private AudioManager audioManager;
 
 
     public string answer;
@@ -16,8 +16,8 @@ public class AnswerSlot : MonoBehaviour, IDropHandler {
     public bool isFull;
 
     private void Awake() {
-        gm = FindObjectOfType<GameManager>();
-        am = FindObjectOfType<AudioManager>();
+        gameManager = FindObjectOfType<GameManager>();
+        audioManager = FindObjectOfType<AudioManager>();
         isFull = false;
     }
 
@@ -30,12 +30,12 @@ public class AnswerSlot : MonoBehaviour, IDropHandler {
 
                 if (eventData.pointerDrag.GetComponent<DragDrop>().answer == answer) {
                     if (hasAudio) {
-                        am.PlayCorrectClip();
+                        audioManager.PlayCorrectClip();
                     }
                     AddScore(1);
                 } else {
                     if (hasAudio) {
-                        am.PlayWrongClip();
+                        audioManager.PlayWrongClip();
                         isFull = false;
                         eventData.pointerDrag.GetComponent<DragDrop>().PlaceBack();
                     }
@@ -45,14 +45,13 @@ public class AnswerSlot : MonoBehaviour, IDropHandler {
         } else {
             eventData.pointerDrag.GetComponent<DragDrop>().PlaceBack();
 
-            am.PlayWrongClip();
+            audioManager.PlayWrongClip();
         }
-
     }
 
     private void AddScore(int score) {
-        if (gm != null) {
-            gm.score += score;
+        if (gameManager != null) {
+            gameManager.score += score;
         }
     }
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerUpHandler {
@@ -14,8 +15,9 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
 
     public string answer;
 
-    //[HideInInspector]
+    [HideInInspector]
     public AnswerSlot answerSlot;
+    public TrainQuestionCard trainQuestionCard;
 
     private void Awake() {
         canvas = FindObjectOfType<Canvas>();
@@ -33,7 +35,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     public void OnPointerDown(PointerEventData eventData) {
         canvasGroup.alpha = 0.6f;
         rectTransform.localScale = Vector3.one * 1.3f;
-        audioSource.Play();
+        // audioSource.Play();
 
         if (answerSlot != null) {
             answerSlot.isFull = false;
@@ -58,18 +60,24 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
         if (eventData.pointerEnter != null) {
             if (eventData.pointerEnter.GetComponent<AnswerSlot>() == null) {
                 PlaceBack();
-                audioManager.PlayWrongClip();
+                // audioManager.PlayWrongClip();
             }
         } else {
             PlaceBack();
-            audioManager.PlayWrongClip();
+            // audioManager.PlayWrongClip();
         }
 
         canvasGroup.blocksRaycasts = true;
     }
 
     public void PlaceBack() {
-        rectTransform.anchoredPosition = initiaPosition;
+        rectTransform.position = initiaPosition;
+    }
+
+    public void SetQuestionCard(TrainQuestionCard card) {
+        answer = card.answer;
+        GetComponent<Image>().sprite = card.image;
+        audioSource.clip = card.audioClip;
     }
 
 }

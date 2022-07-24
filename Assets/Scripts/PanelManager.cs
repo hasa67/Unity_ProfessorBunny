@@ -7,10 +7,13 @@ public class PanelManager : MonoBehaviour {
     public GameObject trainPanel;
 
     private List<GameObject> panelsList = new List<GameObject>();
+    private GameManager gameManager;
 
     private void Awake() {
         panelsList.Add(mainPanel);
         panelsList.Add(trainPanel);
+
+        gameManager = FindObjectOfType<GameManager>();
     }
 
     public void HideAllPanels() {
@@ -27,5 +30,7 @@ public class PanelManager : MonoBehaviour {
     public void ShowTrainPanel() {
         HideAllPanels();
         trainPanel.SetActive(true);
+
+        gameManager.StratTrainGame();
     }
 }
