@@ -32,26 +32,20 @@ public class AnswerSlot : MonoBehaviour, IDropHandler {
                     if (hasAudio) {
                         audioManager.PlayCorrectClip();
                     }
-                    AddScore(1);
+                    gameManager.AddScore(1);
                 } else {
                     if (hasAudio) {
                         audioManager.PlayWrongClip();
                         isFull = false;
                         eventData.pointerDrag.GetComponent<DragDrop>().PlaceBack();
                     }
-                    AddScore(-1);
+                    // gameManager.AddScore(-1);
                 }
             }
         } else {
             eventData.pointerDrag.GetComponent<DragDrop>().PlaceBack();
 
             audioManager.PlayWrongClip();
-        }
-    }
-
-    private void AddScore(int score) {
-        if (gameManager != null) {
-            gameManager.score += score;
         }
     }
 

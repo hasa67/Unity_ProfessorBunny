@@ -2,13 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using System.Linq;
 
 public class GameManager : MonoBehaviour {
 
-    public int score;
+    public Text scoreText;
     public List<TrainQuestionCard> trainCards = new List<TrainQuestionCard>();
     public GameObject questionPrefab;
 
+    private int score;
     private PanelManager panelManager;
     private List<DragDrop> currentQuestions = new List<DragDrop>();
     private EventSystem eventSystem;
@@ -28,7 +31,9 @@ public class GameManager : MonoBehaviour {
 
         DragDrop[] cards = FindObjectsOfType<DragDrop>();
         QuestionSlot[] questionSlots = FindObjectsOfType<QuestionSlot>();
-        AnswerSlot[] answerSlots = FindObjectsOfType<AnswerSlot>();
+
+        List<AnswerSlot> answerSlots = new List<AnswerSlot>(FindObjectsOfType<AnswerSlot>());
+        answerSlots = answerSlots.OrderBy(go => go.name).ToList();
 
         foreach (var slot in questionSlots) {
             Vector3 position = slot.GetComponent<RectTransform>().position;
@@ -44,7 +49,7 @@ public class GameManager : MonoBehaviour {
         MyFunctions.ShuffleDragDropList(currentQuestions);
 
         for (int i = 0; i < currentQuestions.Count; i++) {
-            answerSlots[currentQuestions.Count - 1 - i].answer = currentQuestions[i].answer;
+            answerSlots[i].answer = currentQuestions[i].answer;
         }
 
         StartCoroutine(PlayAudiosCo());
@@ -61,5 +66,10 @@ public class GameManager : MonoBehaviour {
             yield return new WaitForSeconds(1f);
         }
         eventSystem.enabled = true;
+    }
+
+    public void AddScore(int value) {
+        score += value;
+        scoreText.text = score.ToString();
     }
 }
