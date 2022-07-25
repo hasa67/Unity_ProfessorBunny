@@ -6,19 +6,16 @@ using UnityEngine.EventSystems;
 public class AnswerSlot : MonoBehaviour, IDropHandler {
 
     private GameManager gameManager;
-    private AudioManager audioManager;
-
 
     public string answer;
-    public bool hasAudio;
 
     //[HideInInspector]
     public bool isFull;
+    public bool isCorrect;
 
     private void Awake() {
         gameManager = FindObjectOfType<GameManager>();
-        audioManager = FindObjectOfType<AudioManager>();
-        isFull = false;
+        Initialize();
     }
 
     public void OnDrop(PointerEventData eventData) {
@@ -29,24 +26,18 @@ public class AnswerSlot : MonoBehaviour, IDropHandler {
                 eventData.pointerDrag.GetComponent<DragDrop>().answerSlot = this;
 
                 if (eventData.pointerDrag.GetComponent<DragDrop>().answer == answer) {
-                    if (hasAudio) {
-                        audioManager.PlayCorrectClip();
-                    }
-                    gameManager.AddScore(1);
-                } else {
-                    if (hasAudio) {
-                        audioManager.PlayWrongClip();
-                        isFull = false;
-                        eventData.pointerDrag.GetComponent<DragDrop>().PlaceBack();
-                    }
-                    // gameManager.AddScore(-1);
+                    isCorrect = true;
+                    // gameManager.AddScore(1);
                 }
             }
         } else {
             eventData.pointerDrag.GetComponent<DragDrop>().PlaceBack();
-
-            audioManager.PlayWrongClip();
         }
+    }
+
+    public void Initialize() {
+        isFull = false;
+        isCorrect = false;
     }
 
 }

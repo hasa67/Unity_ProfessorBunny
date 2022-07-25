@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour {
     private PanelManager panelManager;
     private List<DragDrop> currentQuestions = new List<DragDrop>();
     private EventSystem eventSystem;
+    private bool isRoundFinished;
 
     private void Awake() {
         panelManager = FindObjectOfType<PanelManager>();
@@ -25,14 +26,22 @@ public class GameManager : MonoBehaviour {
         panelManager.ShowMainPanel();
     }
 
+    private void Update() {
+
+    }
+
     public void StratTrainGame() {
+        isRoundFinished = false;
         MyFunctions.ShuffleTrainQuestionsList(trainCards);
         currentQuestions.Clear();
 
         DragDrop[] cards = FindObjectsOfType<DragDrop>();
-        QuestionSlot[] questionSlots = FindObjectsOfType<QuestionSlot>();
+        GameObject[] questionSlots = GameObject.FindGameObjectsWithTag("QuestionSlot");
 
         List<AnswerSlot> answerSlots = new List<AnswerSlot>(FindObjectsOfType<AnswerSlot>());
+        foreach (var slot in answerSlots) {
+            slot.Initialize();
+        }
         answerSlots = answerSlots.OrderBy(go => go.name).ToList();
 
         foreach (var slot in questionSlots) {

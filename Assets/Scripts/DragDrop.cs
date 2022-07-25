@@ -11,7 +11,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     private Vector3 initiaPosition;
     private AudioSource audioSource;
     private Canvas canvas;
-    private AudioManager audioManager;
+    private GameManager gameManager;
 
     public string answer;
 
@@ -21,7 +21,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
 
     private void Awake() {
         canvas = FindObjectOfType<Canvas>();
-        audioManager = FindObjectOfType<AudioManager>();
+        gameManager = FindObjectOfType<GameManager>();
 
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
@@ -35,10 +35,13 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     public void OnPointerDown(PointerEventData eventData) {
         canvasGroup.alpha = 0.6f;
         rectTransform.localScale = Vector3.one * 1.3f;
-        // audioSource.Play();
 
         if (answerSlot != null) {
             answerSlot.isFull = false;
+            if (answerSlot.isCorrect) {
+                // gameManager.AddScore(-1);
+                answerSlot.isCorrect = false;
+            }
             answerSlot = null;
         }
     }
@@ -60,11 +63,9 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
         if (eventData.pointerEnter != null) {
             if (eventData.pointerEnter.GetComponent<AnswerSlot>() == null) {
                 PlaceBack();
-                // audioManager.PlayWrongClip();
             }
         } else {
             PlaceBack();
-            // audioManager.PlayWrongClip();
         }
 
         canvasGroup.blocksRaycasts = true;
