@@ -12,9 +12,8 @@ public class GameManager : MonoBehaviour {
 
     private int score;
     private PanelManager panelManager;
-    public List<DragDrop> currentQuestionCards = new List<DragDrop>();
+    private List<DragDrop> currentQuestionCards = new List<DragDrop>();
     private List<AnswerSlot> answerSlots = new List<AnswerSlot>();
-    //private DragDrop[] cards;
     private GameObject[] questionSlots;
     private bool isRoundFinished;
     private bool isGameFinished;
@@ -32,7 +31,7 @@ public class GameManager : MonoBehaviour {
         MyFunctions.ShuffleTrainQuestionsList(trainCards);
 
         foreach (var card in currentQuestionCards) {
-            Destroy(card);
+            Destroy(card.gameObject);
         }
         currentQuestionCards.Clear();
 
@@ -111,7 +110,12 @@ public class GameManager : MonoBehaviour {
             output = true;
             IsControllable(false);
             isRoundFinished = true;
-            StratTrainGame();
+            if (trainCards.Count > 0) {
+                StratTrainGame();
+            } else {
+                panelManager.HideAllPanels();
+            }
+
         }
         return output;
     }

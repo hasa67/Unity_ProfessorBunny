@@ -434,7 +434,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b974dc35b7ea48a45807df1124517fdd, type: 2}
   - {fileID: 11400000, guid: 6815aa87639354148927031a44b182de, type: 2}
   questionPrefab: {fileID: 4499437708378218221, guid: b4190453a039bac4bb36aa84d63c66b3, type: 3}
-  currentQuestionCards: []
 --- !u!4 &355389687
 Transform:
   m_ObjectHideFlags: 0
@@ -870,7 +869,7 @@ GameObject:
   - component: {fileID: 741591929}
   - component: {fileID: 741591928}
   m_Layer: 5
-  m_Name: Text
+  m_Name: ScoreText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -13,8 +13,7 @@ public class PanelManager : MonoBehaviour {
     private void Awake() {
         panelsList.Add(mainPanel);
         panelsList.Add(trainPanel);
-
-        IsControllable(true);
+        panelsList.Add(blockPanel);
 
         gameManager = FindObjectOfType<GameManager>();
     }
