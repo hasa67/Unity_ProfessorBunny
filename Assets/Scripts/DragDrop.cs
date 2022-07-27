@@ -11,7 +11,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     private Vector3 initiaPosition;
     private AudioSource audioSource;
     private Canvas canvas;
-    private GameManager gameManager;
+    //private GameManager gameManager;
 
     public string answer;
 
@@ -21,7 +21,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
 
     private void Awake() {
         canvas = FindObjectOfType<Canvas>();
-        gameManager = FindObjectOfType<GameManager>();
+        //gameManager = FindObjectOfType<GameManager>();
 
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();

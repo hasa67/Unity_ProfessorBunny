@@ -27,7 +27,10 @@ public class AnswerSlot : MonoBehaviour, IDropHandler {
 
                 if (eventData.pointerDrag.GetComponent<DragDrop>().answer == answer) {
                     isCorrect = true;
-                    // gameManager.AddScore(1);
+                }
+
+                if (gameManager.IsCorrect()) {
+                    gameManager.AddScore(1);
                 }
             }
         } else {

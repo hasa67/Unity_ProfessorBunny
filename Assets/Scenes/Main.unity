@@ -226,6 +226,7 @@ RectTransform:
   m_Children:
   - {fileID: 1112276800}
   - {fileID: 1297209567}
+  - {fileID: 1152859974}
   - {fileID: 741591927}
   m_Father: {fileID: 0}
   m_RootOrder: 4
@@ -244,10 +245,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 255677643}
-  - component: {fileID: 255677644}
   m_Layer: 5
   m_Name: QuestionSlot (1)
-  m_TagString: Untagged
+  m_TagString: QuestionSlot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -271,18 +271,6 @@ RectTransform:
   m_AnchoredPosition: {x: -284.22653, y: 67.99997}
   m_SizeDelta: {x: 127.79651, y: 117.3831}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &255677644
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 255677642}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b69bc99db3a54145b37fe2561a2eb90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &321582298
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -446,6 +434,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b974dc35b7ea48a45807df1124517fdd, type: 2}
   - {fileID: 11400000, guid: 6815aa87639354148927031a44b182de, type: 2}
   questionPrefab: {fileID: 4499437708378218221, guid: b4190453a039bac4bb36aa84d63c66b3, type: 3}
+  currentQuestionCards: []
 --- !u!4 &355389687
 Transform:
   m_ObjectHideFlags: 0
@@ -899,7 +888,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 151972879}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -961,6 +950,7 @@ GameObject:
   - component: {fileID: 759891719}
   - component: {fileID: 759891718}
   - component: {fileID: 759891717}
+  - component: {fileID: 759891721}
   m_Layer: 5
   m_Name: StartButton
   m_TagString: Untagged
@@ -1094,6 +1084,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 759891715}
   m_CullTransparentMesh: 1
+--- !u!95 &759891721
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 759891715}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 55decc78cfd90974fb107eb8282ac2c5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &771874219
 GameObject:
   m_ObjectHideFlags: 0
@@ -1103,10 +1112,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 771874220}
-  - component: {fileID: 771874221}
   m_Layer: 5
   m_Name: QuestionSlot (3)
-  m_TagString: Untagged
+  m_TagString: QuestionSlot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1130,18 +1138,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 68}
   m_SizeDelta: {x: 127.79651, y: 117.3831}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &771874221
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 771874219}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b69bc99db3a54145b37fe2561a2eb90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &783467402 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6041103180924879105, guid: e88c3a79d32bfe24f95463b505e9939d, type: 3}
@@ -1349,6 +1345,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1112276799}
   m_CullTransparentMesh: 1
+--- !u!1 &1152859973
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1152859974}
+  - component: {fileID: 1152859976}
+  - component: {fileID: 1152859975}
+  m_Layer: 5
+  m_Name: BlockPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1152859974
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1152859973}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 151972879}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1152859975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1152859973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1152859976
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1152859973}
+  m_CullTransparentMesh: 1
 --- !u!1 &1258931900
 GameObject:
   m_ObjectHideFlags: 0
@@ -1380,6 +1451,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainPanel: {fileID: 1112276799}
   trainPanel: {fileID: 1297209566}
+  blockPanel: {fileID: 1152859973}
 --- !u!4 &1258931902
 Transform:
   m_ObjectHideFlags: 0
@@ -1488,10 +1560,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1453879317}
-  - component: {fileID: 1453879318}
   m_Layer: 5
   m_Name: QuestionSlot (5)
-  m_TagString: Untagged
+  m_TagString: QuestionSlot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1515,18 +1586,6 @@ RectTransform:
   m_AnchoredPosition: {x: 284.22656, y: 67.99997}
   m_SizeDelta: {x: 127.79651, y: 117.3831}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1453879318
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1453879316}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b69bc99db3a54145b37fe2561a2eb90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1672766910
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1657,10 +1716,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1849979505}
-  - component: {fileID: 1849979506}
   m_Layer: 5
   m_Name: QuestionSlot (4)
-  m_TagString: Untagged
+  m_TagString: QuestionSlot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1684,18 +1742,6 @@ RectTransform:
   m_AnchoredPosition: {x: 142.11328, y: 67.99997}
   m_SizeDelta: {x: 127.79651, y: 117.3831}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1849979506
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1849979504}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b69bc99db3a54145b37fe2561a2eb90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1971841216
 GameObject:
   m_ObjectHideFlags: 0
@@ -1705,10 +1751,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1971841217}
-  - component: {fileID: 1971841218}
   m_Layer: 5
   m_Name: QuestionSlot (2)
-  m_TagString: Untagged
+  m_TagString: QuestionSlot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1732,18 +1777,6 @@ RectTransform:
   m_AnchoredPosition: {x: -142.11328, y: 67.99997}
   m_SizeDelta: {x: 127.79651, y: 117.3831}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1971841218
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1971841216}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b69bc99db3a54145b37fe2561a2eb90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2079343659
 GameObject:
   m_ObjectHideFlags: 0
