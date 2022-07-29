@@ -3,18 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class AnswerSlot : MonoBehaviour, IDropHandler {
+public class TrainAnswerSlot : MonoBehaviour, IDropHandler {
 
-    private GameManager gameManager;
+    private TrainGameManager trainGameManager;
 
     public string answer;
-
-    //[HideInInspector]
     public bool isFull;
     public bool isCorrect;
 
     private void Awake() {
-        gameManager = FindObjectOfType<GameManager>();
+        trainGameManager = FindObjectOfType<TrainGameManager>();
         Initialize();
     }
 
@@ -22,20 +20,24 @@ public class AnswerSlot : MonoBehaviour, IDropHandler {
         if (!isFull) {
             if (eventData.pointerDrag != null) {
                 isFull = true;
+                eventData.pointerDrag.transform.SetParent(this.transform.parent);
                 eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
+                eventData.pointerDrag.GetComponent<RectTransform>().rotation = GetComponent<RectTransform>().rotation;
                 eventData.pointerDrag.GetComponent<DragDrop>().answerSlot = this;
 
                 if (eventData.pointerDrag.GetComponent<DragDrop>().answer == answer) {
                     isCorrect = true;
                 }
 
-                if (gameManager.IsCorrect()) {
-                    gameManager.AddScore(1);
+                if (trainGameManager.IsCorrect()) {
+                    trainGameManager.AddScore(1);
                 }
             }
         } else {
             eventData.pointerDrag.GetComponent<DragDrop>().PlaceBack();
         }
+
+        trainGameManager.AnswerSlotsBlink();
     }
 
     public void Initialize() {

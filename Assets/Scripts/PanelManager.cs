@@ -33,7 +33,7 @@ public class PanelManager : MonoBehaviour {
         HideAllPanels();
         trainPanel.SetActive(true);
 
-        gameManager.StratTrainGame();
+        gameManager.StartTrainGame();
     }
 
     public void IsControllable(bool isControllable) {

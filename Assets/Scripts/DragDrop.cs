@@ -6,18 +6,18 @@ using UnityEngine.EventSystems;
 
 public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerUpHandler {
 
+    public string answer;
+
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
     private Vector3 initiaPosition;
     private AudioSource audioSource;
     private Canvas canvas;
-    //private GameManager gameManager;
+    private Transform initialParent;
 
-    public string answer;
+    //[HideInInspector]
+    public TrainAnswerSlot answerSlot;
 
-    [HideInInspector]
-    public AnswerSlot answerSlot;
-    public TrainQuestionCard trainQuestionCard;
 
     private void Awake() {
         canvas = FindObjectOfType<Canvas>();
@@ -27,9 +27,12 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
         canvasGroup = GetComponent<CanvasGroup>();
         audioSource = GetComponent<AudioSource>();
 
-        initiaPosition = rectTransform.anchoredPosition;
-
         answerSlot = null;
+    }
+
+    private void Start() {
+        initialParent = this.transform.parent;
+        initiaPosition = rectTransform.anchoredPosition;
     }
 
     public void OnPointerDown(PointerEventData eventData) {
@@ -61,7 +64,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
 
     public void OnEndDrag(PointerEventData eventData) {
         if (eventData.pointerEnter != null) {
-            if (eventData.pointerEnter.GetComponent<AnswerSlot>() == null) {
+            if (eventData.pointerEnter.GetComponent<TrainAnswerSlot>() == null) {
                 PlaceBack();
             }
         } else {
@@ -72,7 +75,9 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     }
 
     public void PlaceBack() {
-        rectTransform.position = initiaPosition;
+        this.transform.SetParent(initialParent);
+        rectTransform.localPosition = Vector3.zero;
+        rectTransform.rotation = Quaternion.Euler(Vector3.zero);
     }
 
     public void SetQuestionCard(TrainQuestionCard card) {
