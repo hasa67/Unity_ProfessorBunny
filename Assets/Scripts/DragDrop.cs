@@ -14,6 +14,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     private AudioSource audioSource;
     private Canvas canvas;
     private Transform initialParent;
+    private TrainGameManager trainGameManager;
 
     //[HideInInspector]
     public TrainAnswerSlot answerSlot;
@@ -21,11 +22,11 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
 
     private void Awake() {
         canvas = FindObjectOfType<Canvas>();
-        //gameManager = FindObjectOfType<GameManager>();
 
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
         audioSource = GetComponent<AudioSource>();
+        trainGameManager = FindObjectOfType<TrainGameManager>();
 
         answerSlot = null;
     }
@@ -47,6 +48,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
             }
             answerSlot = null;
         }
+        trainGameManager.AnswerSlotsBlink();
     }
 
     public void OnPointerUp(PointerEventData eventData) {

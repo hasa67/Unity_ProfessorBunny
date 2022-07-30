@@ -6,6 +6,7 @@ public class PanelManager : MonoBehaviour {
     public GameObject mainPanel;
     public GameObject trainPanel;
     public GameObject blockPanel;
+    public GameObject sandwichPanel;
 
     private List<GameObject> panelsList = new List<GameObject>();
     private GameManager gameManager;
@@ -13,6 +14,7 @@ public class PanelManager : MonoBehaviour {
     private void Awake() {
         panelsList.Add(mainPanel);
         panelsList.Add(trainPanel);
+        panelsList.Add(sandwichPanel);
         panelsList.Add(blockPanel);
 
         gameManager = FindObjectOfType<GameManager>();
@@ -28,6 +30,8 @@ public class PanelManager : MonoBehaviour {
         HideAllPanels();
         mainPanel.SetActive(true);
     }
+
+
 
     public void ShowTrainPanel() {
         HideAllPanels();

@@ -2,15 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Linq;
 
 public class GameManager : MonoBehaviour {
 
     public Text scoreText;
+    public Text timerText;
     public TrainGameManager trainGameManager;
 
     private int score;
     private PanelManager panelManager;
+    private bool stopWatch;
+    private float timer;
 
     private void Awake() {
         panelManager = FindObjectOfType<PanelManager>();
@@ -18,6 +20,14 @@ public class GameManager : MonoBehaviour {
 
     void Start() {
         panelManager.ShowMainPanel();
+        Stopwatch(false);
+    }
+
+    private void Update() {
+        if (stopWatch == true) {
+            timer += Time.deltaTime;
+        }
+        timerText.text = timer.ToString();
     }
 
     public void StartTrainGame() {
@@ -35,5 +45,13 @@ public class GameManager : MonoBehaviour {
 
     public void IsControllable(bool isControllable) {
         panelManager.IsControllable(isControllable);
+    }
+
+    public void ResetStopwatch() {
+        timer = 0;
+    }
+
+    public void Stopwatch(bool isActive) {
+        stopWatch = isActive;
     }
 }

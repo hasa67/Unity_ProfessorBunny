@@ -8,14 +8,11 @@ public class TrainGameManager : MonoBehaviour {
     public List<TrainQuestionCard> trainCards = new List<TrainQuestionCard>();
     public GameObject questionPrefab;
     public GameObject train;
-    public GameObject questionSlotsPanel;
 
     private GameManager gameManager;
     private List<DragDrop> currentQuestionCards = new List<DragDrop>();
     private List<TrainAnswerSlot> answerSlots = new List<TrainAnswerSlot>();
     private GameObject[] questionSlots;
-    // private bool isRoundFinished;
-    // private bool isGameFinished;
 
     void Awake() {
         gameManager = FindObjectOfType<GameManager>();
@@ -23,7 +20,6 @@ public class TrainGameManager : MonoBehaviour {
     }
 
     public void StartGame() {
-        // isRoundFinished = false;
         MyFunctions.ShuffleTrainQuestionsList(trainCards);
 
         foreach (var card in currentQuestionCards) {
@@ -42,11 +38,9 @@ public class TrainGameManager : MonoBehaviour {
         foreach (var slot in questionSlots) {
             if (trainCards.Count > 0) {
                 Vector3 position = slot.GetComponent<RectTransform>().anchoredPosition;
-                //GameObject card = Instantiate(questionPrefab, position, Quaternion.identity) as GameObject;
                 GameObject card = Instantiate(questionPrefab) as GameObject;
                 card.transform.SetParent(slot.transform);
                 card.transform.localPosition = Vector3.zero;
-                //card.transform.SetParent(slot.transform.parent);
                 card.transform.localScale = Vector3.one;
 
                 currentQuestionCards.Add(card.GetComponent<DragDrop>());
@@ -61,23 +55,23 @@ public class TrainGameManager : MonoBehaviour {
             answerSlots[i].answer = currentQuestionCards[i].answer;
         }
 
-        StartCoroutine(PlayAudiosCo());
+        StartCoroutine(PlaySoundsCo());
     }
 
-    IEnumerator PlayAudiosCo() {
+    IEnumerator PlaySoundsCo() {
+        gameManager.Stopwatch(false);
         gameManager.IsControllable(false);
-        TrainArrive();
-        QuestionSlotsIn();
+        float delay = TrainArrive();
         AnswerSlotsBlink();
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(delay + 0.5f);
 
         for (int i = 0; i < currentQuestionCards.Count; i++) {
-            float waitTime = currentQuestionCards[i].GetComponent<AudioSource>().clip.length;
+            delay = currentQuestionCards[i].GetComponent<AudioSource>().clip.length;
             currentQuestionCards[i].GetComponent<AudioSource>().Play();
-            yield return new WaitForSeconds(waitTime);
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(delay + 0.5f);
         }
         gameManager.IsControllable(true);
+        gameManager.Stopwatch(true);
     }
 
     public bool IsCorrect() {
@@ -112,14 +106,13 @@ public class TrainGameManager : MonoBehaviour {
 
     IEnumerator IsRoundFinishedCo() {
         gameManager.IsControllable(false);
-        // isRoundFinished = true;
         if (trainCards.Count > 0) {
-            TrainLeave();
-            yield return new WaitForSeconds(2f);
+            float delay = TrainLeave();
+            yield return new WaitForSeconds(delay + 0.5f);
             StartGame();
         } else {
-            TrainLeave();
-            yield return new WaitForSeconds(2f);
+            float delay = TrainLeave();
+            yield return new WaitForSeconds(delay + 0.5f);
             gameManager.EndTrainGame();
         }
     }
@@ -128,18 +121,19 @@ public class TrainGameManager : MonoBehaviour {
         gameManager.AddScore(score);
     }
 
-    private void TrainArrive() {
+    private float TrainArrive() {
         train.GetComponent<AudioSource>().Play();
         train.GetComponent<Animator>().SetTrigger("arrive");
+        float length = train.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
+        return length;
     }
 
-    private void TrainLeave() {
+    private float TrainLeave() {
+        gameManager.Stopwatch(false);
         train.GetComponent<AudioSource>().Play();
         train.GetComponent<Animator>().SetTrigger("leave");
-    }
-
-    private void QuestionSlotsIn() {
-        questionSlotsPanel.GetComponent<Animator>().SetTrigger("in");
+        float length = train.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
+        return length;
     }
 
     public void AnswerSlotsBlink() {
