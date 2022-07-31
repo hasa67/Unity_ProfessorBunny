@@ -84,7 +84,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
 
     public void SetQuestionCard(TrainQuestionCard card) {
         answer = card.answer;
-        GetComponent<Image>().sprite = card.image;
+        GetComponent<Image>().sprite = card.sprite;
         audioSource.clip = card.audioClip;
     }
 

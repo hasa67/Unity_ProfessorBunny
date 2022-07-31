@@ -31,13 +31,14 @@ public class PanelManager : MonoBehaviour {
         mainPanel.SetActive(true);
     }
 
-
-
     public void ShowTrainPanel() {
         HideAllPanels();
         trainPanel.SetActive(true);
+    }
 
-        gameManager.StartTrainGame();
+    public void ShowSandwichPanel() {
+        HideAllPanels();
+        sandwichPanel.SetActive(true);
     }
 
     public void IsControllable(bool isControllable) {

@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 350dde7126436e8499dec83b4cf95028, type: 3}
-  m_Name: bicycle
+  m_Name: burger
   m_EditorClassIdentifier: 
-  image: {fileID: 21300000, guid: 5163223160f1f2c41a11cde914a4ef77, type: 3}
-  answer: bicycle
-  audioClip: {fileID: 8300000, guid: abf29fb50e153554789b1e735efd93df, type: 3}
+  sprite: {fileID: 21300000, guid: 90837611ca7f8df43b60c3c7fa6323d8, type: 3}
+  answer: burger
+  audioClip: {fileID: 8300000, guid: b6feea22ce9427242bd2e8beab9c7e7b, type: 3}

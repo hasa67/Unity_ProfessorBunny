@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour {
     public Text scoreText;
     public Text timerText;
     public TrainGameManager trainGameManager;
+    public SandwichGameManager sandwichGameManager;
 
     private int score;
     private PanelManager panelManager;
@@ -31,11 +32,17 @@ public class GameManager : MonoBehaviour {
     }
 
     public void StartTrainGame() {
+        panelManager.ShowTrainPanel();
         trainGameManager.StartGame();
     }
 
     public void EndTrainGame() {
-        panelManager.HideAllPanels();
+        StartSandwichGame();
+    }
+
+    public void StartSandwichGame() {
+        panelManager.ShowSandwichPanel();
+        sandwichGameManager.StartGame();
     }
 
     public void AddScore(int value) {

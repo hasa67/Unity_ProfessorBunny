@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu]
 
 public class TrainQuestionCard : ScriptableObject {
-    public Sprite image;
+    public Sprite sprite;
     public string answer;
     public AudioClip audioClip;
 }

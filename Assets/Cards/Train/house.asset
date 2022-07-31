@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 350dde7126436e8499dec83b4cf95028, type: 3}
-  m_Name: sun
+  m_Name: house
   m_EditorClassIdentifier: 
-  image: {fileID: 21300000, guid: 128fb197af1dbb7459093603e1465f47, type: 3}
-  answer: sun
-  audioClip: {fileID: 8300000, guid: 890a6d031c01b404597b286c2e769b2d, type: 3}
+  sprite: {fileID: 21300000, guid: 7a5938fb5cb285e44b34f4ac2385133d, type: 3}
+  answer: house
+  audioClip: {fileID: 8300000, guid: da380282dd80b7347b0c17f30a6b939c, type: 3}

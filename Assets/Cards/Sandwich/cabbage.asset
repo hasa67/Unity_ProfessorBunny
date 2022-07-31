@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 350dde7126436e8499dec83b4cf95028, type: 3}
-  m_Name: ball
+  m_Name: cabbage
   m_EditorClassIdentifier: 
-  image: {fileID: 21300000, guid: da8aa8099a9dd994982d012d30220853, type: 3}
-  answer: ball
-  audioClip: {fileID: 8300000, guid: 01e422d8fa741ef4a9c7c7b42528adfb, type: 3}
+  sprite: {fileID: 21300000, guid: 0a9975dd0552c37418e846bb24aafa92, type: 3}
+  answer: cabbage
+  audioClip: {fileID: 8300000, guid: 4c7ae98643acb72438812b7cead2abdc, type: 3}
