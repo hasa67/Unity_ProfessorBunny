@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 4229090127557370658}
   - component: {fileID: 4741042135677665100}
   - component: {fileID: -1756620590544381076}
+  - component: {fileID: 2032361913696497822}
+  - component: {fileID: 191320428471567385}
   m_Layer: 5
   m_Name: SandwichAnswerSlot
   m_TagString: Untagged
@@ -89,4 +91,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   answer: 
+  isFull: 0
   isCorrect: 0
+  image: {fileID: 0}
+--- !u!95 &2032361913696497822
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2432832507529159350}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!225 &191320428471567385
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2432832507529159350}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0

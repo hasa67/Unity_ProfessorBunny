@@ -8,11 +8,12 @@ public class SandwichGameManager : MonoBehaviour {
     public List<TrainQuestionCard> sandwichCards = new List<TrainQuestionCard>();
     public GameObject questionPrefab;
     public GameObject plate;
+    public GameObject bread;
 
-    public GameManager gameManager;
-    public List<Clickable> currentQuestionCards = new List<Clickable>();
-    public List<SandwichAnswerSlot> answerSlots = new List<SandwichAnswerSlot>();
-    public GameObject[] questionSlots;
+    private GameManager gameManager;
+    private List<Clickable> currentQuestionCards = new List<Clickable>();
+    private List<SandwichAnswerSlot> answerSlots = new List<SandwichAnswerSlot>();
+    private GameObject[] questionSlots;
 
     void Awake() {
         gameManager = FindObjectOfType<GameManager>();
@@ -73,28 +74,56 @@ public class SandwichGameManager : MonoBehaviour {
     public void SetAnswerSlot(TrainQuestionCard card) {
         for (int i = 0; i < answerSlots.Count; i++) {
             if (!answerSlots[i].isFull) {
-                answerSlots[i].image.sprite = card.sprite;
-                answerSlots[i].image.enabled = true;
-                answerSlots[i].isFull = true;
+                SandwichAnswerSlot slot = answerSlots[i];
+                slot.image.sprite = card.sprite;
+                slot.image.enabled = true;
+                slot.isFull = true;
+                slot.GetComponent<Animator>().SetTrigger("add");
+
+                if (slot.answer == card.answer) {
+                    slot.isCorrect = true;
+                }
+
+                if (i == answerSlots.Count - 1) {
+                    gameManager.Stopwatch(false);
+                    StartCoroutine(RoundFinishedCo());
+                }
                 return;
             }
         }
     }
 
-    // public bool IsCorrect() {
-    //     bool output = false;
-    //     int i = 0;
-    //     foreach (var slot in answerSlots) {
-    //         if (slot.isCorrect == true) {
-    //             i++;
-    //         }
-    //     }
-    //     if (i == answerSlots.Count) {
-    //         output = true;
-    //     }
-    //     IsRoundFinished();
-    //     return output;
-    // }
+    IEnumerator RoundFinishedCo() {
+        if (IsCorrect()) {
+            gameManager.AddScore(1);
+        }
+
+        gameManager.IsControllable(false);
+        yield return new WaitForSeconds(1f);
+        float delay = PlaceBread();
+        yield return new WaitForSeconds(delay + 0.5f);
+
+        delay = PlateLeave();
+        yield return new WaitForSeconds(delay + 0.5f);
+
+        bread.GetComponent<Animator>().SetTrigger("remove");
+        gameManager.IsControllable(true);
+        StartGame();
+    }
+
+    public bool IsCorrect() {
+        bool output = false;
+        int i = 0;
+        foreach (var slot in answerSlots) {
+            if (slot.isCorrect == true) {
+                i++;
+            }
+        }
+        if (i == answerSlots.Count) {
+            output = true;
+        }
+        return output;
+    }
 
     // public bool IsRoundFinished() {
     //     bool output = false;
@@ -124,20 +153,21 @@ public class SandwichGameManager : MonoBehaviour {
     //     }
     // }
 
-    // public void AddScore(int score) {
-    //     gameManager.AddScore(score);
-    // }
+    private float PlaceBread() {
+        bread.GetComponent<Animator>().SetTrigger("place");
+        float length = plate.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
+        return length;
+    }
 
     private float PlateArrive() {
-        //plate.GetComponent<AudioSource>().Play();
+        plate.GetComponent<AudioSource>().Play();
         plate.GetComponent<Animator>().SetTrigger("arrive");
         float length = plate.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
         return length;
     }
 
     private float PlateLeave() {
-        gameManager.Stopwatch(false);
-        //plate.GetComponent<AudioSource>().Play();
+        plate.GetComponent<AudioSource>().Play();
         plate.GetComponent<Animator>().SetTrigger("leave");
         float length = plate.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
         return length;

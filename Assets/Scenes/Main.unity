@@ -1132,7 +1132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.24528301, g: 0.24528301, b: 0.24528301, a: 1}
+  m_Color: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1164,6 +1164,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2144143463}
     m_Modifications:
+    - target: {fileID: 191320428471567385, guid: 626013089fc57334aa59d558420a5630, type: 3}
+      propertyPath: m_Alpha
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1114313210401990175, guid: 626013089fc57334aa59d558420a5630, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1248,6 +1252,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2032361913696497822, guid: 626013089fc57334aa59d558420a5630, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 22100000, guid: 7574cab7d53f4614d9e14c8e9ba12984, type: 2}
     - target: {fileID: 2432832507529159350, guid: 626013089fc57334aa59d558420a5630, type: 3}
       propertyPath: m_Name
       value: SandwichAnswerSlot (4)
@@ -1718,7 +1726,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 355389686}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: StartSandwichGame
+        m_MethodName: StartTrainGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1832,6 +1840,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2144143463}
     m_Modifications:
+    - target: {fileID: 191320428471567385, guid: 626013089fc57334aa59d558420a5630, type: 3}
+      propertyPath: m_Alpha
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1114313210401990175, guid: 626013089fc57334aa59d558420a5630, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1916,6 +1928,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2032361913696497822, guid: 626013089fc57334aa59d558420a5630, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 22100000, guid: 23600a6f136d27546b3023c804738ab4, type: 2}
     - target: {fileID: 2432832507529159350, guid: 626013089fc57334aa59d558420a5630, type: 3}
       propertyPath: m_Name
       value: SandwichAnswerSlot (3)
@@ -2006,7 +2022,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 90.81421, y: 0}
+  m_SizeDelta: {x: 90.13739, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &964018485
 MonoBehaviour:
@@ -2035,7 +2051,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6792453, g: 0.6792453, b: 0.6792453, a: 1}
+  m_Color: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2720,7 +2736,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1524574918
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2804,6 +2820,7 @@ GameObject:
   - component: {fileID: 1627517300}
   - component: {fileID: 1627517299}
   - component: {fileID: 1627517301}
+  - component: {fileID: 1627517302}
   m_Layer: 5
   m_Name: Bread2
   m_TagString: Untagged
@@ -2837,7 +2854,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1627517297}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -2876,10 +2893,29 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1627517297}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!95 &1627517302
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1627517297}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: db45362ac6464e340a13707fab272193, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1658461111
 GameObject:
   m_ObjectHideFlags: 0
@@ -3095,6 +3131,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2144143463}
     m_Modifications:
+    - target: {fileID: 191320428471567385, guid: 626013089fc57334aa59d558420a5630, type: 3}
+      propertyPath: m_Alpha
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1114313210401990175, guid: 626013089fc57334aa59d558420a5630, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3179,6 +3219,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2032361913696497822, guid: 626013089fc57334aa59d558420a5630, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 22100000, guid: 2636f9698e10f04408d104e508b234b8, type: 2}
     - target: {fileID: 2432832507529159350, guid: 626013089fc57334aa59d558420a5630, type: 3}
       propertyPath: m_Name
       value: SandwichAnswerSlot (2)
@@ -3315,6 +3359,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2144143463}
     m_Modifications:
+    - target: {fileID: 191320428471567385, guid: 626013089fc57334aa59d558420a5630, type: 3}
+      propertyPath: m_Alpha
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1114313210401990175, guid: 626013089fc57334aa59d558420a5630, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3399,6 +3447,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2032361913696497822, guid: 626013089fc57334aa59d558420a5630, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 22100000, guid: 1ccb3b643638670489b5c33bd2ad5c6a, type: 2}
     - target: {fileID: 2432832507529159350, guid: 626013089fc57334aa59d558420a5630, type: 3}
       propertyPath: m_Name
       value: SandwichAnswerSlot (1)
@@ -3826,10 +3878,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a29d0cd57495966469b72e186891ffc2, type: 2}
   questionPrefab: {fileID: 3678493827263048436, guid: e3d704a967ebeda4284ee47b56b92c96, type: 3}
   plate: {fileID: 2144143462}
-  gameManager: {fileID: 0}
-  currentQuestionCards: []
-  answerSlots: []
-  questionSlots: []
+  bread: {fileID: 1627517297}
 --- !u!1 &2144143462
 GameObject:
   m_ObjectHideFlags: 0
@@ -3842,6 +3891,7 @@ GameObject:
   - component: {fileID: 2144143465}
   - component: {fileID: 2144143464}
   - component: {fileID: 2144143466}
+  - component: {fileID: 2144143467}
   m_Layer: 5
   m_Name: Plate
   m_TagString: Untagged
@@ -3931,3 +3981,99 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!82 &2144143467
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2144143462}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: ceffdc330ac154d49b71e6e849aa3457, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
