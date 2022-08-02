@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class SandwichGameManager : MonoBehaviour {
+public class ReverseGameManager : MonoBehaviour {
     public List<TrainQuestionCard> sandwichCards = new List<TrainQuestionCard>();
     public GameObject sandwichQuestionPrefab;
     public GameObject plate;
@@ -18,7 +18,7 @@ public class SandwichGameManager : MonoBehaviour {
 
     void Awake() {
         gameManager = FindObjectOfType<GameManager>();
-        gameManager.sandwichGameManager = this;
+        gameManager.reverseGameManager = this;
     }
 
     public void StartGame(int roundCount) {

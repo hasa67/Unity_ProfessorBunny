@@ -5,11 +5,11 @@ using UnityEngine.EventSystems;
 
 public class TrainAnswerSlot : MonoBehaviour, IDropHandler {
 
-    private TrainGameManager trainGameManager;
-
     public string answer;
     public bool isFull;
     public bool isCorrect;
+
+    private TrainGameManager trainGameManager;
 
     private void Awake() {
         trainGameManager = FindObjectOfType<TrainGameManager>();
@@ -29,9 +29,7 @@ public class TrainAnswerSlot : MonoBehaviour, IDropHandler {
                     isCorrect = true;
                 }
 
-                if (trainGameManager.IsCorrect()) {
-                    trainGameManager.AddScore(1);
-                }
+                trainGameManager.IsCorrect();
             }
         } else {
             eventData.pointerDrag.GetComponent<DragDrop>().PlaceBack();

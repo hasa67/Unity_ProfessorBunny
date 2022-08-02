@@ -9,7 +9,12 @@ public class GameManager : MonoBehaviour {
     public Text timerText;
     public TrainGameManager trainGameManager;
     public SandwichGameManager sandwichGameManager;
+    public ReverseGameManager reverseGameManager;
+    public int trainRounds;
+    public int sandwichRounds;
+    public int reverseRounds;
 
+    private List<Score> scoreList = new List<Score>();
     private int score;
     private PanelManager panelManager;
     private bool stopWatch;
@@ -33,7 +38,7 @@ public class GameManager : MonoBehaviour {
 
     public void StartTrainGame() {
         panelManager.ShowTrainPanel();
-        trainGameManager.StartGame();
+        trainGameManager.StartGame(trainRounds);
     }
 
     public void EndTrainGame() {
@@ -42,12 +47,29 @@ public class GameManager : MonoBehaviour {
 
     public void StartSandwichGame() {
         panelManager.ShowSandwichPanel();
-        sandwichGameManager.StartGame();
+        sandwichGameManager.StartGame(sandwichRounds);
     }
 
-    public void AddScore(int value) {
-        score += value;
+    public void EndSandwichGame() {
+        StartReverseGame();
+    }
+
+    public void StartReverseGame() {
+        panelManager.ShowReversePanel();
+        reverseGameManager.StartGame(reverseRounds);
+    }
+
+    public void UpdateScoreText(int score) {
         scoreText.text = score.ToString();
+    }
+
+    public void AddScore(int scoreValue) {
+        Score newScore = new Score();
+        newScore.score = scoreValue;
+        newScore.time = timer;
+        scoreList.Add(newScore);
+
+        ResetStopwatch();
     }
 
     public void IsControllable(bool isControllable) {

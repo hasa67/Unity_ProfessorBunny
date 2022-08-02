@@ -6,10 +6,13 @@ using System.Linq;
 public class TrainGameManager : MonoBehaviour {
 
     public List<TrainQuestionCard> trainCards = new List<TrainQuestionCard>();
-    public GameObject questionPrefab;
+    public GameObject trainQuestionPrefab;
     public GameObject train;
 
+    private int remainingRounds;
+    private int score;
     private GameManager gameManager;
+    private List<TrainQuestionCard> currentTrainCards = new List<TrainQuestionCard>();
     private List<DragDrop> currentQuestionCards = new List<DragDrop>();
     private List<TrainAnswerSlot> answerSlots = new List<TrainAnswerSlot>();
     private GameObject[] questionSlots;
@@ -19,13 +22,12 @@ public class TrainGameManager : MonoBehaviour {
         gameManager.trainGameManager = this;
     }
 
-    public void StartGame() {
-        MyFunctions.ShuffleTrainQuestionsList(trainCards);
-
-        foreach (var card in currentQuestionCards) {
-            Destroy(card.gameObject);
+    public void StartGame(int roundCount) {
+        score = 0;
+        remainingRounds = roundCount;
+        foreach (var card in trainCards) {
+            currentTrainCards.Add(card);
         }
-        currentQuestionCards.Clear();
 
         questionSlots = GameObject.FindGameObjectsWithTag("QuestionSlot");
 
@@ -35,17 +37,47 @@ public class TrainGameManager : MonoBehaviour {
         }
         answerSlots = answerSlots.OrderBy(go => go.name).ToList();
 
+        NextRound();
+    }
+
+    public void NextRound() {
+        if (remainingRounds <= 0) {
+            AddScore();
+            gameManager.EndTrainGame();
+            return;
+        }
+        remainingRounds--;
+
+        MyFunctions.ShuffleTrainQuestionsList(currentTrainCards);
+
+        foreach (var card in currentQuestionCards) {
+            Destroy(card.gameObject);
+        }
+        currentQuestionCards.Clear();
+
+        foreach (var slot in answerSlots) {
+            slot.Initialize();
+        }
+
+        if (currentTrainCards.Count < answerSlots.Count) {
+            foreach (var card in trainCards) {
+                if (!currentTrainCards.Contains(card)) {
+                    currentTrainCards.Add(card);
+                }
+            }
+        }
+
         foreach (var slot in questionSlots) {
-            if (trainCards.Count > 0) {
+            if (currentTrainCards.Count > 0) {
                 Vector3 position = slot.GetComponent<RectTransform>().anchoredPosition;
-                GameObject card = Instantiate(questionPrefab) as GameObject;
+                GameObject card = Instantiate(trainQuestionPrefab) as GameObject;
                 card.transform.SetParent(slot.transform);
                 card.transform.localPosition = Vector3.zero;
                 card.transform.localScale = Vector3.one;
 
                 currentQuestionCards.Add(card.GetComponent<DragDrop>());
-                card.GetComponent<DragDrop>().SetQuestionCard(trainCards[0]);
-                trainCards.RemoveAt(0);
+                card.GetComponent<DragDrop>().SetQuestionCard(currentTrainCards[0]);
+                currentTrainCards.RemoveAt(0);
             }
         }
 
@@ -84,6 +116,8 @@ public class TrainGameManager : MonoBehaviour {
         }
         if (i == answerSlots.Count) {
             output = true;
+            score++;
+            gameManager.UpdateScoreText(score);
         }
         IsRoundFinished();
         return output;
@@ -106,18 +140,14 @@ public class TrainGameManager : MonoBehaviour {
 
     IEnumerator IsRoundFinishedCo() {
         gameManager.IsControllable(false);
-        if (trainCards.Count > 0) {
-            float delay = TrainLeave();
-            yield return new WaitForSeconds(delay + 0.5f);
-            StartGame();
-        } else {
-            float delay = TrainLeave();
-            yield return new WaitForSeconds(delay + 0.5f);
-            gameManager.EndTrainGame();
-        }
+
+        float delay = TrainLeave();
+        yield return new WaitForSeconds(delay + 0.5f);
+
+        NextRound();
     }
 
-    public void AddScore(int score) {
+    private void AddScore() {
         gameManager.AddScore(score);
     }
 
