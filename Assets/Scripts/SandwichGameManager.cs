@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Linq;
 
 public class SandwichGameManager : MonoBehaviour {
-    public List<TrainQuestionCard> sandwichCards = new List<TrainQuestionCard>();
+    public List<QuestionCard> sandwichCards = new List<QuestionCard>();
     public GameObject sandwichQuestionPrefab;
     public GameObject plate;
     public GameObject topBread;
@@ -12,7 +12,7 @@ public class SandwichGameManager : MonoBehaviour {
     private int score;
     private int remainingRounds;
     private GameManager gameManager;
-    private List<Clickable> currentQuestionCards = new List<Clickable>();
+    private List<SandwichQuestionCard> currentQuestionCards = new List<SandwichQuestionCard>();
     private List<SandwichAnswerSlot> answerSlots = new List<SandwichAnswerSlot>();
     private GameObject[] questionSlots;
 
@@ -23,6 +23,7 @@ public class SandwichGameManager : MonoBehaviour {
 
     public void StartGame(int roundCount) {
         score = 0;
+        gameManager.UpdateScoreText(score);
         remainingRounds = roundCount;
 
         questionSlots = GameObject.FindGameObjectsWithTag("QuestionSlot");
@@ -33,7 +34,11 @@ public class SandwichGameManager : MonoBehaviour {
         }
         answerSlots = answerSlots.OrderBy(go => go.name).ToList();
 
-        NextRound();
+        if (remainingRounds > 0) {
+            NextRound();
+        } else {
+            gameManager.EndSandwichGame();
+        }
     }
 
     public void NextRound() {
@@ -44,7 +49,7 @@ public class SandwichGameManager : MonoBehaviour {
         }
         remainingRounds--;
 
-        MyFunctions.ShuffleTrainQuestionsList(sandwichCards);
+        MyFunctions.ShuffleQuestionCard(sandwichCards);
 
         foreach (var card in currentQuestionCards) {
             Destroy(card.gameObject);
@@ -62,11 +67,11 @@ public class SandwichGameManager : MonoBehaviour {
             card.transform.localPosition = Vector3.zero;
             card.transform.localScale = Vector3.one;
 
-            currentQuestionCards.Add(card.GetComponent<Clickable>());
-            card.GetComponent<Clickable>().SetQuestionCard(sandwichCards[i]);
+            currentQuestionCards.Add(card.GetComponent<SandwichQuestionCard>());
+            card.GetComponent<SandwichQuestionCard>().SetQuestionCard(sandwichCards[i]);
         }
 
-        MyFunctions.ShuffleClickableList(currentQuestionCards);
+        MyFunctions.ShuffleSandwichQuestionCard(currentQuestionCards);
 
         for (int i = 0; i < currentQuestionCards.Count; i++) {
             answerSlots[i].answer = currentQuestionCards[i].answer;
@@ -90,7 +95,7 @@ public class SandwichGameManager : MonoBehaviour {
         gameManager.Stopwatch(true);
     }
 
-    public void SetAnswerSlot(TrainQuestionCard card) {
+    public void SetAnswerSlot(QuestionCard card) {
         for (int i = 0; i < answerSlots.Count; i++) {
             if (!answerSlots[i].isFull) {
                 SandwichAnswerSlot slot = answerSlots[i];

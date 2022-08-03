@@ -23,16 +23,16 @@ public class TrainAnswerSlot : MonoBehaviour, IDropHandler {
                 eventData.pointerDrag.transform.SetParent(this.transform.parent);
                 eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
                 eventData.pointerDrag.GetComponent<RectTransform>().rotation = GetComponent<RectTransform>().rotation;
-                eventData.pointerDrag.GetComponent<DragDrop>().answerSlot = this;
+                eventData.pointerDrag.GetComponent<TrainQuestionCard>().answerSlot = this;
 
-                if (eventData.pointerDrag.GetComponent<DragDrop>().answer == answer) {
+                if (eventData.pointerDrag.GetComponent<TrainQuestionCard>().answer == answer) {
                     isCorrect = true;
                 }
 
                 trainGameManager.IsCorrect();
             }
         } else {
-            eventData.pointerDrag.GetComponent<DragDrop>().PlaceBack();
+            eventData.pointerDrag.GetComponent<TrainQuestionCard>().PlaceBack();
         }
 
         trainGameManager.AnswerSlotsBlink();

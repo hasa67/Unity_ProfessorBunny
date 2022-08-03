@@ -5,15 +5,15 @@ using System.Linq;
 
 public class TrainGameManager : MonoBehaviour {
 
-    public List<TrainQuestionCard> trainCards = new List<TrainQuestionCard>();
+    public List<QuestionCard> trainCards = new List<QuestionCard>();
     public GameObject trainQuestionPrefab;
     public GameObject train;
 
     private int remainingRounds;
     private int score;
     private GameManager gameManager;
-    private List<TrainQuestionCard> currentTrainCards = new List<TrainQuestionCard>();
-    private List<DragDrop> currentQuestionCards = new List<DragDrop>();
+    private List<QuestionCard> currentTrainCards = new List<QuestionCard>();
+    private List<TrainQuestionCard> currentQuestionCards = new List<TrainQuestionCard>();
     private List<TrainAnswerSlot> answerSlots = new List<TrainAnswerSlot>();
     private GameObject[] questionSlots;
 
@@ -24,6 +24,7 @@ public class TrainGameManager : MonoBehaviour {
 
     public void StartGame(int roundCount) {
         score = 0;
+        gameManager.UpdateScoreText(score);
         remainingRounds = roundCount;
         foreach (var card in trainCards) {
             currentTrainCards.Add(card);
@@ -37,7 +38,11 @@ public class TrainGameManager : MonoBehaviour {
         }
         answerSlots = answerSlots.OrderBy(go => go.name).ToList();
 
-        NextRound();
+        if (remainingRounds > 0) {
+            NextRound();
+        } else {
+            gameManager.EndTrainGame();
+        }
     }
 
     public void NextRound() {
@@ -48,7 +53,7 @@ public class TrainGameManager : MonoBehaviour {
         }
         remainingRounds--;
 
-        MyFunctions.ShuffleTrainQuestionsList(currentTrainCards);
+        MyFunctions.ShuffleQuestionCard(currentTrainCards);
 
         foreach (var card in currentQuestionCards) {
             Destroy(card.gameObject);
@@ -75,13 +80,13 @@ public class TrainGameManager : MonoBehaviour {
                 card.transform.localPosition = Vector3.zero;
                 card.transform.localScale = Vector3.one;
 
-                currentQuestionCards.Add(card.GetComponent<DragDrop>());
-                card.GetComponent<DragDrop>().SetQuestionCard(currentTrainCards[0]);
+                currentQuestionCards.Add(card.GetComponent<TrainQuestionCard>());
+                card.GetComponent<TrainQuestionCard>().SetQuestionCard(currentTrainCards[0]);
                 currentTrainCards.RemoveAt(0);
             }
         }
 
-        MyFunctions.ShuffleDragDropList(currentQuestionCards);
+        MyFunctions.ShuffleTrainQuestionCard(currentQuestionCards);
 
         for (int i = 0; i < currentQuestionCards.Count; i++) {
             answerSlots[i].answer = currentQuestionCards[i].answer;

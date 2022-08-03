@@ -4,12 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class Clickable : MonoBehaviour, IPointerDownHandler {
+public class SandwichQuestionCard : MonoBehaviour, IPointerDownHandler {
 
     private CanvasGroup canvasGroup;
     private AudioSource audioSource;
     private SandwichGameManager sandwichGameManager;
-    private TrainQuestionCard card;
+    private QuestionCard card;
     private Image image;
 
     public string answer;
@@ -33,7 +33,7 @@ public class Clickable : MonoBehaviour, IPointerDownHandler {
         canvasGroup.blocksRaycasts = true;
     }
 
-    public void SetQuestionCard(TrainQuestionCard inputCard) {
+    public void SetQuestionCard(QuestionCard inputCard) {
         card = inputCard;
         answer = card.answer;
         GetComponent<Image>().sprite = card.sprite;

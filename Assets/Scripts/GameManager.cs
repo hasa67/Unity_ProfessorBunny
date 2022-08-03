@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour {
     public int sandwichRounds;
     public int reverseRounds;
 
-    private List<Score> scoreList = new List<Score>();
+    public List<Score> scoreList = new List<Score>();
     private int score;
     private PanelManager panelManager;
     private bool stopWatch;
@@ -57,6 +57,10 @@ public class GameManager : MonoBehaviour {
     public void StartReverseGame() {
         panelManager.ShowReversePanel();
         reverseGameManager.StartGame(reverseRounds);
+    }
+
+    public void EndReverseGame() {
+        panelManager.HideAllPanels();
     }
 
     public void UpdateScoreText(int score) {
