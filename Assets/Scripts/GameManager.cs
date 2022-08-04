@@ -10,9 +10,12 @@ public class GameManager : MonoBehaviour {
     public TrainGameManager trainGameManager;
     public SandwichGameManager sandwichGameManager;
     public ReverseGameManager reverseGameManager;
+    public PairsGameManager pairsGameManager;
     public int trainRounds;
     public int sandwichRounds;
     public int reverseRounds;
+    public int pairsRounds;
+    public int pairsLevel;
 
     public List<Score> scoreList = new List<Score>();
     private int score;
@@ -41,17 +44,9 @@ public class GameManager : MonoBehaviour {
         trainGameManager.StartGame(trainRounds);
     }
 
-    public void EndTrainGame() {
-        StartSandwichGame();
-    }
-
     public void StartSandwichGame() {
         panelManager.ShowSandwichPanel();
         sandwichGameManager.StartGame(sandwichRounds);
-    }
-
-    public void EndSandwichGame() {
-        StartReverseGame();
     }
 
     public void StartReverseGame() {
@@ -59,17 +54,25 @@ public class GameManager : MonoBehaviour {
         reverseGameManager.StartGame(reverseRounds);
     }
 
-    public void EndReverseGame() {
-        panelManager.HideAllPanels();
+    public void StartPairsGame() {
+        panelManager.ShowPairsPanel();
+        pairsGameManager.StartGame(pairsRounds, pairsLevel);
     }
 
-    public void UpdateScoreText(int score) {
-        scoreText.text = score.ToString();
+    public void EndGame() {
+        panelManager.ShowMainPanel();
     }
 
-    public void AddScore(int scoreValue) {
+    public void UpdateScoreText(int score, int totalRounds) {
+        scoreText.text = score.ToString() + "/" + totalRounds.ToString();
+    }
+
+    public void AddScore(string name, int score, int rounds) {
         Score newScore = new Score();
-        newScore.score = scoreValue;
+        newScore.name = name;
+        newScore.score = score;
+        newScore.rounds = rounds;
+
         newScore.time = timer;
         scoreList.Add(newScore);
 

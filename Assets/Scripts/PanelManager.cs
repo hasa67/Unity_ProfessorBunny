@@ -8,6 +8,7 @@ public class PanelManager : MonoBehaviour {
     public GameObject blockPanel;
     public GameObject sandwichPanel;
     public GameObject reversePanel;
+    public GameObject pairsPanel;
 
     private List<GameObject> panelsList = new List<GameObject>();
     private GameManager gameManager;
@@ -18,6 +19,7 @@ public class PanelManager : MonoBehaviour {
         panelsList.Add(sandwichPanel);
         panelsList.Add(blockPanel);
         panelsList.Add(reversePanel);
+        panelsList.Add(pairsPanel);
 
         gameManager = FindObjectOfType<GameManager>();
     }
@@ -46,6 +48,11 @@ public class PanelManager : MonoBehaviour {
     public void ShowReversePanel() {
         HideAllPanels();
         reversePanel.SetActive(true);
+    }
+
+    public void ShowPairsPanel() {
+        HideAllPanels();
+        pairsPanel.SetActive(true);
     }
 
     public void IsControllable(bool isControllable) {

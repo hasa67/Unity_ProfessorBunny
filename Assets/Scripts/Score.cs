@@ -4,6 +4,8 @@ using UnityEngine;
 
 [System.Serializable]
 public class Score {
+    public string name;
     public int score;
+    public int rounds;
     public float time;
 }

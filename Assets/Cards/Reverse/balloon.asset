@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 350dde7126436e8499dec83b4cf95028, type: 3}
+  m_Script: {fileID: 11500000, guid: 5712bc713e78d124faa5088a061d94ad, type: 3}
   m_Name: balloon
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 5a41cb3fdeafed942a907587967b3566, type: 3}
-  answer: ballon
+  answer: balloon
   audioClip: {fileID: 0}

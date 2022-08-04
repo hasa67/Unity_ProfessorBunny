@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4499437708378218216}
   - component: {fileID: 4499437708378218219}
   m_Layer: 5
-  m_Name: QuestionCard
+  m_Name: TrainQuestionCard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -38,7 +38,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 106, y: -147}
-  m_SizeDelta: {x: 78.3716, y: 78.3716}
+  m_SizeDelta: {x: 85, y: 85}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4499437708378218222
 CanvasRenderer:
@@ -87,12 +87,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4499437708378218221}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a89e79c04f6e4f439161e16cc87cfa1, type: 3}
+  m_Script: {fileID: 11500000, guid: 350dde7126436e8499dec83b4cf95028, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   answer: 
   answerSlot: {fileID: 0}
-  trainQuestionCard: {fileID: 0}
 --- !u!225 &4499437708378218216
 CanvasGroup:
   m_ObjectHideFlags: 0
