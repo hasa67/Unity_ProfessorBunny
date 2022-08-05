@@ -24,9 +24,19 @@ public class SandwichGameManager : MonoBehaviour {
     }
 
     public void StartGame(int roundCount) {
-        score = 0;
         remainingRounds = roundCount;
         totalRounds = roundCount;
+        Initialize();
+
+        if (remainingRounds > 0) {
+            NextRound();
+        } else {
+            gameManager.EndGame();
+        }
+    }
+
+    private void Initialize() {
+        score = 0;
         gameManager.UpdateScoreText(score, totalRounds);
 
         questionSlots = GameObject.FindGameObjectsWithTag("QuestionSlot");
@@ -36,17 +46,11 @@ public class SandwichGameManager : MonoBehaviour {
             slot.Initialize();
         }
         answerSlots = answerSlots.OrderBy(go => go.name).ToList();
-
-        if (remainingRounds > 0) {
-            NextRound();
-        } else {
-            gameManager.EndGame();
-        }
     }
 
     public void NextRound() {
         if (remainingRounds <= 0) {
-            gameManager.AddScore("sandwich", score, totalRounds);
+            gameManager.AddScore("sandwich", score, totalRounds, 0);
             gameManager.EndGame();
             return;
         }

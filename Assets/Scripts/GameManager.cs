@@ -11,11 +11,12 @@ public class GameManager : MonoBehaviour {
     public SandwichGameManager sandwichGameManager;
     public ReverseGameManager reverseGameManager;
     public PairsGameManager pairsGameManager;
-    public int trainRounds;
-    public int sandwichRounds;
-    public int reverseRounds;
-    public int pairsRounds;
-    public int pairsLevel;
+    [Range(1, 5)] public int trainRounds;
+    [Range(1, 5)] public int sandwichRounds;
+    [Range(1, 5)] public int reverseRounds;
+    [Range(1, 2)] public int reverseLevel;
+    [Range(1, 5)] public int pairsRounds;
+    [Range(1, 3)] public int pairsLevel;
 
     public List<Score> scoreList = new List<Score>();
     private int score;
@@ -51,7 +52,7 @@ public class GameManager : MonoBehaviour {
 
     public void StartReverseGame() {
         panelManager.ShowReversePanel();
-        reverseGameManager.StartGame(reverseRounds);
+        reverseGameManager.StartGame(reverseRounds, reverseLevel);
     }
 
     public void StartPairsGame() {
@@ -67,11 +68,12 @@ public class GameManager : MonoBehaviour {
         scoreText.text = score.ToString() + "/" + totalRounds.ToString();
     }
 
-    public void AddScore(string name, int score, int rounds) {
+    public void AddScore(string name, int score, int rounds, int level) {
         Score newScore = new Score();
         newScore.name = name;
         newScore.score = score;
         newScore.rounds = rounds;
+        newScore.level = level;
 
         newScore.time = timer;
         scoreList.Add(newScore);

@@ -23,13 +23,15 @@ public class PairsQuestionCard : MonoBehaviour, IPointerDownHandler {
 
     public void OnPointerDown(PointerEventData eventData) {
         if (isControllable) {
-            FlipCard();
+            FlipCard(false);
+            pairsGameManager.AddSelectedCard(this);
             // reverseGameManager.IsCorrect(card.answer);
-            isControllable = false;
+            // isControllable = false;
         }
     }
 
-    public void FlipCard() {
+    public void FlipCard(bool isFlippable) {
+        isControllable = isFlippable;
         StartCoroutine(FlipCardCo());
     }
 
@@ -44,21 +46,15 @@ public class PairsQuestionCard : MonoBehaviour, IPointerDownHandler {
         }
     }
 
-    public void SetQuestionCard(QuestionCard inputCard, bool isBacked) {
+    public void SetQuestionCard(QuestionCard inputCard) {
         card = inputCard;
         answer = card.answer;
         frontSprite = card.sprite;
-
-        if (isBacked) {
-            GetComponent<Image>().sprite = backSprite;
-            isControllable = false;
-        } else {
-            GetComponent<Image>().sprite = frontSprite;
-            isControllable = true;
-        }
+        GetComponent<Image>().sprite = frontSprite;
+        isControllable = true;
     }
 
-    public QuestionCard GetQuestionCard() {
-        return card;
-    }
+    // public QuestionCard GetQuestionCard() {
+    //     return card;
+    // }
 }

@@ -25,9 +25,19 @@ public class TrainGameManager : MonoBehaviour {
     }
 
     public void StartGame(int roundCount) {
-        score = 0;
         remainingRounds = roundCount;
         totalRounds = roundCount;
+        Initialize();
+
+        if (remainingRounds > 0) {
+            NextRound();
+        } else {
+            gameManager.EndGame();
+        }
+    }
+
+    private void Initialize() {
+        score = 0;
         gameManager.UpdateScoreText(score, totalRounds);
 
         foreach (var card in trainCards) {
@@ -41,12 +51,6 @@ public class TrainGameManager : MonoBehaviour {
             slot.Initialize();
         }
         answerSlots = answerSlots.OrderBy(go => go.name).ToList();
-
-        if (remainingRounds > 0) {
-            NextRound();
-        } else {
-            gameManager.EndGame();
-        }
     }
 
     public void NextRound() {
@@ -157,7 +161,7 @@ public class TrainGameManager : MonoBehaviour {
     }
 
     private void AddScore() {
-        gameManager.AddScore("train", score, totalRounds);
+        gameManager.AddScore("train", score, totalRounds, 0);
     }
 
     private float TrainArrive() {

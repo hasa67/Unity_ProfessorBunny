@@ -14,13 +14,14 @@ public class ReverseGameManager : MonoBehaviour {
     private int selectedCards;
     private int remainingRounds;
     private int totalRounds;
+    private int reverseLevel;
     private GameManager gameManager;
     private List<ReverseQuestionCard> currentQuestionCards = new List<ReverseQuestionCard>();
     private List<ReverseQuestionCard> currentAnswerCards = new List<ReverseQuestionCard>();
     private List<string> gameAnswers = new List<string>();
     private List<string> playerAnswers = new List<string>();
-    private GameObject[] questionSlots;
-    private GameObject[] answerSlots;
+    private List<GameObject> questionSlots = new List<GameObject>();
+    private List<GameObject> answerSlots = new List<GameObject>();
     private AudioManager audioManager;
 
 
@@ -30,14 +31,11 @@ public class ReverseGameManager : MonoBehaviour {
         audioManager = FindObjectOfType<AudioManager>();
     }
 
-    public void StartGame(int roundCount) {
-        score = 0;
+    public void StartGame(int roundCount, int level) {
+        reverseLevel = level;
         remainingRounds = roundCount;
         totalRounds = roundCount;
-        gameManager.UpdateScoreText(score, totalRounds);
-
-        questionSlots = GameObject.FindGameObjectsWithTag("QuestionSlot");
-        answerSlots = GameObject.FindGameObjectsWithTag("AnswerSlot");
+        Initialize();
 
         if (remainingRounds > 0) {
             NextRound();
@@ -46,9 +44,30 @@ public class ReverseGameManager : MonoBehaviour {
         }
     }
 
+    private void Initialize() {
+        score = 0;
+        gameManager.UpdateScoreText(score, totalRounds);
+
+        questionSlots = GameObject.FindGameObjectsWithTag("QuestionSlot").ToList();
+        answerSlots = GameObject.FindGameObjectsWithTag("AnswerSlot").ToList();
+        foreach (var slot in questionSlots) {
+            slot.transform.SetParent(questionSlotsPanel.transform);
+        }
+        foreach (var slot in answerSlots) {
+            slot.transform.SetParent(answerSlotsPanel.transform);
+        }
+        if (reverseLevel == 1) {
+            questionSlots[0].transform.SetParent(questionSlotsPanel.transform.parent);
+            questionSlots.RemoveAt(0);
+
+            answerSlots[0].transform.SetParent(answerSlotsPanel.transform.parent);
+            answerSlots.RemoveAt(0);
+        }
+    }
+
     public void NextRound() {
         if (remainingRounds <= 0) {
-            gameManager.AddScore("reverse", score, totalRounds);
+            gameManager.AddScore("reverse", score, totalRounds, reverseLevel);
             gameManager.EndGame();
             return;
         }
@@ -69,7 +88,7 @@ public class ReverseGameManager : MonoBehaviour {
         }
         currentAnswerCards.Clear();
 
-        for (int i = 0; i < questionSlots.Length; i++) {
+        for (int i = 0; i < questionSlots.Count; i++) {
             Vector3 position = questionSlots[i].GetComponent<RectTransform>().anchoredPosition;
             GameObject card = Instantiate(reverseQuestionPrefab) as GameObject;
             card.transform.SetParent(questionSlots[i].transform);
@@ -81,7 +100,7 @@ public class ReverseGameManager : MonoBehaviour {
         }
 
         MyFunctions.ShuffleReverseQuestionCard(currentQuestionCards);
-        for (int i = 0; i < answerSlots.Length; i++) {
+        for (int i = 0; i < answerSlots.Count; i++) {
             Vector3 position = answerSlots[i].GetComponent<RectTransform>().anchoredPosition;
             GameObject card = Instantiate(reverseQuestionPrefab) as GameObject;
             card.transform.SetParent(answerSlots[i].transform);
@@ -165,4 +184,5 @@ public class ReverseGameManager : MonoBehaviour {
         float length = answerSlotsPanel.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
         return length;
     }
+
 }
