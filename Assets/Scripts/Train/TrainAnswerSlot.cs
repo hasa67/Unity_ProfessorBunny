@@ -29,7 +29,7 @@ public class TrainAnswerSlot : MonoBehaviour, IDropHandler {
                     isCorrect = true;
                 }
 
-                trainGameManager.IsCorrect();
+                trainGameManager.IsRoundFinished();
             }
         } else {
             eventData.pointerDrag.GetComponent<TrainQuestionCard>().PlaceBack();

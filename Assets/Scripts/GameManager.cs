@@ -11,12 +11,18 @@ public class GameManager : MonoBehaviour {
     public SandwichGameManager sandwichGameManager;
     public ReverseGameManager reverseGameManager;
     public PairsGameManager pairsGameManager;
+    public ColorsGameManager colorsGameManager;
+    public float roundsWaitTime;
+    public float previewWaitTime;
+
     [Range(1, 5)] public int trainRounds;
     [Range(1, 5)] public int sandwichRounds;
     [Range(1, 5)] public int reverseRounds;
     [Range(1, 2)] public int reverseLevel;
     [Range(1, 5)] public int pairsRounds;
     [Range(1, 3)] public int pairsLevel;
+    [Range(1, 5)] public int colorsRounds;
+    [Range(1, 3)] public int colorsLevel;
 
     public List<Score> scoreList = new List<Score>();
     private int score;
@@ -58,6 +64,11 @@ public class GameManager : MonoBehaviour {
     public void StartPairsGame() {
         panelManager.ShowPairsPanel();
         pairsGameManager.StartGame(pairsRounds, pairsLevel);
+    }
+
+    public void StratColorsGame() {
+        panelManager.ShowColorsPanel();
+        colorsGameManager.StartGame(colorsRounds, colorsLevel);
     }
 
     public void EndGame() {

@@ -8,13 +8,12 @@ public class ReverseGameManager : MonoBehaviour {
     public GameObject reverseQuestionPrefab;
     public GameObject answerSlotsPanel;
     public GameObject questionSlotsPanel;
-    public float waitTime = 3f;
 
     private int score;
     private int selectedCards;
     private int remainingRounds;
     private int totalRounds;
-    private int reverseLevel;
+    private int gameLevel;
     private GameManager gameManager;
     private List<ReverseQuestionCard> currentQuestionCards = new List<ReverseQuestionCard>();
     private List<ReverseQuestionCard> currentAnswerCards = new List<ReverseQuestionCard>();
@@ -32,7 +31,7 @@ public class ReverseGameManager : MonoBehaviour {
     }
 
     public void StartGame(int roundCount, int level) {
-        reverseLevel = level;
+        gameLevel = level;
         remainingRounds = roundCount;
         totalRounds = roundCount;
         Initialize();
@@ -56,7 +55,7 @@ public class ReverseGameManager : MonoBehaviour {
         foreach (var slot in answerSlots) {
             slot.transform.SetParent(answerSlotsPanel.transform);
         }
-        if (reverseLevel == 1) {
+        if (gameLevel == 1) {
             questionSlots[0].transform.SetParent(questionSlotsPanel.transform.parent);
             questionSlots.RemoveAt(0);
 
@@ -67,7 +66,7 @@ public class ReverseGameManager : MonoBehaviour {
 
     public void NextRound() {
         if (remainingRounds <= 0) {
-            gameManager.AddScore("reverse", score, totalRounds, reverseLevel);
+            gameManager.AddScore("reverse", score, totalRounds, gameLevel);
             gameManager.EndGame();
             return;
         }
@@ -89,7 +88,6 @@ public class ReverseGameManager : MonoBehaviour {
         currentAnswerCards.Clear();
 
         for (int i = 0; i < questionSlots.Count; i++) {
-            Vector3 position = questionSlots[i].GetComponent<RectTransform>().anchoredPosition;
             GameObject card = Instantiate(reverseQuestionPrefab) as GameObject;
             card.transform.SetParent(questionSlots[i].transform);
             card.transform.localPosition = Vector3.zero;
@@ -118,10 +116,11 @@ public class ReverseGameManager : MonoBehaviour {
     IEnumerator FlipCardsCo() {
         gameManager.Stopwatch(false);
         gameManager.IsControllable(false);
-        float delay = CardsArrive();
-        yield return new WaitForSeconds(delay + 0.5f);
 
-        yield return new WaitForSeconds(waitTime);
+        float delay = CardsArrive();
+        yield return new WaitForSeconds(delay);
+
+        yield return new WaitForSeconds(gameManager.previewWaitTime);
         foreach (var card in currentQuestionCards) {
             card.GetComponent<ReverseQuestionCard>().FlipCard();
         }
@@ -166,7 +165,8 @@ public class ReverseGameManager : MonoBehaviour {
         yield return new WaitForSeconds(1f);
 
         float delay = CardsLeave();
-        yield return new WaitForSeconds(delay + 0.5f);
+        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(gameManager.roundsWaitTime);
 
         NextRound();
     }

@@ -7,12 +7,11 @@ public class PairsGameManager : MonoBehaviour {
     public List<QuestionCard> pairsCards = new List<QuestionCard>();
     public GameObject pairsQuestionPrefab;
     public GameObject questionSlotsPanel;
-    public float waitTime = 3f;
 
     private int score;
     private int remainingRounds;
     private int totalRounds;
-    private int pairsLevel;
+    private int gameLevel;
     private int correctAnswers;
     private GameManager gameManager;
     private List<PairsQuestionCard> selectedCards = new List<PairsQuestionCard>();
@@ -28,7 +27,7 @@ public class PairsGameManager : MonoBehaviour {
     }
 
     public void StartGame(int roundCount, int level) {
-        pairsLevel = level;
+        gameLevel = level;
         remainingRounds = roundCount;
         totalRounds = roundCount;
         Initialize();
@@ -48,7 +47,7 @@ public class PairsGameManager : MonoBehaviour {
         foreach (var slot in questionSlots) {
             slot.transform.SetParent(questionSlotsPanel.transform);
         }
-        int extraQuestionSlots = (3 - pairsLevel) * 2;
+        int extraQuestionSlots = (3 - gameLevel) * 2;
         if (extraQuestionSlots > 0) {
             for (int i = 0; i < extraQuestionSlots; i++) {
                 questionSlots[0].transform.SetParent(questionSlotsPanel.transform.parent);
@@ -59,14 +58,13 @@ public class PairsGameManager : MonoBehaviour {
 
     public void NextRound() {
         if (remainingRounds <= 0) {
-            gameManager.AddScore("pairs", score, totalRounds, pairsLevel);
+            gameManager.AddScore("pairs", score, totalRounds, gameLevel);
             gameManager.EndGame();
             return;
         }
         remainingRounds--;
         correctAnswers = 0;
         selectedCards.Clear();
-        // selectedCards = 0;
 
         MyFunctions.ShuffleQuestionCard(pairsCards);
 
@@ -77,7 +75,6 @@ public class PairsGameManager : MonoBehaviour {
 
         MyFunctions.ShuffleGameObjects(questionSlots);
         for (int i = 0; i < questionSlots.Count; i++) {
-            Vector3 position = questionSlots[i].GetComponent<RectTransform>().anchoredPosition;
             GameObject card = Instantiate(pairsQuestionPrefab) as GameObject;
             card.transform.SetParent(questionSlots[i].transform);
             card.transform.localPosition = Vector3.zero;
@@ -93,10 +90,11 @@ public class PairsGameManager : MonoBehaviour {
     IEnumerator FlipCardsCo() {
         gameManager.Stopwatch(false);
         gameManager.IsControllable(false);
-        float delay = CardsArrive();
-        yield return new WaitForSeconds(delay + 0.5f);
 
-        yield return new WaitForSeconds(waitTime);
+        float delay = CardsArrive();
+        yield return new WaitForSeconds(delay);
+
+        yield return new WaitForSeconds(gameManager.previewWaitTime);
         foreach (var card in currentQuestionCards) {
             card.GetComponent<PairsQuestionCard>().FlipCard(true);
         }
@@ -112,11 +110,6 @@ public class PairsGameManager : MonoBehaviour {
         if (selectedCards.Count == 2) {
             StartCoroutine(IsCorrectCo());
         }
-        // playerAnswers.Add(answer);
-        // selectedCards++;
-        // if (selectedCards == currentAnswerCards.Count) {
-        //     StartCoroutine(NextRoundCo());
-        // }
     }
 
     IEnumerator IsCorrectCo() {
@@ -136,6 +129,7 @@ public class PairsGameManager : MonoBehaviour {
             yield return new WaitForSeconds(1f);
         }
         selectedCards.Clear();
+
         gameManager.IsControllable(true);
         gameManager.Stopwatch(true);
 
@@ -149,24 +143,10 @@ public class PairsGameManager : MonoBehaviour {
         gameManager.IsControllable(false);
 
         yield return new WaitForSeconds(1f);
-        // int i = 0;
-        // foreach (var answer in playerAnswers) {
-        //     if (gameAnswers.Contains(answer)) {
-        //         gameAnswers.Remove(answer);
-        //         i++;
-        //     }
-        // }
-        // if (i == answerSlots.Count()) {
-        //     score++;
-        //     gameManager.UpdateScoreText(score, totalRounds);
-        //     audioManager.PlayCorrectClip();
-        // } else {
-        //     audioManager.PlayWrongClip();
-        // }
-        // yield return new WaitForSeconds(1f);
 
         float delay = CardsLeave();
-        yield return new WaitForSeconds(delay + 0.5f);
+        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(gameManager.roundsWaitTime);
 
         NextRound();
     }

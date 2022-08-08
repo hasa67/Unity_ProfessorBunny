@@ -82,7 +82,6 @@ public class TrainGameManager : MonoBehaviour {
 
         foreach (var slot in questionSlots) {
             if (currentTrainCards.Count > 0) {
-                Vector3 position = slot.GetComponent<RectTransform>().anchoredPosition;
                 GameObject card = Instantiate(trainQuestionPrefab) as GameObject;
                 card.transform.SetParent(slot.transform);
                 card.transform.localPosition = Vector3.zero;
@@ -119,43 +118,35 @@ public class TrainGameManager : MonoBehaviour {
         gameManager.Stopwatch(true);
     }
 
-    public bool IsCorrect() {
-        bool output = false;
+    public void IsRoundFinished() {
         int i = 0;
-        foreach (var slot in answerSlots) {
-            if (slot.isCorrect == true) {
-                i++;
-            }
-        }
-        if (i == answerSlots.Count) {
-            output = true;
-            score++;
-            gameManager.UpdateScoreText(score, totalRounds);
-        }
-        IsRoundFinished();
-        return output;
-    }
-
-    public bool IsRoundFinished() {
-        bool output = false;
-        int i = 0;
+        int j = 0;
         foreach (var slot in answerSlots) {
             if (slot.isFull == true) {
                 i++;
             }
+            if (slot.isCorrect == true) {
+                j++;
+            }
         }
+
+        if (j == answerSlots.Count) {
+            score++;
+            gameManager.UpdateScoreText(score, totalRounds);
+        }
+
         if (i == answerSlots.Count) {
-            output = true;
             StartCoroutine(IsRoundFinishedCo());
         }
-        return output;
     }
 
     IEnumerator IsRoundFinishedCo() {
         gameManager.IsControllable(false);
+        gameManager.Stopwatch(false);
 
         float delay = TrainLeave();
-        yield return new WaitForSeconds(delay + 0.5f);
+        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(gameManager.roundsWaitTime);
 
         NextRound();
     }
@@ -173,7 +164,6 @@ public class TrainGameManager : MonoBehaviour {
     }
 
     private float TrainLeave() {
-        gameManager.Stopwatch(false);
         train.GetComponent<AudioSource>().Play();
         train.GetComponent<Animator>().SetBool("on", false);
         questionSlotsPanel.GetComponent<Animator>().SetBool("on", false);

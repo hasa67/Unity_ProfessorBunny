@@ -25,8 +25,6 @@ public class PairsQuestionCard : MonoBehaviour, IPointerDownHandler {
         if (isControllable) {
             FlipCard(false);
             pairsGameManager.AddSelectedCard(this);
-            // reverseGameManager.IsCorrect(card.answer);
-            // isControllable = false;
         }
     }
 
@@ -53,8 +51,4 @@ public class PairsQuestionCard : MonoBehaviour, IPointerDownHandler {
         GetComponent<Image>().sprite = frontSprite;
         isControllable = true;
     }
-
-    // public QuestionCard GetQuestionCard() {
-    //     return card;
-    // }
 }

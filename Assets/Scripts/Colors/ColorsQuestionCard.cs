@@ -4,18 +4,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class TrainQuestionCard : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerUpHandler {
+public class ColorsQuestionCard : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerUpHandler {
 
     public string answer;
-    public TrainAnswerSlot answerSlot;
+    public ColorsAnswerSlot answerSlot;
 
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
     private Vector3 initiaPosition;
-    private AudioSource audioSource;
     private Canvas canvas;
     private Transform initialParent;
-    private TrainGameManager trainGameManager;
+    private ColorsGameManager colorsGameManager;
 
 
     private void Awake() {
@@ -23,8 +22,7 @@ public class TrainQuestionCard : MonoBehaviour, IPointerDownHandler, IBeginDragH
 
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
-        audioSource = GetComponent<AudioSource>();
-        trainGameManager = FindObjectOfType<TrainGameManager>();
+        colorsGameManager = FindObjectOfType<ColorsGameManager>();
 
         answerSlot = null;
     }
@@ -45,7 +43,6 @@ public class TrainQuestionCard : MonoBehaviour, IPointerDownHandler, IBeginDragH
             }
             answerSlot = null;
         }
-        trainGameManager.AnswerSlotsBlink();
     }
 
     public void OnPointerUp(PointerEventData eventData) {
@@ -63,7 +60,7 @@ public class TrainQuestionCard : MonoBehaviour, IPointerDownHandler, IBeginDragH
 
     public void OnEndDrag(PointerEventData eventData) {
         if (eventData.pointerEnter != null) {
-            if (eventData.pointerEnter.GetComponent<TrainAnswerSlot>() == null) {
+            if (eventData.pointerEnter.GetComponent<ColorsAnswerSlot>() == null) {
                 PlaceBack();
             }
         } else {
@@ -82,9 +79,5 @@ public class TrainQuestionCard : MonoBehaviour, IPointerDownHandler, IBeginDragH
     public void SetQuestionCard(QuestionCard card) {
         answer = card.answer;
         GetComponent<Image>().sprite = card.sprite;
-        audioSource.clip = card.audioClip;
     }
-
 }
-
-

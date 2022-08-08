@@ -69,7 +69,6 @@ public class SandwichGameManager : MonoBehaviour {
         }
 
         for (int i = 0; i < questionSlots.Length; i++) {
-            Vector3 position = questionSlots[i].GetComponent<RectTransform>().anchoredPosition;
             GameObject card = Instantiate(sandwichQuestionPrefab) as GameObject;
             card.transform.SetParent(questionSlots[i].transform);
             card.transform.localPosition = Vector3.zero;
@@ -91,6 +90,7 @@ public class SandwichGameManager : MonoBehaviour {
     IEnumerator PlaySoundsCo() {
         gameManager.Stopwatch(false);
         gameManager.IsControllable(false);
+
         float delay = PlateArrive();
         yield return new WaitForSeconds(delay + 0.5f);
 
@@ -117,7 +117,6 @@ public class SandwichGameManager : MonoBehaviour {
                 }
 
                 if (i == answerSlots.Count - 1) {
-                    gameManager.Stopwatch(false);
                     StartCoroutine(RoundFinishedCo());
                 }
                 return;
@@ -126,21 +125,24 @@ public class SandwichGameManager : MonoBehaviour {
     }
 
     IEnumerator RoundFinishedCo() {
+        gameManager.Stopwatch(false);
+        gameManager.IsControllable(false);
+
         if (IsCorrect()) {
             score++;
             gameManager.UpdateScoreText(score, totalRounds);
         }
 
-        gameManager.IsControllable(false);
+
         yield return new WaitForSeconds(1f);
         float delay = BreadOn();
         yield return new WaitForSeconds(delay + 0.5f);
 
         delay = PlateLeave();
-        yield return new WaitForSeconds(delay + 0.5f);
+        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(gameManager.roundsWaitTime);
 
         topBread.GetComponent<Animator>().SetTrigger("remove");
-        gameManager.IsControllable(true);
         NextRound();
     }
 
