@@ -11,7 +11,6 @@ public class TrainQuestionCard : MonoBehaviour, IPointerDownHandler, IBeginDragH
 
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
-    private Vector3 initiaPosition;
     private AudioSource audioSource;
     private Canvas canvas;
     private Transform initialParent;
@@ -31,7 +30,6 @@ public class TrainQuestionCard : MonoBehaviour, IPointerDownHandler, IBeginDragH
 
     private void Start() {
         initialParent = this.transform.parent;
-        initiaPosition = rectTransform.anchoredPosition;
     }
 
     public void OnPointerDown(PointerEventData eventData) {

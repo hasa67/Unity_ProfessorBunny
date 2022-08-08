@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour {
     public ReverseGameManager reverseGameManager;
     public PairsGameManager pairsGameManager;
     public ColorsGameManager colorsGameManager;
+    public WormGameManager wormGameManager;
     public float roundsWaitTime;
     public float previewWaitTime;
 
@@ -23,6 +24,9 @@ public class GameManager : MonoBehaviour {
     [Range(1, 3)] public int pairsLevel;
     [Range(1, 5)] public int colorsRounds;
     [Range(1, 3)] public int colorsLevel;
+    [Range(1, 5)] public int wormRounds;
+    [Range(1, 3)] public int wormLevel;
+
 
     public List<Score> scoreList = new List<Score>();
     private int score;
@@ -69,6 +73,11 @@ public class GameManager : MonoBehaviour {
     public void StratColorsGame() {
         panelManager.ShowColorsPanel();
         colorsGameManager.StartGame(colorsRounds, colorsLevel);
+    }
+
+    public void StratWormGame() {
+        panelManager.ShowWormPanel();
+        wormGameManager.StartGame(wormRounds, wormLevel);
     }
 
     public void EndGame() {

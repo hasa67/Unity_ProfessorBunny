@@ -4,16 +4,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ColorsQuestionCard : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerUpHandler {
+public class WormQuestionCard : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerUpHandler {
 
+    public Text cardText;
     public string answer;
-    public ColorsAnswerSlot answerSlot;
+    public WormAnswerSlot answerSlot;
 
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
     private Canvas canvas;
     private Transform initialParent;
-    private ColorsGameManager colorsGameManager;
+    private WormGameManager wormGameManager;
 
 
     private void Awake() {
@@ -21,7 +22,7 @@ public class ColorsQuestionCard : MonoBehaviour, IPointerDownHandler, IBeginDrag
 
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
-        colorsGameManager = FindObjectOfType<ColorsGameManager>();
+        wormGameManager = FindObjectOfType<WormGameManager>();
 
         answerSlot = null;
     }
@@ -58,7 +59,7 @@ public class ColorsQuestionCard : MonoBehaviour, IPointerDownHandler, IBeginDrag
 
     public void OnEndDrag(PointerEventData eventData) {
         if (eventData.pointerEnter != null) {
-            if (eventData.pointerEnter.GetComponent<ColorsAnswerSlot>() == null) {
+            if (eventData.pointerEnter.GetComponent<WormAnswerSlot>() == null) {
                 PlaceBack();
             }
         } else {
@@ -76,6 +77,7 @@ public class ColorsQuestionCard : MonoBehaviour, IPointerDownHandler, IBeginDrag
 
     public void SetQuestionCard(QuestionCard card) {
         answer = card.answer;
-        GetComponent<Image>().sprite = card.sprite;
+        cardText.text = answer;
+        // GetComponent<Image>().sprite = card.sprite;
     }
 }
