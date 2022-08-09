@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour {
 
     public Text scoreText;
     public Text timerText;
+    public Slider levelSlider;
+    public Text levelText;
     public TrainGameManager trainGameManager;
     public SandwichGameManager sandwichGameManager;
     public ReverseGameManager reverseGameManager;
@@ -48,6 +50,12 @@ public class GameManager : MonoBehaviour {
             timer += Time.deltaTime;
         }
         timerText.text = timer.ToString();
+
+        levelText.text = "Level " + levelSlider.value.ToString();
+        reverseLevel = Mathf.RoundToInt(levelSlider.value);
+        pairsLevel = Mathf.RoundToInt(levelSlider.value);
+        colorsLevel = Mathf.RoundToInt(levelSlider.value);
+        wormLevel = Mathf.RoundToInt(levelSlider.value);
     }
 
     public void StartTrainGame() {
