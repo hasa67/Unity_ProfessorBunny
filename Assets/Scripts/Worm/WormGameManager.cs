@@ -6,7 +6,9 @@ using UnityEngine.UI;
 
 public class WormGameManager : MonoBehaviour {
 
-    public List<List<QuestionCard>> wormCards = new List<List<QuestionCard>>();
+    public List<QuestionCard> wormCards1 = new List<QuestionCard>();
+    public List<QuestionCard> wormCards2 = new List<QuestionCard>();
+    public List<QuestionCard> wormCards3 = new List<QuestionCard>();
     public GameObject wormQuestionPrefab;
     public GameObject questionSlotsPanel;
     public GameObject answerSlotsPanel;
@@ -21,11 +23,16 @@ public class WormGameManager : MonoBehaviour {
     private List<WormAnswerSlot> answerSlots = new List<WormAnswerSlot>();
     private List<GameObject> previewAnswersList = new List<GameObject>();
     private List<GameObject> questionSlots = new List<GameObject>();
+    private List<List<QuestionCard>> wormCards = new List<List<QuestionCard>>();
 
 
     void Awake() {
         gameManager = FindObjectOfType<GameManager>();
         gameManager.wormGameManager = this;
+
+        wormCards.Add(wormCards1);
+        wormCards.Add(wormCards2);
+        wormCards.Add(wormCards3);
     }
 
     public void StartGame(int roundCount, int level) {
@@ -49,28 +56,25 @@ public class WormGameManager : MonoBehaviour {
         questionSlots = questionSlots.OrderBy(go => go.name).ToList();
 
         answerSlots = FindObjectsOfType<WormAnswerSlot>().ToList();
-        foreach (var slot in answerSlots) {
-            slot.Initialize();
-        }
         answerSlots = answerSlots.OrderBy(go => go.name).ToList();
 
-        for (int i = 0; i < questionSlots.Count; i++) {
-            questionSlots[i].transform.SetParent(questionSlotsPanel.transform.Find("Image").transform);
-            answerSlots[i].transform.SetParent(answerSlotsPanel.transform);
-            answerSlots[i].GetComponent<Image>().enabled = true;
-            answerSlots[i].GetComponent<Image>().raycastTarget = true;
-        }
-        int extraSlots = (3 - gameLevel);
-        if (extraSlots > 0) {
-            for (int i = 0; i < extraSlots; i++) {
-                questionSlots[0].transform.SetParent(questionSlotsPanel.transform.parent);
-                questionSlots.RemoveAt(0);
-                answerSlots[0].transform.SetParent(answerSlotsPanel.transform.parent);
-                answerSlots[0].GetComponent<Image>().enabled = false;
-                answerSlots[0].GetComponent<Image>().raycastTarget = false;
-                answerSlots.RemoveAt(0);
-            }
-        }
+        // for (int i = 0; i < questionSlots.Count; i++) {
+        //     questionSlots[i].transform.SetParent(questionSlotsPanel.transform.Find("Image").transform);
+        //     answerSlots[i].transform.SetParent(answerSlotsPanel.transform);
+        //     answerSlots[i].GetComponent<Image>().enabled = true;
+        //     answerSlots[i].GetComponent<Image>().raycastTarget = true;
+        // }
+        // int extraSlots = (3 - gameLevel);
+        // if (extraSlots > 0) {
+        //     for (int i = 0; i < extraSlots; i++) {
+        //         questionSlots[0].transform.SetParent(questionSlotsPanel.transform.parent);
+        //         questionSlots.RemoveAt(0);
+        //         answerSlots[0].transform.SetParent(answerSlotsPanel.transform.parent);
+        //         answerSlots[0].GetComponent<Image>().enabled = false;
+        //         answerSlots[0].GetComponent<Image>().raycastTarget = false;
+        //         answerSlots.RemoveAt(0);
+        //     }
+        // }
     }
 
     public void NextRound() {
@@ -164,19 +168,19 @@ public class WormGameManager : MonoBehaviour {
     }
 
     private void AddScore() {
-        gameManager.AddScore("colors", score, totalRounds, gameLevel);
+        gameManager.AddScore("worm", score, totalRounds, gameLevel);
     }
 
     private float WormArrive() {
         answerSlotsPanel.GetComponent<Animator>().SetBool("on", true);
         questionSlotsPanel.GetComponent<Animator>().SetBool("on", true);
-        questionsCover.GetComponent<Animator>().SetBool("on", false);
+        questionsCover.GetComponent<Animator>().SetBool("on", true);
         float length = questionSlotsPanel.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
         return length;
     }
 
     private float CoverOff() {
-        questionsCover.GetComponent<Animator>().SetBool("on", true);
+        questionsCover.GetComponent<Animator>().SetBool("on", false);
         float length = questionsCover.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
         return length;
     }
@@ -184,22 +188,21 @@ public class WormGameManager : MonoBehaviour {
     private float WormLeave() {
         answerSlotsPanel.GetComponent<Animator>().SetBool("on", false);
         questionSlotsPanel.GetComponent<Animator>().SetBool("on", false);
-        questionsCover.GetComponent<Animator>().SetBool("on", true);
         float length = answerSlotsPanel.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
         return length;
     }
 
     private void PreviewAnswersOn() {
         foreach (var slot in answerSlots) {
-            for (int i = 0; i < wormCards.Count; i++) {
-                if (slot.GetComponent<ColorsAnswerSlot>().answer == wormCards[gameLevel - 1][i].answer) {
+            for (int i = 0; i < wormCards[gameLevel - 1].Count; i++) {
+                if (slot.GetComponent<WormAnswerSlot>().answer == wormCards[gameLevel - 1][i].answer) {
                     GameObject card = Instantiate(wormQuestionPrefab) as GameObject;
                     card.transform.SetParent(slot.transform);
                     card.transform.localPosition = Vector3.zero;
                     card.transform.localScale = Vector3.one;
 
                     previewAnswersList.Add(card);
-                    card.GetComponent<ColorsQuestionCard>().SetQuestionCard(wormCards[gameLevel - 1][i]);
+                    card.GetComponent<WormQuestionCard>().SetQuestionCard(wormCards[gameLevel - 1][i]);
                     break;
                 }
             }

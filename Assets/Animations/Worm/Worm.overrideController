@@ -6,10 +6,10 @@ AnimatorOverrideController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ColorsCover
+  m_Name: Worm
   m_Controller: {fileID: 9100000, guid: 94166d5b6e09e5847bc18eb38de7e082, type: 2}
   m_Clips:
   - m_OriginalClip: {fileID: 7400000, guid: 0de2f6bb44e37874b87fb3c9d1d9010b, type: 2}
-    m_OverrideClip: {fileID: 7400000, guid: 9f7199398c5f8ee4eb559dc479812ffc, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 1ce330aea53ed7648994632e2bb6af84, type: 2}
   - m_OriginalClip: {fileID: 7400000, guid: 3d0008a0f5a81be4791fd8f224c37613, type: 2}
-    m_OverrideClip: {fileID: 7400000, guid: a6b5beca851647844921065778feb303, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 7ddf9c8f07e5141429487895a5b76c99, type: 2}

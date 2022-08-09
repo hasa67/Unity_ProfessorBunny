@@ -42,9 +42,6 @@ public class SandwichGameManager : MonoBehaviour {
         questionSlots = GameObject.FindGameObjectsWithTag("QuestionSlot");
 
         answerSlots = FindObjectsOfType<SandwichAnswerSlot>().ToList();
-        foreach (var slot in answerSlots) {
-            slot.Initialize();
-        }
         answerSlots = answerSlots.OrderBy(go => go.name).ToList();
     }
 

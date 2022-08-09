@@ -48,9 +48,6 @@ public class ColorsGameManager : MonoBehaviour {
         questionSlots = questionSlots.OrderBy(go => go.name).ToList();
 
         answerSlots = FindObjectsOfType<ColorsAnswerSlot>().ToList();
-        foreach (var slot in answerSlots) {
-            slot.Initialize();
-        }
         answerSlots = answerSlots.OrderBy(go => go.name).ToList();
 
         for (int i = 0; i < questionSlots.Count; i++) {
@@ -91,7 +88,6 @@ public class ColorsGameManager : MonoBehaviour {
             slot.Initialize();
         }
 
-        MyFunctions.ShuffleQuestionCard(colorsCards);
         int j = 0;
         foreach (var slot in questionSlots) {
             GameObject card = Instantiate(colorsQuestionPrefab) as GameObject;
@@ -169,13 +165,13 @@ public class ColorsGameManager : MonoBehaviour {
     private float PaletteArrive() {
         answerSlotsPanel.GetComponent<Animator>().SetBool("on", true);
         questionSlotsPanel.GetComponent<Animator>().SetBool("on", true);
-        questionsCover.GetComponent<Animator>().SetBool("on", false);
+        questionsCover.GetComponent<Animator>().SetBool("on", true);
         float length = questionSlotsPanel.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
         return length;
     }
 
     private float CoverOff() {
-        questionsCover.GetComponent<Animator>().SetBool("on", true);
+        questionsCover.GetComponent<Animator>().SetBool("on", false);
         float length = questionsCover.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
         return length;
     }
@@ -183,7 +179,6 @@ public class ColorsGameManager : MonoBehaviour {
     private float PaletteLeave() {
         answerSlotsPanel.GetComponent<Animator>().SetBool("on", false);
         questionSlotsPanel.GetComponent<Animator>().SetBool("on", false);
-        questionsCover.GetComponent<Animator>().SetBool("on", true);
         float length = answerSlotsPanel.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
         return length;
     }

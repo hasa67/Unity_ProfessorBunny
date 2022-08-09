@@ -47,9 +47,6 @@ public class TrainGameManager : MonoBehaviour {
         questionSlots = GameObject.FindGameObjectsWithTag("QuestionSlot");
 
         answerSlots = FindObjectsOfType<TrainAnswerSlot>().ToList();
-        foreach (var slot in answerSlots) {
-            slot.Initialize();
-        }
         answerSlots = answerSlots.OrderBy(go => go.name).ToList();
     }
 
