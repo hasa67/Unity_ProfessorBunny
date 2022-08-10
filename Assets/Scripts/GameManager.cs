@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour {
     public PairsGameManager pairsGameManager;
     public ColorsGameManager colorsGameManager;
     public WormGameManager wormGameManager;
+    public CloudsGameManager cloudsGameManeger;
     public float roundsWaitTime;
     public float previewWaitTime;
 
@@ -28,6 +29,9 @@ public class GameManager : MonoBehaviour {
     [Range(1, 3)] public int colorsLevel;
     [Range(1, 5)] public int wormRounds;
     [Range(1, 3)] public int wormLevel;
+    [Range(1, 5)] public int cloudsRounds;
+    [Range(1, 3)] public int cloudsLevel;
+    [Range(6, 7)] public int cloudsCounts;
 
 
     public List<Score> scoreList = new List<Score>();
@@ -86,6 +90,11 @@ public class GameManager : MonoBehaviour {
     public void StratWormGame() {
         panelManager.ShowWormPanel();
         wormGameManager.StartGame(wormRounds, wormLevel);
+    }
+
+    public void StartCloudsGame() {
+        panelManager.ShowCloudsPanel();
+        cloudsGameManeger.StartGame(cloudsRounds, cloudsLevel);
     }
 
     public void EndGame() {

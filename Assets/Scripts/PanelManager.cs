@@ -11,6 +11,7 @@ public class PanelManager : MonoBehaviour {
     public GameObject pairsPanel;
     public GameObject colorsPanel;
     public GameObject wormPanel;
+    public GameObject cloudsPanel;
 
     private List<GameObject> panelsList = new List<GameObject>();
     private GameManager gameManager;
@@ -24,6 +25,7 @@ public class PanelManager : MonoBehaviour {
         panelsList.Add(pairsPanel);
         panelsList.Add(colorsPanel);
         panelsList.Add(wormPanel);
+        panelsList.Add(cloudsPanel);
 
         gameManager = FindObjectOfType<GameManager>();
     }
@@ -67,6 +69,11 @@ public class PanelManager : MonoBehaviour {
     public void ShowWormPanel() {
         HideAllPanels();
         wormPanel.SetActive(true);
+    }
+
+    public void ShowCloudsPanel() {
+        HideAllPanels();
+        cloudsPanel.SetActive(true);
     }
 
     public void IsControllable(bool isControllable) {
