@@ -37,7 +37,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 70}
+  m_SizeDelta: {x: 150, y: 85}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6131297355649711597
 CanvasRenderer:
@@ -89,6 +89,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22d44587b3710db4583982b68cbcf979, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cardText: {fileID: 6131297356698721973}
+  answer: 
 --- !u!1 &6131297356698721968
 GameObject:
   m_ObjectHideFlags: 0
@@ -125,7 +127,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -20, y: -38}
+  m_SizeDelta: {x: -30, y: -38}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6131297356698721972
 CanvasRenderer:

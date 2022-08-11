@@ -5,31 +5,41 @@ using System.Linq;
 
 public class CloudsGameManager : MonoBehaviour {
 
-    public List<QuestionCard> pairsCards = new List<QuestionCard>();
-    public GameObject pairsQuestionPrefab;
+    public List<QuestionCard> cloudsCards1 = new List<QuestionCard>();
+    public List<QuestionCard> cloudsCards2 = new List<QuestionCard>();
+    public List<QuestionCard> cloudsCards3 = new List<QuestionCard>();
+    public GameObject cloudsQuestionPrefab;
     public GameObject questionSlotsPanel;
+    public GameObject cloudsCover;
 
     private int score;
     private int remainingRounds;
     private int totalRounds;
     private int gameLevel;
-    private int correctAnswers;
+    private int countsLevel;
+    private string gameName;
     private GameManager gameManager;
-    private List<PairsQuestionCard> selectedCards = new List<PairsQuestionCard>();
-    private List<PairsQuestionCard> currentQuestionCards = new List<PairsQuestionCard>();
+    private List<CloudsQuestionCard> currentQuestionCards = new List<CloudsQuestionCard>();
+    private QuestionCard answerCard;
     private List<GameObject> questionSlots = new List<GameObject>();
     private AudioManager audioManager;
+    private List<List<QuestionCard>> cloudsCards = new List<List<QuestionCard>>();
 
     void Awake() {
         gameManager = FindObjectOfType<GameManager>();
         gameManager.cloudsGameManeger = this;
         audioManager = FindObjectOfType<AudioManager>();
+
+        cloudsCards.Add(cloudsCards1);
+        cloudsCards.Add(cloudsCards2);
+        cloudsCards.Add(cloudsCards3);
     }
 
-    public void StartGame(int roundCount, int level) {
+    public void StartGame(int roundCount, int level, int questionsCount) {
         gameLevel = level;
         remainingRounds = roundCount;
         totalRounds = roundCount;
+        countsLevel = questionsCount;
         Initialize();
 
         if (remainingRounds > 0) {
@@ -44,103 +54,76 @@ public class CloudsGameManager : MonoBehaviour {
         gameManager.UpdateScoreText(score, totalRounds);
 
         questionSlots = GameObject.FindGameObjectsWithTag("QuestionSlot").ToList();
+        questionSlots = questionSlots.OrderBy(go => go.name).ToList();
         foreach (var slot in questionSlots) {
             slot.transform.SetParent(questionSlotsPanel.transform);
         }
-        int extraQuestionSlots = (3 - gameLevel) * 2;
-        if (extraQuestionSlots > 0) {
-            for (int i = 0; i < extraQuestionSlots; i++) {
-                questionSlots[0].transform.SetParent(questionSlotsPanel.transform.parent);
-                questionSlots.RemoveAt(0);
-            }
+        if (countsLevel == 1) {
+            questionSlots.Last().transform.SetParent(questionSlotsPanel.transform.parent);
+            questionSlots.RemoveAt(questionSlots.Count - 1);
+            gameName = "clouds1";
+        } else {
+            gameName = "clouds2";
         }
     }
 
     public void NextRound() {
         if (remainingRounds <= 0) {
-            gameManager.AddScore("pairs", score, totalRounds, gameLevel);
+            gameManager.AddScore(gameName, score, totalRounds, gameLevel);
             gameManager.EndGame();
             return;
         }
         remainingRounds--;
-        correctAnswers = 0;
-        selectedCards.Clear();
 
-        MyFunctions.ShuffleQuestionCard(pairsCards);
+        questionSlots = questionSlots.OrderBy(go => go.name).ToList();
+        MyFunctions.ShuffleQuestionCard(cloudsCards[gameLevel - 1]);
+        answerCard = cloudsCards[gameLevel - 1][questionSlots.Count - 1];
 
-        foreach (var card in currentQuestionCards) {
-            Destroy(card.gameObject);
-        }
-        currentQuestionCards.Clear();
-
-        MyFunctions.ShuffleGameObjects(questionSlots);
-        for (int i = 0; i < questionSlots.Count; i++) {
-            GameObject card = Instantiate(pairsQuestionPrefab) as GameObject;
-            card.transform.SetParent(questionSlots[i].transform);
-            card.transform.localPosition = Vector3.zero;
-            card.transform.localScale = Vector3.one;
-
-            currentQuestionCards.Add(card.GetComponent<PairsQuestionCard>());
-            card.GetComponent<PairsQuestionCard>().SetQuestionCard(pairsCards[Mathf.CeilToInt(i / 2)]);
-        }
-
-        StartCoroutine(FlipCardsCo());
-    }
-
-    IEnumerator FlipCardsCo() {
-        gameManager.Stopwatch(false);
-        gameManager.IsControllable(false);
-
-        float delay = CardsArrive();
-        yield return new WaitForSeconds(delay);
-
-        yield return new WaitForSeconds(gameManager.previewWaitTime);
-        foreach (var card in currentQuestionCards) {
-            card.GetComponent<PairsQuestionCard>().FlipCard(true);
-        }
-        yield return new WaitForSeconds(1f);
-
-        gameManager.IsControllable(true);
-        gameManager.Stopwatch(true);
-    }
-
-    public void IsCorrect() {
-        score--;
-        gameManager.UpdateScoreText(score, totalRounds);
-        if (selectedCards.Count == 2) {
-            StartCoroutine(IsCorrectCo());
-        }
-    }
-
-    IEnumerator IsCorrectCo() {
-        gameManager.IsControllable(false);
-        gameManager.Stopwatch(false);
-
-        yield return new WaitForSeconds(1f);
-        if (selectedCards[0].answer == selectedCards[1].answer) {
-            audioManager.PlayCorrectClip();
-            correctAnswers++;
-        } else {
-            audioManager.PlayWrongClip();
-            yield return new WaitForSeconds(1f);
-            foreach (var card in selectedCards) {
-                card.FlipCard(true);
-            }
-            yield return new WaitForSeconds(1f);
-        }
-        selectedCards.Clear();
-
-        gameManager.IsControllable(true);
-        gameManager.Stopwatch(true);
-
-        if (correctAnswers * 2 == questionSlots.Count) {
-            StartCoroutine(NextRoundCo());
-        }
+        DestroyCurrectCards();
+        InstantiateNewCards(1);
+        StartCoroutine(NextRoundCo());
     }
 
     IEnumerator NextRoundCo() {
         gameManager.Stopwatch(false);
         gameManager.IsControllable(false);
+
+        float delay = CardsArrive();
+        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(gameManager.previewWaitTime);
+        delay = CloudsCoverIn();
+        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(0.1f);
+        ShuffleCards();
+        yield return new WaitForSeconds(0.1f);
+        delay = CloudsCoverOut();
+        yield return new WaitForSeconds(delay);
+
+        gameManager.Stopwatch(true);
+        gameManager.IsControllable(true);
+    }
+
+    public void IsCorrect(CloudsQuestionCard card) {
+        if (card.answer == answerCard.answer) {
+            score++;
+            gameManager.UpdateScoreText(score, totalRounds);
+            audioManager.PlayCorrectClip();
+            card.CorrectSelect();
+        } else {
+            audioManager.PlayWrongClip();
+            card.WrongSelect();
+            foreach (var item in currentQuestionCards) {
+                if (item.answer == answerCard.answer) {
+                    item.CorrectSelect();
+                }
+            }
+        }
+        StartCoroutine(RoundFinishedCo());
+    }
+
+    IEnumerator RoundFinishedCo() {
+        gameManager.IsControllable(false);
+        gameManager.Stopwatch(false);
 
         yield return new WaitForSeconds(1f);
 
@@ -149,6 +132,35 @@ public class CloudsGameManager : MonoBehaviour {
         yield return new WaitForSeconds(gameManager.roundsWaitTime);
 
         NextRound();
+    }
+
+    public void ShuffleCards() {
+        DestroyCurrectCards();
+        InstantiateNewCards(0);
+    }
+
+    public void DestroyCurrectCards() {
+        foreach (var card in currentQuestionCards) {
+            Destroy(card.gameObject);
+        }
+        currentQuestionCards.Clear();
+    }
+
+    public void InstantiateNewCards(int j) {
+        // j = 1 for initial cards show
+        // j = 0 for all cards show
+        if (j == 0) {
+            MyFunctions.ShuffleGameObjects(questionSlots);
+        }
+        for (int i = 0; i < questionSlots.Count - j; i++) {
+            GameObject card = Instantiate(cloudsQuestionPrefab) as GameObject;
+            card.transform.SetParent(questionSlots[i].transform);
+            card.transform.localPosition = Vector3.zero;
+            card.transform.localScale = Vector3.one;
+
+            currentQuestionCards.Add(card.GetComponent<CloudsQuestionCard>());
+            card.GetComponent<CloudsQuestionCard>().SetQuestionCard(cloudsCards[gameLevel - 1][i]);
+        }
     }
 
     private float CardsArrive() {
@@ -163,8 +175,17 @@ public class CloudsGameManager : MonoBehaviour {
         return length;
     }
 
-    public void AddSelectedCard(PairsQuestionCard card) {
-        selectedCards.Add(card);
-        IsCorrect();
+    private float CloudsCoverIn() {
+        cloudsCover.GetComponent<Animator>().SetBool("on", true);
+        float length = cloudsCover.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
+        cloudsCover.GetComponent<AudioSource>().Play();
+        return length;
     }
+
+    private float CloudsCoverOut() {
+        cloudsCover.GetComponent<Animator>().SetBool("on", false);
+        float length = cloudsCover.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
+        return length;
+    }
+
 }

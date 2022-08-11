@@ -75,8 +75,8 @@ public class WormQuestionCard : MonoBehaviour, IPointerDownHandler, IBeginDragHa
         rectTransform.rotation = Quaternion.Euler(Vector3.zero);
     }
 
-    public void SetQuestionCard(QuestionCard card) {
-        answer = card.answer;
+    public void SetQuestionCard(QuestionCard inputCard) {
+        answer = inputCard.answer;
         cardText.text = answer;
         // GetComponent<Image>().sprite = card.sprite;
     }

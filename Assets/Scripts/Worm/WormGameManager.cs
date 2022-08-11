@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using UnityEngine.UI;
 
 public class WormGameManager : MonoBehaviour {
 
@@ -57,24 +56,6 @@ public class WormGameManager : MonoBehaviour {
 
         answerSlots = FindObjectsOfType<WormAnswerSlot>().ToList();
         answerSlots = answerSlots.OrderBy(go => go.name).ToList();
-
-        // for (int i = 0; i < questionSlots.Count; i++) {
-        //     questionSlots[i].transform.SetParent(questionSlotsPanel.transform.Find("Image").transform);
-        //     answerSlots[i].transform.SetParent(answerSlotsPanel.transform);
-        //     answerSlots[i].GetComponent<Image>().enabled = true;
-        //     answerSlots[i].GetComponent<Image>().raycastTarget = true;
-        // }
-        // int extraSlots = (3 - gameLevel);
-        // if (extraSlots > 0) {
-        //     for (int i = 0; i < extraSlots; i++) {
-        //         questionSlots[0].transform.SetParent(questionSlotsPanel.transform.parent);
-        //         questionSlots.RemoveAt(0);
-        //         answerSlots[0].transform.SetParent(answerSlotsPanel.transform.parent);
-        //         answerSlots[0].GetComponent<Image>().enabled = false;
-        //         answerSlots[0].GetComponent<Image>().raycastTarget = false;
-        //         answerSlots.RemoveAt(0);
-        //     }
-        // }
     }
 
     public void NextRound() {

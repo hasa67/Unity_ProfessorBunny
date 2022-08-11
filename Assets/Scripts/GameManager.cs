@@ -31,7 +31,6 @@ public class GameManager : MonoBehaviour {
     [Range(1, 3)] public int wormLevel;
     [Range(1, 5)] public int cloudsRounds;
     [Range(1, 3)] public int cloudsLevel;
-    [Range(6, 7)] public int cloudsCounts;
 
 
     public List<Score> scoreList = new List<Score>();
@@ -60,6 +59,7 @@ public class GameManager : MonoBehaviour {
         pairsLevel = Mathf.RoundToInt(levelSlider.value);
         colorsLevel = Mathf.RoundToInt(levelSlider.value);
         wormLevel = Mathf.RoundToInt(levelSlider.value);
+        cloudsLevel = Mathf.RoundToInt(levelSlider.value);
     }
 
     public void StartTrainGame() {
@@ -92,9 +92,14 @@ public class GameManager : MonoBehaviour {
         wormGameManager.StartGame(wormRounds, wormLevel);
     }
 
-    public void StartCloudsGame() {
+    public void StartCloudsGame1() {
         panelManager.ShowCloudsPanel();
-        cloudsGameManeger.StartGame(cloudsRounds, cloudsLevel);
+        cloudsGameManeger.StartGame(cloudsRounds, cloudsLevel, 1);
+    }
+
+    public void StartCloudsGame2() {
+        panelManager.ShowCloudsPanel();
+        cloudsGameManeger.StartGame(cloudsRounds, cloudsLevel, 2);
     }
 
     public void EndGame() {
