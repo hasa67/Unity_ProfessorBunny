@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 5289320241477120226}
   - component: {fileID: 8365687470568030960}
   - component: {fileID: 1419967557826404236}
+  - component: {fileID: 4425255897943660647}
+  - component: {fileID: 8840134141269930499}
   m_Layer: 5
   m_Name: BellQuestionCard
   m_TagString: Untagged
@@ -61,7 +63,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -90,8 +92,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardText: {fileID: 6861416648168709088}
-  backSprite: {fileID: 0}
+  backSprite: {fileID: 21300000, guid: 91d2e734e25781e4498c7df957bcf09c, type: 3}
+  frontSprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   answer: 
+--- !u!225 &4425255897943660647
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2877412462082156803}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
+--- !u!95 &8840134141269930499
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2877412462082156803}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 17b94a50b0347ce4ebb69e0fd7e2e0f0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &5141702216313116597
 GameObject:
   m_ObjectHideFlags: 0

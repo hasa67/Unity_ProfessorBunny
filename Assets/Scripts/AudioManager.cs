@@ -7,6 +7,7 @@ public class AudioManager : MonoBehaviour {
 
     public AudioClip correctClip;
     public AudioClip wrongClip;
+    public AudioClip[] cardDealClip;
 
     private void Awake() {
         audioSource = GetComponent<AudioSource>();
@@ -19,6 +20,11 @@ public class AudioManager : MonoBehaviour {
 
     public void PlayWrongClip() {
         audioSource.clip = wrongClip;
+        audioSource.Play();
+    }
+
+    public void PlayCardDealSound() {
+        audioSource.clip = cardDealClip[Random.Range(0, cardDealClip.Length)];
         audioSource.Play();
     }
 }

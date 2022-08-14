@@ -8,24 +8,24 @@ public class BellGameManager : MonoBehaviour {
     public List<QuestionCard> bellCards2 = new List<QuestionCard>();
     public List<QuestionCard> bellCards3 = new List<QuestionCard>();
     public GameObject bellQuestionPrefab;
-    // public GameObject answerSlotsPanel;
     public GameObject questionSlotsPanel;
-    public GameObject bellPanel;
+    public GameObject bell;
 
-    private int score;
-    private int selectedCards;
-    private int remainingRounds;
-    private int totalRounds;
-    private int gameLevel;
-    private GameManager gameManager;
-    private List<BellQuestionCard> currentQuestionCards = new List<BellQuestionCard>();
-    private List<BellQuestionCard> currentAnswerCards = new List<BellQuestionCard>();
-    private List<string> gameAnswers = new List<string>();
-    private List<string> playerAnswers = new List<string>();
-    private List<GameObject> questionSlots = new List<GameObject>();
-    private List<GameObject> answerSlots = new List<GameObject>();
-    private AudioManager audioManager;
-    private List<List<QuestionCard>> bellCards = new List<List<QuestionCard>>();
+    public int score;
+    public int remainingRounds;
+    public int totalRounds;
+    public int gameLevel;
+    public int questionCardsCount = 5;
+    public bool isCorrect;
+    public bool bellRing;
+    public GameManager gameManager;
+    public List<QuestionCard> currentBellCards = new List<QuestionCard>();
+    public List<BellQuestionCard> currentQuestionCards = new List<BellQuestionCard>();
+    public BellQuestionCard answerCard;
+    public GameObject questionSlot;
+    public GameObject answerSlot;
+    public AudioManager audioManager;
+    public List<List<QuestionCard>> bellCards = new List<List<QuestionCard>>();
 
 
     void Awake() {
@@ -55,21 +55,8 @@ public class BellGameManager : MonoBehaviour {
         score = 0;
         gameManager.UpdateScoreText(score, totalRounds);
 
-        questionSlots = GameObject.FindGameObjectsWithTag("QuestionSlot").ToList();
-        answerSlots = GameObject.FindGameObjectsWithTag("AnswerSlot").ToList();
-        foreach (var slot in questionSlots) {
-            slot.transform.SetParent(questionSlotsPanel.transform);
-        }
-        foreach (var slot in answerSlots) {
-            // slot.transform.SetParent(answerSlotsPanel.transform);
-        }
-        if (gameLevel == 1) {
-            questionSlots[0].transform.SetParent(questionSlotsPanel.transform.parent);
-            questionSlots.RemoveAt(0);
-
-            // answerSlots[0].transform.SetParent(answerSlotsPanel.transform.parent);
-            answerSlots.RemoveAt(0);
-        }
+        questionSlot = GameObject.FindGameObjectWithTag("QuestionSlot");
+        answerSlot = GameObject.FindGameObjectWithTag("AnswerSlot");
     }
 
     public void NextRound() {
@@ -79,97 +66,71 @@ public class BellGameManager : MonoBehaviour {
             return;
         }
         remainingRounds--;
-        gameAnswers.Clear();
-        playerAnswers.Clear();
-        selectedCards = 0;
+        isCorrect = false;
+        bellRing = false;
 
         MyFunctions.ShuffleQuestionCard(bellCards[gameLevel - 1]);
+        currentBellCards.Clear();
+        for (int i = 0; i < questionCardsCount; i++) {
+            currentBellCards.Add(bellCards[gameLevel - 1][i]);
+        }
 
         foreach (var card in currentQuestionCards) {
             Destroy(card.gameObject);
         }
         currentQuestionCards.Clear();
-
-        foreach (var card in currentAnswerCards) {
-            Destroy(card.gameObject);
-        }
-        currentAnswerCards.Clear();
-
-        for (int i = 0; i < questionSlots.Count; i++) {
-            GameObject card = Instantiate(bellQuestionPrefab) as GameObject;
-            card.transform.SetParent(questionSlots[i].transform);
-            card.transform.localPosition = Vector3.zero;
-            card.transform.localScale = Vector3.one;
-
-            currentQuestionCards.Add(card.GetComponent<BellQuestionCard>());
-            // card.GetComponent<BellQuestionCard>().SetQuestionCard(bellCards[gameLevel - 1][i], false);
+        if (answerCard != null) {
+            Destroy(answerCard.gameObject);
         }
 
-        MyFunctions.ShuffleBellQuestionCard(currentQuestionCards);
-        for (int i = 0; i < answerSlots.Count; i++) {
-            Vector3 position = answerSlots[i].GetComponent<RectTransform>().anchoredPosition;
-            GameObject card = Instantiate(bellQuestionPrefab) as GameObject;
-            card.transform.SetParent(answerSlots[i].transform);
-            card.transform.localPosition = Vector3.zero;
-            card.transform.localScale = Vector3.one;
-
-            currentAnswerCards.Add(card.GetComponent<BellQuestionCard>());
-            // card.GetComponent<BellQuestionCard>().SetQuestionCard(currentQuestionCards[i].GetQuestionCard(), true);
-            gameAnswers.Add(card.GetComponent<BellQuestionCard>().answer);
-        }
-
-        StartCoroutine(FlipCardsCo());
+        StartCoroutine(ShowCardsCo());
     }
 
-    IEnumerator FlipCardsCo() {
+    IEnumerator ShowCardsCo() {
         gameManager.Stopwatch(false);
         gameManager.IsControllable(false);
 
         float delay = CardsArrive();
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(delay + 1f);
 
-        yield return new WaitForSeconds(gameManager.previewWaitTime);
-        foreach (var card in currentQuestionCards) {
-            // card.GetComponent<BellQuestionCard>().FlipCard();
+        InstantiateAnswerCard();
+        yield return new WaitForSeconds(gameManager.previewWaitTime / 2);
+
+        MyFunctions.ShuffleQuestionCard(currentBellCards);
+        for (int i = 0; i < currentBellCards.Count; i++) {
+            gameManager.Stopwatch(false);
+            gameManager.IsControllable(false);
+
+            InstantiateQuestionCard(i);
+            yield return new WaitForSeconds(1f);
+
+            gameManager.Stopwatch(true);
+            gameManager.IsControllable(true);
+            yield return new WaitForSeconds(gameManager.previewWaitTime / 2);
+
+            gameManager.Stopwatch(false);
+            gameManager.IsControllable(false);
+            if (isCorrect) {
+                break;
+            }
         }
-        yield return new WaitForSeconds(1f);
 
-        foreach (var card in currentAnswerCards) {
-            // card.GetComponent<BellQuestionCard>().FlipCard();
-        }
-        yield return new WaitForSeconds(1f);
-
-        gameManager.IsControllable(true);
-        gameManager.Stopwatch(true);
+        IsCorrect();
     }
 
-    public void IsCorrect(string answer) {
-        playerAnswers.Add(answer);
-        selectedCards++;
-        if (selectedCards == currentAnswerCards.Count) {
+    public void IsCorrect() {
+        if (isCorrect && bellRing) {
+            score++;
+            gameManager.UpdateScoreText(score, totalRounds);
+            audioManager.PlayCorrectClip();
+            StartCoroutine(NextRoundCo());
+        } else {
+            audioManager.PlayWrongClip();
             StartCoroutine(NextRoundCo());
         }
     }
 
     IEnumerator NextRoundCo() {
-        gameManager.Stopwatch(false);
-        gameManager.IsControllable(false);
-
-        yield return new WaitForSeconds(1f);
-        int i = 0;
-        foreach (var answer in playerAnswers) {
-            if (gameAnswers.Contains(answer)) {
-                gameAnswers.Remove(answer);
-                i++;
-            }
-        }
-        if (i == answerSlots.Count()) {
-            score++;
-            gameManager.UpdateScoreText(score, totalRounds);
-            audioManager.PlayCorrectClip();
-        } else {
-            audioManager.PlayWrongClip();
-        }
         yield return new WaitForSeconds(1f);
 
         float delay = CardsLeave();
@@ -180,16 +141,52 @@ public class BellGameManager : MonoBehaviour {
     }
 
     private float CardsArrive() {
-        // answerSlotsPanel.GetComponent<Animator>().SetBool("on", true);
         questionSlotsPanel.GetComponent<Animator>().SetBool("on", true);
         float length = questionSlotsPanel.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
         return length;
     }
 
     private float CardsLeave() {
-        // answerSlotsPanel.GetComponent<Animator>().SetBool("on", false);
         questionSlotsPanel.GetComponent<Animator>().SetBool("on", false);
         float length = questionSlotsPanel.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
         return length;
+    }
+
+    private void InstantiateAnswerCard() {
+        Vector3 position = answerSlot.GetComponent<RectTransform>().anchoredPosition;
+        GameObject card = Instantiate(bellQuestionPrefab) as GameObject;
+        card.transform.SetParent(answerSlot.transform);
+        card.transform.localPosition = Vector3.zero;
+        card.transform.localScale = Vector3.one;
+
+        answerCard = card.GetComponent<BellQuestionCard>();
+        answerCard.SetQuestionCard(currentBellCards[0]);
+        audioManager.PlayCardDealSound();
+    }
+
+    private void InstantiateQuestionCard(int i) {
+        GameObject card = Instantiate(bellQuestionPrefab) as GameObject;
+        card.transform.SetParent(questionSlot.transform);
+        card.transform.localPosition = Vector3.zero;
+        card.transform.localScale = Vector3.one;
+
+        currentQuestionCards.Add(card.GetComponent<BellQuestionCard>());
+        card.GetComponent<BellQuestionCard>().SetQuestionCard(currentBellCards[i]);
+        audioManager.PlayCardDealSound();
+
+        if (currentQuestionCards.Last().answer == answerCard.answer) {
+            isCorrect = true;
+        }
+    }
+
+    public void RingBell() {
+        gameManager.Stopwatch(false);
+        gameManager.IsControllable(false);
+        StopAllCoroutines();
+
+        bell.GetComponent<Animator>().SetTrigger("ring");
+        bell.GetComponent<AudioSource>().Play();
+        bellRing = true;
+        IsCorrect();
     }
 }
