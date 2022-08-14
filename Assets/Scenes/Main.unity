@@ -6201,7 +6201,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 210, y: 0}
-  m_SizeDelta: {x: 270, y: -100}
+  m_SizeDelta: {x: 270, y: -30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1193702243
 MonoBehaviour:
@@ -6221,7 +6221,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: 0
+  m_Spacing: -40
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -7691,6 +7691,7 @@ MonoBehaviour:
   bellQuestionPrefab: {fileID: 2877412462082156803, guid: 75ef1ff1681f32945bcce4c149b48418, type: 3}
   questionSlotsPanel: {fileID: 1193702241}
   bell: {fileID: 1309443503}
+  waitTime: 1
 --- !u!1 &1444331047
 GameObject:
   m_ObjectHideFlags: 0
@@ -8654,7 +8655,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 125, y: 125}
+  m_SizeDelta: {x: 155, y: 125}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1642196099
 MonoBehaviour:
@@ -9328,7 +9329,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.38679248, g: 0.38679248, b: 0.38679248, a: 1}
+  m_Color: {r: 0.4528302, g: 0.4528302, b: 0.4528302, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -11266,7 +11267,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 127.79651, y: 117.38312}
+  m_SizeDelta: {x: 155, y: 125}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2129360160
 MonoBehaviour:

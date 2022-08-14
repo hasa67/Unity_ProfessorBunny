@@ -39,7 +39,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 130, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5289320241477120226
 CanvasRenderer:
@@ -92,8 +92,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardText: {fileID: 6861416648168709088}
-  backSprite: {fileID: 21300000, guid: 91d2e734e25781e4498c7df957bcf09c, type: 3}
-  frontSprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   answer: 
 --- !u!225 &4425255897943660647
 CanvasGroup:
@@ -162,7 +160,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: -50}
+  m_SizeDelta: {x: -20, y: -60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4665331380611785393
 CanvasRenderer:
@@ -205,7 +203,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u06A9\u0644\u0645\u0647"
+  m_Text: "\u06A9\u0644\u0645\u0647 \u0641\u0627\u0631\u0633\u064A"
 --- !u!114 &2753934109759144614
 MonoBehaviour:
   m_ObjectHideFlags: 0

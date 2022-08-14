@@ -10,22 +10,23 @@ public class BellGameManager : MonoBehaviour {
     public GameObject bellQuestionPrefab;
     public GameObject questionSlotsPanel;
     public GameObject bell;
+    public float waitTime;
 
-    public int score;
-    public int remainingRounds;
-    public int totalRounds;
-    public int gameLevel;
-    public int questionCardsCount = 5;
-    public bool isCorrect;
-    public bool bellRing;
-    public GameManager gameManager;
-    public List<QuestionCard> currentBellCards = new List<QuestionCard>();
-    public List<BellQuestionCard> currentQuestionCards = new List<BellQuestionCard>();
-    public BellQuestionCard answerCard;
-    public GameObject questionSlot;
-    public GameObject answerSlot;
-    public AudioManager audioManager;
-    public List<List<QuestionCard>> bellCards = new List<List<QuestionCard>>();
+    private int score;
+    private int remainingRounds;
+    private int totalRounds;
+    private int gameLevel;
+    private int questionCardsCount = 5;
+    private bool isCorrect;
+    private bool bellRing;
+    private GameManager gameManager;
+    private List<QuestionCard> currentBellCards = new List<QuestionCard>();
+    private List<BellQuestionCard> currentQuestionCards = new List<BellQuestionCard>();
+    private BellQuestionCard answerCard;
+    private GameObject questionSlot;
+    private GameObject answerSlot;
+    private AudioManager audioManager;
+    private List<List<QuestionCard>> bellCards = new List<List<QuestionCard>>();
 
 
     void Awake() {
@@ -91,25 +92,24 @@ public class BellGameManager : MonoBehaviour {
         gameManager.IsControllable(false);
 
         float delay = CardsArrive();
-        yield return new WaitForSeconds(delay + 1f);
-
         InstantiateAnswerCard();
-        yield return new WaitForSeconds(gameManager.previewWaitTime / 2);
+        yield return new WaitForSeconds(delay + 1f);
 
         MyFunctions.ShuffleQuestionCard(currentBellCards);
         for (int i = 0; i < currentBellCards.Count; i++) {
-            gameManager.Stopwatch(false);
             gameManager.IsControllable(false);
 
             InstantiateQuestionCard(i);
             yield return new WaitForSeconds(1f);
 
-            gameManager.Stopwatch(true);
             gameManager.IsControllable(true);
-            yield return new WaitForSeconds(gameManager.previewWaitTime / 2);
+            if (isCorrect) {
+                gameManager.Stopwatch(true);
+            }
 
-            gameManager.Stopwatch(false);
+            yield return new WaitForSeconds(waitTime);
             gameManager.IsControllable(false);
+
             if (isCorrect) {
                 break;
             }
@@ -119,20 +119,29 @@ public class BellGameManager : MonoBehaviour {
     }
 
     public void IsCorrect() {
-        if (isCorrect && bellRing) {
-            score++;
-            gameManager.UpdateScoreText(score, totalRounds);
-            audioManager.PlayCorrectClip();
-            StartCoroutine(NextRoundCo());
-        } else {
-            audioManager.PlayWrongClip();
-            StartCoroutine(NextRoundCo());
-        }
+        gameManager.Stopwatch(false);
+
+        StartCoroutine(NextRoundCo());
     }
 
     IEnumerator NextRoundCo() {
-        yield return new WaitForSeconds(1f);
 
+        if (isCorrect && bellRing) {
+            score++;
+            gameManager.UpdateScoreText(score, totalRounds);
+            yield return new WaitForSeconds(0.5f);
+            audioManager.PlayCorrectClip();
+            currentQuestionCards.Last().SetQuestionCardColor(true);
+        } else if (bellRing) {
+            yield return new WaitForSeconds(0.5f);
+            audioManager.PlayWrongClip();
+            currentQuestionCards.Last().SetQuestionCardColor(false);
+        } else {
+            audioManager.PlayWrongClip();
+            currentQuestionCards.Last().SetQuestionCardColor(false);
+        }
+
+        yield return new WaitForSeconds(1f);
         float delay = CardsLeave();
         yield return new WaitForSeconds(delay);
         yield return new WaitForSeconds(gameManager.roundsWaitTime);

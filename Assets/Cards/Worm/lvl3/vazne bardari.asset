@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: vazne bardari
   m_EditorClassIdentifier: 
   sprite: {fileID: 0}
-  answer: "\u0648\u0632\u0646\u0647 \u0628\u0631\u062F\u0627\u062F\u0631\u064A"
+  answer: "\u0648\u0632\u0646\u0647 \u0628\u0631\u062F\u0627\u0631\u064A"
   audioClip: {fileID: 0}
