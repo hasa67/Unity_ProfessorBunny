@@ -39,11 +39,14 @@ public class GameManager : MonoBehaviour {
     public List<Score> scoreList = new List<Score>();
     private int score;
     private PanelManager panelManager;
+    private AudioManager audioManager;
     private bool stopWatch;
     private float timer;
+    private string baseUrl = "https://docs.google.com/forms/u/0/d/e/1FAIpQLSdtfiPjd8YddVyV0anqfKGyKtB2WhrF62qJsPmlnzcH-aFxBQ/formResponse";
 
     private void Awake() {
         panelManager = FindObjectOfType<PanelManager>();
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     void Start() {
@@ -125,11 +128,33 @@ public class GameManager : MonoBehaviour {
         newScore.score = score;
         newScore.rounds = rounds;
         newScore.level = level;
-
         newScore.time = timer;
         scoreList.Add(newScore);
 
         ResetStopwatch();
+    }
+
+    public void UploadScore() {
+        if (scoreList.Count > 0) {
+            string scoreString = "";
+            for (int i = 0; i < scoreList.Count; i++) {
+                scoreString += scoreList[i].name + "," + scoreList[i].score.ToString() + "," + scoreList[i].rounds.ToString() + "," + scoreList[i].level.ToString() + "," + scoreList[i].time.ToString() + ",";
+            }
+            // Debug.Log(scoreString);
+            StartCoroutine(UploadScoreCo(scoreString));
+        } else {
+            audioManager.PlayWrongClip();
+        }
+    }
+
+    IEnumerator UploadScoreCo(string scoreString) {
+        WWWForm form = new WWWForm();
+        form.AddField("entry.1429677245", "test");
+        form.AddField("entry.454959095", scoreString);
+        byte[] rawData = form.data;
+        WWW www = new WWW(baseUrl, rawData);
+        yield return www;
+        audioManager.PlayCorrectClip();
     }
 
     public void IsControllable(bool isControllable) {
