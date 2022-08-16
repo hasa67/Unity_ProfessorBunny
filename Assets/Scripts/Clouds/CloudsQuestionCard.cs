@@ -27,6 +27,12 @@ public class CloudsQuestionCard : MonoBehaviour, IPointerDownHandler {
         cardText.text = answer;
     }
 
+    public void SetEmptyCloud() {
+        answer = "";
+        cardText.text = "";
+        image.color = new Color32(180, 180, 180, 255);
+    }
+
     public void WrongSelect() {
         image.color = new Color32(255, 0, 0, 255);
     }

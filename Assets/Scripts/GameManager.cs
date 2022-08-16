@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 
 public class GameManager : MonoBehaviour {
 
@@ -9,6 +10,7 @@ public class GameManager : MonoBehaviour {
     public Text timerText;
     public Slider levelSlider;
     public Text levelText;
+    public Button uploadButton;
     public TrainGameManager trainGameManager;
     public SandwichGameManager sandwichGameManager;
     public ReverseGameManager reverseGameManager;
@@ -17,6 +19,7 @@ public class GameManager : MonoBehaviour {
     public WormGameManager wormGameManager;
     public CloudsGameManager cloudsGameManeger;
     public BellGameManager bellGameManager;
+    public PhoneGameManager phoneGameManager;
     public float roundsWaitTime;
     public float previewWaitTime;
 
@@ -34,6 +37,9 @@ public class GameManager : MonoBehaviour {
     [Range(1, 3)] public int cloudsLevel;
     [Range(1, 5)] public int bellRounds;
     [Range(1, 3)] public int bellLevel;
+    [Range(1, 5)] public int phoneRounds;
+    [Range(1, 3)] public int phoneLevel;
+
 
 
     public List<Score> scoreList = new List<Score>();
@@ -42,7 +48,7 @@ public class GameManager : MonoBehaviour {
     private AudioManager audioManager;
     private bool stopWatch;
     private float timer;
-    private string baseUrl = "https://docs.google.com/forms/u/0/d/e/1FAIpQLSdtfiPjd8YddVyV0anqfKGyKtB2WhrF62qJsPmlnzcH-aFxBQ/formResponse";
+    private string formUrl = "https://docs.google.com/forms/u/0/d/e/1FAIpQLSdtfiPjd8YddVyV0anqfKGyKtB2WhrF62qJsPmlnzcH-aFxBQ/formResponse";
 
     private void Awake() {
         panelManager = FindObjectOfType<PanelManager>();
@@ -114,6 +120,11 @@ public class GameManager : MonoBehaviour {
         bellGameManager.StartGame(bellRounds, bellLevel);
     }
 
+    public void StartPhoneGame() {
+        panelManager.ShowPhonePanel();
+        // phoneGameManager.StartGame(phoneRounds, phoneLevel);
+    }
+
     public void EndGame() {
         panelManager.ShowMainPanel();
     }
@@ -138,23 +149,48 @@ public class GameManager : MonoBehaviour {
         if (scoreList.Count > 0) {
             string scoreString = "";
             for (int i = 0; i < scoreList.Count; i++) {
-                scoreString += scoreList[i].name + "," + scoreList[i].score.ToString() + "," + scoreList[i].rounds.ToString() + "," + scoreList[i].level.ToString() + "," + scoreList[i].time.ToString() + ",";
+                scoreString += scoreList[i].name + ",";
+                scoreString += scoreList[i].score.ToString() + ",";
+                scoreString += scoreList[i].rounds.ToString() + ",";
+                scoreString += scoreList[i].level.ToString() + ",";
+                scoreString += scoreList[i].time.ToString();
+                if (i != scoreList.Count - 1) {
+                    scoreString += "\n";
+                }
             }
             // Debug.Log(scoreString);
             StartCoroutine(UploadScoreCo(scoreString));
         } else {
+            // Debug.Log("score list empty");
             audioManager.PlayWrongClip();
         }
     }
 
     IEnumerator UploadScoreCo(string scoreString) {
+        Text buttonText = uploadButton.GetComponentInChildren<Text>();
+        buttonText.text = "uploading ...";
+        uploadButton.interactable = false;
+
         WWWForm form = new WWWForm();
         form.AddField("entry.1429677245", "test");
         form.AddField("entry.454959095", scoreString);
         byte[] rawData = form.data;
-        WWW www = new WWW(baseUrl, rawData);
-        yield return www;
-        audioManager.PlayCorrectClip();
+
+        UnityWebRequest www = UnityWebRequest.Post(formUrl, form);
+        yield return www.SendWebRequest();
+        if (www.result == UnityWebRequest.Result.ConnectionError) {
+            Debug.Log(www.error);
+            buttonText.text = "error!";
+            audioManager.PlayWrongClip();
+        } else {
+            Debug.Log("upload completed");
+            buttonText.text = "done!";
+            audioManager.PlayCorrectClip();
+        }
+
+        yield return new WaitForSeconds(2f);
+        uploadButton.interactable = true;
+        buttonText.text = "Upload";
     }
 
     public void IsControllable(bool isControllable) {

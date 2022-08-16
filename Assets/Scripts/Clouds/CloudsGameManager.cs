@@ -75,7 +75,8 @@ public class CloudsGameManager : MonoBehaviour {
         }
         remainingRounds--;
 
-        questionSlots = questionSlots.OrderBy(go => go.name).ToList();
+        // questionSlots = questionSlots.OrderBy(go => go.name).ToList();
+        MyFunctions.ShuffleGameObjects(questionSlots);
         MyFunctions.ShuffleQuestionCard(cloudsCards[gameLevel - 1]);
         answerCard = cloudsCards[gameLevel - 1][questionSlots.Count - 1];
 
@@ -152,14 +153,17 @@ public class CloudsGameManager : MonoBehaviour {
         if (j == 0) {
             MyFunctions.ShuffleGameObjects(questionSlots);
         }
-        for (int i = 0; i < questionSlots.Count - j; i++) {
+        for (int i = 0; i < questionSlots.Count; i++) {
             GameObject card = Instantiate(cloudsQuestionPrefab) as GameObject;
             card.transform.SetParent(questionSlots[i].transform);
-            card.transform.localPosition = Vector3.zero;
+            card.transform.localPosition = new Vector3(0, Random.Range(-20f, 20f), 0);
             card.transform.localScale = Vector3.one;
-
             currentQuestionCards.Add(card.GetComponent<CloudsQuestionCard>());
-            card.GetComponent<CloudsQuestionCard>().SetQuestionCard(cloudsCards[gameLevel - 1][i]);
+            if (i == questionSlots.Count - 1 && j == 1) {
+                card.GetComponent<CloudsQuestionCard>().SetEmptyCloud();
+            } else {
+                card.GetComponent<CloudsQuestionCard>().SetQuestionCard(cloudsCards[gameLevel - 1][i]);
+            }
         }
     }
 
