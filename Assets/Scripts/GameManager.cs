@@ -6,6 +6,7 @@ using UnityEngine.Networking;
 
 public class GameManager : MonoBehaviour {
 
+    public string playerName = "testPlayer";
     public Text scoreText;
     public Text timerText;
     public Slider levelSlider;
@@ -172,7 +173,7 @@ public class GameManager : MonoBehaviour {
         uploadButton.interactable = false;
 
         WWWForm form = new WWWForm();
-        form.AddField("entry.1429677245", "test");
+        form.AddField("entry.1429677245", playerName);
         form.AddField("entry.454959095", scoreString);
         byte[] rawData = form.data;
 
