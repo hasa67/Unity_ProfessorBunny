@@ -123,7 +123,7 @@ public class GameManager : MonoBehaviour {
 
     public void StartPhoneGame() {
         panelManager.ShowPhonePanel();
-        // phoneGameManager.StartGame(phoneRounds, phoneLevel);
+        phoneGameManager.StartGame(phoneRounds, phoneLevel);
     }
 
     public void EndGame() {
