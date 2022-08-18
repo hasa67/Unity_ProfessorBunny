@@ -74,6 +74,7 @@ public class GameManager : MonoBehaviour {
         wormLevel = Mathf.RoundToInt(levelSlider.value);
         cloudsLevel = Mathf.RoundToInt(levelSlider.value);
         bellLevel = Mathf.RoundToInt(levelSlider.value);
+        phoneLevel = Mathf.RoundToInt(levelSlider.value);
     }
 
     public void StartTrainGame() {
