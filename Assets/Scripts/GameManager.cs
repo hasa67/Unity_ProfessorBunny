@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour {
     public Text timerText;
     public Slider levelSlider;
     public Text levelText;
+    public Slider roundsSlider;
+    public Text roundsText;
     public Button uploadButton;
     public TrainGameManager trainGameManager;
     public SandwichGameManager sandwichGameManager;
@@ -21,27 +23,12 @@ public class GameManager : MonoBehaviour {
     public CloudsGameManager cloudsGameManeger;
     public BellGameManager bellGameManager;
     public PhoneGameManager phoneGameManager;
+    public RhymeGameManager rhymeGameManager;
     public float roundsWaitTime;
     public float previewWaitTime;
 
-    [Range(1, 5)] public int trainRounds;
-    [Range(1, 5)] public int sandwichRounds;
-    [Range(1, 5)] public int reverseRounds;
-    [Range(1, 2)] public int reverseLevel;
-    [Range(1, 5)] public int pairsRounds;
-    [Range(1, 3)] public int pairsLevel;
-    [Range(1, 5)] public int colorsRounds;
-    [Range(1, 3)] public int colorsLevel;
-    [Range(1, 5)] public int wormRounds;
-    [Range(1, 3)] public int wormLevel;
-    [Range(1, 5)] public int cloudsRounds;
-    [Range(1, 3)] public int cloudsLevel;
-    [Range(1, 5)] public int bellRounds;
-    [Range(1, 3)] public int bellLevel;
-    [Range(1, 5)] public int phoneRounds;
-    [Range(1, 3)] public int phoneLevel;
-
-
+    [Range(1, 10)] public int rounds;
+    [Range(1, 3)] public int level;
 
     public List<Score> scoreList = new List<Score>();
     private int score;
@@ -68,63 +55,65 @@ public class GameManager : MonoBehaviour {
         timerText.text = timer.ToString();
 
         levelText.text = "Level " + levelSlider.value.ToString();
-        reverseLevel = Mathf.RoundToInt(levelSlider.value);
-        pairsLevel = Mathf.RoundToInt(levelSlider.value);
-        colorsLevel = Mathf.RoundToInt(levelSlider.value);
-        wormLevel = Mathf.RoundToInt(levelSlider.value);
-        cloudsLevel = Mathf.RoundToInt(levelSlider.value);
-        bellLevel = Mathf.RoundToInt(levelSlider.value);
-        phoneLevel = Mathf.RoundToInt(levelSlider.value);
+        level = Mathf.RoundToInt(levelSlider.value);
+
+        roundsText.text = roundsSlider.value.ToString() + " Rounds";
+        rounds = Mathf.RoundToInt(roundsSlider.value);
     }
 
     public void StartTrainGame() {
         panelManager.ShowTrainPanel();
-        trainGameManager.StartGame(trainRounds);
+        trainGameManager.StartGame(rounds);
     }
 
     public void StartSandwichGame() {
         panelManager.ShowSandwichPanel();
-        sandwichGameManager.StartGame(sandwichRounds);
+        sandwichGameManager.StartGame(rounds);
     }
 
     public void StartReverseGame() {
         panelManager.ShowReversePanel();
-        reverseGameManager.StartGame(reverseRounds, reverseLevel);
+        reverseGameManager.StartGame(rounds, level);
     }
 
     public void StartPairsGame() {
         panelManager.ShowPairsPanel();
-        pairsGameManager.StartGame(pairsRounds, pairsLevel);
+        pairsGameManager.StartGame(rounds, level);
     }
 
     public void StratColorsGame() {
         panelManager.ShowColorsPanel();
-        colorsGameManager.StartGame(colorsRounds, colorsLevel);
+        colorsGameManager.StartGame(rounds, level);
     }
 
     public void StratWormGame() {
         panelManager.ShowWormPanel();
-        wormGameManager.StartGame(wormRounds, wormLevel);
+        wormGameManager.StartGame(rounds, level);
     }
 
     public void StartCloudsGame1() {
         panelManager.ShowCloudsPanel();
-        cloudsGameManeger.StartGame(cloudsRounds, cloudsLevel, 1);
+        cloudsGameManeger.StartGame(rounds, level, 1);
     }
 
     public void StartCloudsGame2() {
         panelManager.ShowCloudsPanel();
-        cloudsGameManeger.StartGame(cloudsRounds, cloudsLevel, 2);
+        cloudsGameManeger.StartGame(rounds, level, 2);
     }
 
     public void StartBellGame() {
         panelManager.ShowBellPanel();
-        bellGameManager.StartGame(bellRounds, bellLevel);
+        bellGameManager.StartGame(rounds, level);
     }
 
     public void StartPhoneGame() {
         panelManager.ShowPhonePanel();
-        phoneGameManager.StartGame(phoneRounds, phoneLevel);
+        phoneGameManager.StartGame(rounds, level);
+    }
+
+    public void StartRhymeGame() {
+        panelManager.ShowRhymePanel();
+        rhymeGameManager.StartGame(rounds);
     }
 
     public void EndGame() {
