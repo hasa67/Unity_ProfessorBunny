@@ -8,6 +8,7 @@ public class TrainQuestionCard : MonoBehaviour, IPointerDownHandler, IBeginDragH
 
     public string answer;
     public TrainAnswerSlot answerSlot;
+    public Image cardImage;
 
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
@@ -33,7 +34,7 @@ public class TrainQuestionCard : MonoBehaviour, IPointerDownHandler, IBeginDragH
     }
 
     public void OnPointerDown(PointerEventData eventData) {
-        canvasGroup.alpha = 0.6f;
+        // canvasGroup.alpha = 0.6f;
         rectTransform.localScale = Vector3.one * 1.3f;
 
         if (answerSlot != null) {
@@ -47,7 +48,7 @@ public class TrainQuestionCard : MonoBehaviour, IPointerDownHandler, IBeginDragH
     }
 
     public void OnPointerUp(PointerEventData eventData) {
-        canvasGroup.alpha = 1f;
+        // canvasGroup.alpha = 1f;
         rectTransform.localScale = Vector3.one;
     }
 
@@ -79,7 +80,7 @@ public class TrainQuestionCard : MonoBehaviour, IPointerDownHandler, IBeginDragH
 
     public void SetQuestionCard(QuestionCard card) {
         answer = card.answer;
-        GetComponent<Image>().sprite = card.sprite;
+        cardImage.sprite = card.sprite;
         audioSource.clip = card.audioClip;
     }
 
