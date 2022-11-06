@@ -27,4 +27,10 @@ public class AudioManager : MonoBehaviour {
         audioSource.clip = cardDealClip[Random.Range(0, cardDealClip.Length)];
         audioSource.Play();
     }
+
+    public float PlayThisClip(AudioClip newClip) {
+        audioSource.clip = newClip;
+        audioSource.Play();
+        return audioSource.clip.length;
+    }
 }

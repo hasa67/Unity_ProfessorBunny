@@ -6,45 +6,69 @@ using UnityEngine.Networking;
 
 public class GameManager : MonoBehaviour {
 
-    public string playerName = "testPlayer";
+    public string playerName;
     public Text scoreText;
     public Text timerText;
+    public Text playerNameText;
     public Slider levelSlider;
     public Text levelText;
     public Slider roundsSlider;
     public Text roundsText;
     public Button uploadButton;
-    public TrainGameManager trainGameManager;
-    public SandwichGameManager sandwichGameManager;
-    public ReverseGameManager reverseGameManager;
-    public PairsGameManager pairsGameManager;
-    public ColorsGameManager colorsGameManager;
-    public WormGameManager wormGameManager;
-    public CloudsGameManager cloudsGameManeger;
-    public BellGameManager bellGameManager;
-    public PhoneGameManager phoneGameManager;
-    public RhymeGameManager rhymeGameManager;
     public float roundsWaitTime;
     public float previewWaitTime;
+    public Button startButton;
 
     [Range(1, 10)] public int rounds;
     [Range(1, 3)] public int level;
 
-    public List<Score> scoreList = new List<Score>();
+    public Image bunnyImageHolder;
+    public Sprite[] bunnySprites;
+    public AudioClip helpClip;
+    public AudioClip sandwichClip;
+    public AudioClip reverseClip;
+
+    [HideInInspector] public TrainGameManager trainGameManager;
+    [HideInInspector] public SandwichGameManager sandwichGameManager;
+    [HideInInspector] public ReverseGameManager reverseGameManager;
+    [HideInInspector] public PairsGameManager pairsGameManager;
+    [HideInInspector] public ColorsGameManager colorsGameManager;
+    [HideInInspector] public WormGameManager wormGameManager;
+    [HideInInspector] public CloudsGameManager cloudsGameManeger;
+    [HideInInspector] public BellGameManager bellGameManager;
+    [HideInInspector] public PhoneGameManager phoneGameManager;
+    [HideInInspector] public RhymeGameManager rhymeGameManager;
+
+    private List<Score> scoreList = new List<Score>();
     private int score;
     private PanelManager panelManager;
     private AudioManager audioManager;
+    private string currentGameName;
     private bool stopWatch;
     private float timer;
     private string formUrl = "https://docs.google.com/forms/u/0/d/e/1FAIpQLSdtfiPjd8YddVyV0anqfKGyKtB2WhrF62qJsPmlnzcH-aFxBQ/formResponse";
 
     private void Awake() {
+        // PlayerPrefs.DeleteAll();
+
         panelManager = FindObjectOfType<PanelManager>();
         audioManager = FindObjectOfType<AudioManager>();
     }
 
     void Start() {
+        playerName = PlayerPrefs.GetString("PlayerName");
+        if (playerName == "") {
+            panelManager.ShowLoginPanel();
+        } else {
+            Initialize();
+        }
+    }
+
+    public void Initialize() {
+        playerName = PlayerPrefs.GetString("PlayerName");
         panelManager.ShowMainPanel();
+        playerNameText.text = playerName;
+
         Stopwatch(false);
     }
 
@@ -66,14 +90,50 @@ public class GameManager : MonoBehaviour {
         trainGameManager.StartGame(rounds);
     }
 
+    private void ShowPausePanel() {
+        panelManager.ShowPausePanel();
+        startButton.interactable = false;
+        bunnyImageHolder.sprite = bunnySprites[Random.Range(0, bunnySprites.Length)];
+    }
+
     public void StartSandwichGame() {
-        panelManager.ShowSandwichPanel();
-        sandwichGameManager.StartGame(rounds);
+        ShowPausePanel();
+        StartCoroutine(StartSandwichGameCo());
+    }
+
+    IEnumerator StartSandwichGameCo() {
+        currentGameName = "sandwich";
+        float waitTime = audioManager.PlayThisClip(sandwichClip);
+        yield return new WaitForSeconds(waitTime);
+        startButton.interactable = true;
     }
 
     public void StartReverseGame() {
-        panelManager.ShowReversePanel();
-        reverseGameManager.StartGame(rounds, level);
+        ShowPausePanel();
+        StartCoroutine(StartReverseGameCo());
+    }
+
+    IEnumerator StartReverseGameCo() {
+        currentGameName = "reverse";
+        float waitTime = audioManager.PlayThisClip(reverseClip);
+        yield return new WaitForSeconds(waitTime);
+        startButton.interactable = true;
+    }
+
+    public void StartGameButton() {
+        switch (currentGameName) {
+            case "sandwich":
+                panelManager.ShowSandwichPanel();
+                sandwichGameManager.StartGame(rounds);
+                break;
+            case "reverse":
+                panelManager.ShowReversePanel();
+                reverseGameManager.StartGame(rounds, level);
+                break;
+            default:
+                break;
+        }
+
     }
 
     public void StartPairsGame() {
@@ -81,12 +141,12 @@ public class GameManager : MonoBehaviour {
         pairsGameManager.StartGame(rounds, level);
     }
 
-    public void StratColorsGame() {
+    public void StartColorsGame() {
         panelManager.ShowColorsPanel();
         colorsGameManager.StartGame(rounds, level);
     }
 
-    public void StratWormGame() {
+    public void StartWormGame() {
         panelManager.ShowWormPanel();
         wormGameManager.StartGame(rounds, level);
     }

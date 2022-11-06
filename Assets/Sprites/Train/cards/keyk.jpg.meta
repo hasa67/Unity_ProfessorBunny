@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 9ccaeb29e09bee646bfb61a7e06c4c35
+guid: 7abf1c0e328e0de4991d625fa6911b2a
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -109,10 +109,10 @@ TextureImporter:
       name: keyk_0
       rect:
         serializedVersion: 2
-        x: 107
-        y: 79
-        width: 285
-        height: 351
+        x: 87
+        y: 102
+        width: 324
+        height: 300
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

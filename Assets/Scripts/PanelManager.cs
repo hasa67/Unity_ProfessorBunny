@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PanelManager : MonoBehaviour {
+    public GameObject loginPanel;
     public GameObject mainPanel;
     public GameObject trainPanel;
     public GameObject blockPanel;
@@ -15,11 +16,13 @@ public class PanelManager : MonoBehaviour {
     public GameObject bellPanel;
     public GameObject phonePanel;
     public GameObject rhymePanel;
+    public GameObject pausePanel;
 
     private List<GameObject> panelsList = new List<GameObject>();
     private GameManager gameManager;
 
     private void Awake() {
+        panelsList.Add(loginPanel);
         panelsList.Add(mainPanel);
         panelsList.Add(trainPanel);
         panelsList.Add(sandwichPanel);
@@ -32,6 +35,7 @@ public class PanelManager : MonoBehaviour {
         panelsList.Add(bellPanel);
         panelsList.Add(phonePanel);
         panelsList.Add(rhymePanel);
+        panelsList.Add(pausePanel);
 
         gameManager = FindObjectOfType<GameManager>();
     }
@@ -42,9 +46,19 @@ public class PanelManager : MonoBehaviour {
         }
     }
 
+    public void ShowLoginPanel() {
+        HideAllPanels();
+        loginPanel.SetActive(true);
+    }
+
     public void ShowMainPanel() {
         HideAllPanels();
         mainPanel.SetActive(true);
+    }
+
+    public void ShowPausePanel() {
+        HideAllPanels();
+        pausePanel.SetActive(true);
     }
 
     public void ShowTrainPanel() {
