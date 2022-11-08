@@ -18,15 +18,13 @@ public class GameManager : MonoBehaviour {
     public float roundsWaitTime;
     public float previewWaitTime;
     public Button startButton;
+    public Button repeatButton;
 
     [Range(1, 10)] public int rounds;
     [Range(1, 3)] public int level;
 
     public Image bunnyImageHolder;
     public Sprite[] bunnySprites;
-    public AudioClip helpClip;
-    public AudioClip sandwichClip;
-    public AudioClip reverseClip;
 
     [HideInInspector] public TrainGameManager trainGameManager;
     [HideInInspector] public SandwichGameManager sandwichGameManager;
@@ -43,6 +41,7 @@ public class GameManager : MonoBehaviour {
     private int score;
     private PanelManager panelManager;
     private AudioManager audioManager;
+    private VideoManager videoManager;
     private string currentGameName;
     private bool stopWatch;
     private float timer;
@@ -53,6 +52,7 @@ public class GameManager : MonoBehaviour {
 
         panelManager = FindObjectOfType<PanelManager>();
         audioManager = FindObjectOfType<AudioManager>();
+        videoManager = FindObjectOfType<VideoManager>();
     }
 
     void Start() {
@@ -85,43 +85,17 @@ public class GameManager : MonoBehaviour {
         rounds = Mathf.RoundToInt(roundsSlider.value);
     }
 
-    public void StartTrainGame() {
-        panelManager.ShowTrainPanel();
-        trainGameManager.StartGame(rounds);
-    }
-
     private void ShowPausePanel() {
         panelManager.ShowPausePanel();
-        startButton.interactable = false;
         bunnyImageHolder.sprite = bunnySprites[Random.Range(0, bunnySprites.Length)];
-    }
-
-    public void StartSandwichGame() {
-        ShowPausePanel();
-        StartCoroutine(StartSandwichGameCo());
-    }
-
-    IEnumerator StartSandwichGameCo() {
-        currentGameName = "sandwich";
-        float waitTime = audioManager.PlayThisClip(sandwichClip);
-        yield return new WaitForSeconds(waitTime);
-        startButton.interactable = true;
-    }
-
-    public void StartReverseGame() {
-        ShowPausePanel();
-        StartCoroutine(StartReverseGameCo());
-    }
-
-    IEnumerator StartReverseGameCo() {
-        currentGameName = "reverse";
-        float waitTime = audioManager.PlayThisClip(reverseClip);
-        yield return new WaitForSeconds(waitTime);
-        startButton.interactable = true;
     }
 
     public void StartGameButton() {
         switch (currentGameName) {
+            case "train":
+                panelManager.ShowTrainPanel();
+                trainGameManager.StartGame(rounds);
+                break;
             case "sandwich":
                 panelManager.ShowSandwichPanel();
                 sandwichGameManager.StartGame(rounds);
@@ -131,9 +105,48 @@ public class GameManager : MonoBehaviour {
                 reverseGameManager.StartGame(rounds, level);
                 break;
             default:
+                Debug.Log("StartGameButton: currentGameName not found!");
                 break;
         }
+    }
 
+    public void RepeatHelpVoice() {
+        StartCoroutine(StartGameCo());
+    }
+
+    IEnumerator StartGameCo() {
+        audioManager.SetGameClip(currentGameName);
+        videoManager.SetVideoClip(currentGameName);
+
+        startButton.interactable = false;
+        repeatButton.interactable = false;
+
+        float waitTime = audioManager.PlayClip();
+        yield return new WaitForSeconds(waitTime);
+        yield return new WaitForSeconds(0.5f);
+        waitTime = audioManager.PlayHelpClip();
+        yield return new WaitForSeconds(waitTime);
+
+        startButton.interactable = true;
+        repeatButton.interactable = true;
+    }
+
+    public void StartTrainGame() {
+        ShowPausePanel();
+        currentGameName = "train";
+        StartCoroutine(StartGameCo());
+    }
+
+    public void StartSandwichGame() {
+        ShowPausePanel();
+        currentGameName = "sandwich";
+        StartCoroutine(StartGameCo());
+    }
+
+    public void StartReverseGame() {
+        ShowPausePanel();
+        currentGameName = "reverse";
+        StartCoroutine(StartGameCo());
     }
 
     public void StartPairsGame() {

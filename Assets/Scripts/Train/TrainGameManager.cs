@@ -40,6 +40,7 @@ public class TrainGameManager : MonoBehaviour {
         score = 0;
         gameManager.UpdateScoreText(score, totalRounds);
 
+        currentTrainCards.Clear();
         foreach (var card in trainCards) {
             currentTrainCards.Add(card);
         }
