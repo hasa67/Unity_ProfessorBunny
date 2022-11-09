@@ -57,4 +57,9 @@ public class AudioManager : MonoBehaviour {
         helpAudioSource.Play();
         return helpClip.length;
     }
+
+    public void StopPlay() {
+        audioSource.Stop();
+        helpAudioSource.Stop();
+    }
 }

@@ -6,19 +6,17 @@ using UnityEngine.EventSystems;
 
 public class ReverseQuestionCard : MonoBehaviour, IPointerDownHandler {
 
+    public string answer;
+    public Image cardImage;
+    public Image backImage;
+
     private ReverseGameManager reverseGameManager;
     private QuestionCard card;
-    private Image image;
-    private Sprite frontSprite;
     private bool isControllable;
-
-    public Sprite backSprite;
-    public string answer;
 
 
     private void Awake() {
         reverseGameManager = FindObjectOfType<ReverseGameManager>();
-        image = GetComponent<Image>();
         isControllable = true;
     }
 
@@ -38,23 +36,23 @@ public class ReverseQuestionCard : MonoBehaviour, IPointerDownHandler {
         GetComponent<Animator>().SetTrigger("flip");
         yield return new WaitForSeconds(0.5f);
 
-        if (image.sprite == frontSprite) {
-            image.sprite = backSprite;
+        if (backImage.enabled == false) {
+            backImage.enabled = true;
         } else {
-            image.sprite = frontSprite;
+            backImage.enabled = false;
         }
     }
 
     public void SetQuestionCard(QuestionCard inputCard, bool isBacked) {
         card = inputCard;
         answer = card.answer;
-        frontSprite = card.sprite;
+        cardImage.sprite = card.sprite;
 
         if (isBacked) {
-            GetComponent<Image>().sprite = backSprite;
+            backImage.enabled = true;
             isControllable = false;
         } else {
-            GetComponent<Image>().sprite = frontSprite;
+            backImage.enabled = false;
             isControllable = true;
         }
     }

@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour {
     private PanelManager panelManager;
     private AudioManager audioManager;
     private VideoManager videoManager;
+    private Coroutine helpCoroutine;
     private string currentGameName;
     private bool stopWatch;
     private float timer;
@@ -91,6 +92,10 @@ public class GameManager : MonoBehaviour {
     }
 
     public void StartGameButton() {
+        StopCoroutine(helpCoroutine);
+        audioManager.StopPlay();
+        videoManager.ClearVideoClip();
+
         switch (currentGameName) {
             case "train":
                 panelManager.ShowTrainPanel();
@@ -104,6 +109,10 @@ public class GameManager : MonoBehaviour {
                 panelManager.ShowReversePanel();
                 reverseGameManager.StartGame(rounds, level);
                 break;
+            case "colors":
+                panelManager.ShowColorsPanel();
+                colorsGameManager.StartGame(rounds, level);
+                break;
             default:
                 Debug.Log("StartGameButton: currentGameName not found!");
                 break;
@@ -111,42 +120,38 @@ public class GameManager : MonoBehaviour {
     }
 
     public void RepeatHelpVoice() {
-        StartCoroutine(StartGameCo());
+        StopCoroutine(helpCoroutine);
+        audioManager.StopPlay();
+        helpCoroutine = StartCoroutine(StartGameCo());
     }
 
     IEnumerator StartGameCo() {
         audioManager.SetGameClip(currentGameName);
         videoManager.SetVideoClip(currentGameName);
 
-        startButton.interactable = false;
-        repeatButton.interactable = false;
-
         float waitTime = audioManager.PlayClip();
         yield return new WaitForSeconds(waitTime);
         yield return new WaitForSeconds(0.5f);
         waitTime = audioManager.PlayHelpClip();
         yield return new WaitForSeconds(waitTime);
-
-        startButton.interactable = true;
-        repeatButton.interactable = true;
     }
 
     public void StartTrainGame() {
         ShowPausePanel();
         currentGameName = "train";
-        StartCoroutine(StartGameCo());
+        helpCoroutine = StartCoroutine(StartGameCo());
     }
 
     public void StartSandwichGame() {
         ShowPausePanel();
         currentGameName = "sandwich";
-        StartCoroutine(StartGameCo());
+        helpCoroutine = StartCoroutine(StartGameCo());
     }
 
     public void StartReverseGame() {
         ShowPausePanel();
         currentGameName = "reverse";
-        StartCoroutine(StartGameCo());
+        helpCoroutine = StartCoroutine(StartGameCo());
     }
 
     public void StartPairsGame() {
@@ -155,8 +160,9 @@ public class GameManager : MonoBehaviour {
     }
 
     public void StartColorsGame() {
-        panelManager.ShowColorsPanel();
-        colorsGameManager.StartGame(rounds, level);
+        ShowPausePanel();
+        currentGameName = "colors";
+        helpCoroutine = StartCoroutine(StartGameCo());
     }
 
     public void StartWormGame() {
