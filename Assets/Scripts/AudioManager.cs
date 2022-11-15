@@ -14,6 +14,8 @@ public class AudioManager : MonoBehaviour {
     public AudioClip trainClip;
     public AudioClip sandwichClip;
     public AudioClip reverseClip;
+    public AudioClip pairsClip;
+    public AudioClip colorsClip;
 
 
     public void PlayCorrectClip() {
@@ -41,6 +43,12 @@ public class AudioManager : MonoBehaviour {
                 break;
             case "reverse":
                 audioSource.clip = reverseClip;
+                break;
+            case "pairs":
+                audioSource.clip = pairsClip;
+                break;
+            case "colors":
+                audioSource.clip = colorsClip;
                 break;
             default:
                 Debug.Log("SetGameClip: gameName not found!");
