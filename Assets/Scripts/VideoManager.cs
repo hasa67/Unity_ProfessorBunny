@@ -9,6 +9,7 @@ public class VideoManager : MonoBehaviour {
     public VideoClip trainClip;
     public VideoClip sandwichClip;
     public VideoClip reverseClip;
+    public VideoClip pairsClip;
     public VideoClip colorsClip;
 
     public void SetVideoClip(string gameName) {
@@ -21,6 +22,9 @@ public class VideoManager : MonoBehaviour {
                 break;
             case "reverse":
                 videoPlayer.clip = reverseClip;
+                break;
+            case "pairs":
+                videoPlayer.clip = pairsClip;
                 break;
             case "colors":
                 videoPlayer.clip = colorsClip;

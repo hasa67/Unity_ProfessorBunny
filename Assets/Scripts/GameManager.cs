@@ -109,6 +109,10 @@ public class GameManager : MonoBehaviour {
                 panelManager.ShowReversePanel();
                 reverseGameManager.StartGame(rounds, level);
                 break;
+            case "pairs":
+                panelManager.ShowPairsPanel();
+                pairsGameManager.StartGame(rounds, level);
+                break;
             case "colors":
                 panelManager.ShowColorsPanel();
                 colorsGameManager.StartGame(rounds, level);
@@ -155,8 +159,9 @@ public class GameManager : MonoBehaviour {
     }
 
     public void StartPairsGame() {
-        panelManager.ShowPairsPanel();
-        pairsGameManager.StartGame(rounds, level);
+        ShowPausePanel();
+        currentGameName = "pairs";
+        helpCoroutine = StartCoroutine(StartGameCo());
     }
 
     public void StartColorsGame() {
