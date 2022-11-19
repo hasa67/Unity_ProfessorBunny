@@ -8,6 +8,7 @@ public class ReverseGameManager : MonoBehaviour {
     public GameObject reverseQuestionPrefab;
     public GameObject answerSlotsPanel;
     public GameObject questionSlotsPanel;
+    public float cardFlipTime;
 
     private int score;
     private int selectedCards;
@@ -120,16 +121,16 @@ public class ReverseGameManager : MonoBehaviour {
         float delay = CardsArrive();
         yield return new WaitForSeconds(delay);
 
-        yield return new WaitForSeconds(gameManager.previewWaitTime);
+        yield return new WaitForSeconds(gameManager.previewWaitTime / 2);
         foreach (var card in currentQuestionCards) {
             card.GetComponent<ReverseQuestionCard>().FlipCard();
         }
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(cardFlipTime);
 
         foreach (var card in currentAnswerCards) {
             card.GetComponent<ReverseQuestionCard>().FlipCard();
         }
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(cardFlipTime);
 
         gameManager.IsControllable(true);
         gameManager.Stopwatch(true);
@@ -147,7 +148,7 @@ public class ReverseGameManager : MonoBehaviour {
         gameManager.Stopwatch(false);
         gameManager.IsControllable(false);
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(cardFlipTime);
         int i = 0;
         foreach (var answer in playerAnswers) {
             if (gameAnswers.Contains(answer)) {

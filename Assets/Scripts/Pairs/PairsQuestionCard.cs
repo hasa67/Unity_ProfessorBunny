@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class PairsQuestionCard : MonoBehaviour, IPointerDownHandler {
+public class PairsQuestionCard : MonoBehaviour, IPointerDownHandler
+{
 
     public string answer;
     public Image cardImage;
@@ -13,36 +14,52 @@ public class PairsQuestionCard : MonoBehaviour, IPointerDownHandler {
     private PairsGameManager pairsGameManager;
     private QuestionCard card;
     private bool isControllable;
+    private float flipTime;
 
-    private void Awake() {
+    private void Awake()
+    {
         pairsGameManager = FindObjectOfType<PairsGameManager>();
         isControllable = true;
+        flipTime = GetComponent<Animator>().runtimeAnimatorController.animationClips[0].length;
+
+        if (pairsGameManager.cardFlipTime != flipTime)
+        {
+            pairsGameManager.cardFlipTime = flipTime;
+        }
     }
 
-    public void OnPointerDown(PointerEventData eventData) {
-        if (isControllable) {
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        if (isControllable)
+        {
             FlipCard(false);
             pairsGameManager.AddSelectedCard(this);
         }
     }
 
-    public void FlipCard(bool isFlippable) {
+    public void FlipCard(bool isFlippable)
+    {
         isControllable = isFlippable;
         StartCoroutine(FlipCardCo());
     }
 
-    IEnumerator FlipCardCo() {
+    IEnumerator FlipCardCo()
+    {
         GetComponent<Animator>().SetTrigger("flip");
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(flipTime / 2);
 
-        if (backImage.enabled == false) {
+        if (backImage.enabled == false)
+        {
             backImage.enabled = true;
-        } else {
+        }
+        else
+        {
             backImage.enabled = false;
         }
     }
 
-    public void SetQuestionCard(QuestionCard inputCard) {
+    public void SetQuestionCard(QuestionCard inputCard)
+    {
         card = inputCard;
         answer = card.answer;
         cardImage.sprite = card.sprite;

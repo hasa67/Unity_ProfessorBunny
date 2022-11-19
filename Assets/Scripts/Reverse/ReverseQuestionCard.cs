@@ -13,11 +13,17 @@ public class ReverseQuestionCard : MonoBehaviour, IPointerDownHandler {
     private ReverseGameManager reverseGameManager;
     private QuestionCard card;
     private bool isControllable;
+    private float flipTime;
 
 
     private void Awake() {
         reverseGameManager = FindObjectOfType<ReverseGameManager>();
         isControllable = true;
+        flipTime = GetComponent<Animator>().runtimeAnimatorController.animationClips[0].length;
+
+        if (reverseGameManager.cardFlipTime != flipTime) {
+            reverseGameManager.cardFlipTime = flipTime;
+        }
     }
 
     public void OnPointerDown(PointerEventData eventData) {
@@ -34,7 +40,7 @@ public class ReverseQuestionCard : MonoBehaviour, IPointerDownHandler {
 
     IEnumerator FlipCardCo() {
         GetComponent<Animator>().SetTrigger("flip");
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(flipTime / 2);
 
         if (backImage.enabled == false) {
             backImage.enabled = true;
