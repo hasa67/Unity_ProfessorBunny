@@ -31,7 +31,7 @@ public class ColorsQuestionCard : MonoBehaviour, IPointerDownHandler, IBeginDrag
     }
 
     public void OnPointerDown(PointerEventData eventData) {
-        canvasGroup.alpha = 0.6f;
+        // canvasGroup.alpha = 0.6f;
         rectTransform.localScale = Vector3.one * 1.3f;
 
         if (answerSlot != null) {
@@ -44,7 +44,7 @@ public class ColorsQuestionCard : MonoBehaviour, IPointerDownHandler, IBeginDrag
     }
 
     public void OnPointerUp(PointerEventData eventData) {
-        canvasGroup.alpha = 1f;
+        // canvasGroup.alpha = 1f;
         rectTransform.localScale = Vector3.one;
     }
 

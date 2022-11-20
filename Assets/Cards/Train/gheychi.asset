@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: gheychi
   m_EditorClassIdentifier: 
   sprite: {fileID: 8368299879446683121, guid: a73e1aa7c16fc89469b43b00b404be73, type: 3}
-  answer: ghashogh
+  answer: gheychi
   audioClip: {fileID: 8300000, guid: 1412a073e5170ee4294ba56fdeec53ef, type: 3}

@@ -39,9 +39,7 @@ public class TrainQuestionCard : MonoBehaviour, IPointerDownHandler, IBeginDragH
 
         if (answerSlot != null) {
             answerSlot.isFull = false;
-            if (answerSlot.isCorrect) {
-                answerSlot.isCorrect = false;
-            }
+            answerSlot.isCorrect = false;
             answerSlot = null;
         }
         trainGameManager.AnswerSlotsBlink();

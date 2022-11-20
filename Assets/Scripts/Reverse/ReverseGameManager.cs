@@ -62,6 +62,9 @@ public class ReverseGameManager : MonoBehaviour {
 
             answerSlots[0].transform.SetParent(answerSlotsPanel.transform.parent);
             answerSlots.RemoveAt(0);
+        } else if (gameLevel == 2) {
+            answerSlots[0].transform.SetParent(answerSlotsPanel.transform.parent);
+            answerSlots.RemoveAt(0);
         }
     }
 
