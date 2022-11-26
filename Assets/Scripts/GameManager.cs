@@ -117,6 +117,14 @@ public class GameManager : MonoBehaviour {
                 panelManager.ShowColorsPanel();
                 colorsGameManager.StartGame(rounds, level);
                 break;
+            case "clouds1":
+                panelManager.ShowCloudsPanel();
+                cloudsGameManeger.StartGame(rounds, level, 1);
+                break;
+            case "clouds2":
+                panelManager.ShowCloudsPanel();
+                cloudsGameManeger.StartGame(rounds, level, 2);
+                break;
             default:
                 Debug.Log("StartGameButton: currentGameName not found!");
                 break;
@@ -176,13 +184,15 @@ public class GameManager : MonoBehaviour {
     }
 
     public void StartCloudsGame1() {
-        panelManager.ShowCloudsPanel();
-        cloudsGameManeger.StartGame(rounds, level, 1);
+        ShowPausePanel();
+        currentGameName = "clouds1";
+        helpCoroutine = StartCoroutine(StartGameCo());
     }
 
     public void StartCloudsGame2() {
-        panelManager.ShowCloudsPanel();
-        cloudsGameManeger.StartGame(rounds, level, 2);
+        ShowPausePanel();
+        currentGameName = "clouds2";
+        helpCoroutine = StartCoroutine(StartGameCo());
     }
 
     public void StartBellGame() {

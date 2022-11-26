@@ -8631,7 +8631,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -10, y: -69.05884}
+  m_SizeDelta: {x: -9.999939, y: -29.506165}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &1152972487
 CanvasGroup:
@@ -9651,7 +9651,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 133.91919}
+  m_SizeDelta: {x: 0, y: 173.4718}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1261547407
 MonoBehaviour:
@@ -11794,6 +11794,7 @@ MonoBehaviour:
   reverseClip: {fileID: 32900000, guid: 11ae420de4ab64940868169489c512e2, type: 3}
   pairsClip: {fileID: 32900000, guid: 56e36fed8c238bd4a94a2d7da4bb3c07, type: 3}
   colorsClip: {fileID: 32900000, guid: 086930cf13059ff4dbe2da7ac0e4206b, type: 3}
+  cloudsClip: {fileID: 32900000, guid: 45da04dcb893ee54492d42cdd475fbb0, type: 3}
 --- !u!1 &1552034998
 GameObject:
   m_ObjectHideFlags: 0
@@ -16096,6 +16097,7 @@ MonoBehaviour:
   reverseClip: {fileID: 8300000, guid: 56f8591778b5bc44f9f55f52595d8e78, type: 3}
   pairsClip: {fileID: 8300000, guid: 5b7e35b4bb45c3045a98af3d7d46c87d, type: 3}
   colorsClip: {fileID: 8300000, guid: 7aeb034bcc7127f409d8256b25c601db, type: 3}
+  cloudsClip: {fileID: 8300000, guid: 2f36942dc66223f4090e481ad6b34a24, type: 3}
 --- !u!4 &2079343662
 Transform:
   m_ObjectHideFlags: 0

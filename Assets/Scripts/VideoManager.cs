@@ -11,6 +11,7 @@ public class VideoManager : MonoBehaviour {
     public VideoClip reverseClip;
     public VideoClip pairsClip;
     public VideoClip colorsClip;
+    public VideoClip cloudsClip;
 
     public void SetVideoClip(string gameName) {
         switch (gameName) {
@@ -28,6 +29,12 @@ public class VideoManager : MonoBehaviour {
                 break;
             case "colors":
                 videoPlayer.clip = colorsClip;
+                break;
+            case "clouds1":
+                videoPlayer.clip = cloudsClip;
+                break;
+            case "clouds2":
+                videoPlayer.clip = cloudsClip;
                 break;
             default:
                 Debug.Log("SetVideoClip: gameName not found!");
