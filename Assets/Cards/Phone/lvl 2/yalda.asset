@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 0}
   answer: "\u064A\u0644\u062F\u0627"
-  audioClip: {fileID: 8300000, guid: b74b162f70982064fa3a2ecdd844a33d, type: 3}
+  audioClip: {fileID: 8300000, guid: a87f2d4998614a8429ce040a9ae7fed6, type: 3}

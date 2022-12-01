@@ -16,7 +16,11 @@ public class AudioManager : MonoBehaviour {
     public AudioClip reverseClip;
     public AudioClip pairsClip;
     public AudioClip colorsClip;
+    public AudioClip wormClip;
     public AudioClip cloudsClip;
+    public AudioClip bellClip;
+    public AudioClip phoneClip;
+    public AudioClip rhymeClip;
 
 
     public void PlayCorrectClip() {
@@ -51,11 +55,23 @@ public class AudioManager : MonoBehaviour {
             case "colors":
                 audioSource.clip = colorsClip;
                 break;
+            case "worm":
+                audioSource.clip = wormClip;
+                break;
             case "clouds1":
                 audioSource.clip = cloudsClip;
                 break;
             case "clouds2":
                 audioSource.clip = cloudsClip;
+                break;
+            case "bell":
+                audioSource.clip = bellClip;
+                break;
+            case "phone":
+                audioSource.clip = phoneClip;
+                break;
+            case "rhyme":
+                audioSource.clip = rhymeClip;
                 break;
             default:
                 Debug.Log("SetGameClip: gameName not found!");

@@ -125,6 +125,18 @@ public class GameManager : MonoBehaviour {
                 panelManager.ShowCloudsPanel();
                 cloudsGameManeger.StartGame(rounds, level, 2);
                 break;
+            case "bell":
+                panelManager.ShowBellPanel();
+                bellGameManager.StartGame(rounds, level);
+                break;
+            case "phone":
+                panelManager.ShowPhonePanel();
+                phoneGameManager.StartGame(rounds, level);
+                break;
+            case "rhyme":
+                panelManager.ShowRhymePanel();
+                rhymeGameManager.StartGame(rounds);
+                break;
             default:
                 Debug.Log("StartGameButton: currentGameName not found!");
                 break;
@@ -196,18 +208,21 @@ public class GameManager : MonoBehaviour {
     }
 
     public void StartBellGame() {
-        panelManager.ShowBellPanel();
-        bellGameManager.StartGame(rounds, level);
+        ShowPausePanel();
+        currentGameName = "bell";
+        helpCoroutine = StartCoroutine(StartGameCo());
     }
 
     public void StartPhoneGame() {
-        panelManager.ShowPhonePanel();
-        phoneGameManager.StartGame(rounds, level);
+        ShowPausePanel();
+        currentGameName = "phone";
+        helpCoroutine = StartCoroutine(StartGameCo());
     }
 
     public void StartRhymeGame() {
-        panelManager.ShowRhymePanel();
-        rhymeGameManager.StartGame(rounds);
+        ShowPausePanel();
+        currentGameName = "rhyme";
+        helpCoroutine = StartCoroutine(StartGameCo());
     }
 
     public void EndGame() {

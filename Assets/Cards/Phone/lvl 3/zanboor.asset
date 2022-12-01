@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: zanboor
   m_EditorClassIdentifier: 
   sprite: {fileID: 0}
-  answer: "\u0632\u0646\u0628\u0648\u062F"
+  answer: "\u0632\u0646\u0628\u0648\u0631"
   audioClip: {fileID: 8300000, guid: f35d89c7e883f7a4cb6fda669172308b, type: 3}

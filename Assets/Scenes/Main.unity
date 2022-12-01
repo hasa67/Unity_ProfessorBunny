@@ -3348,7 +3348,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 206.52524}
+  m_SizeDelta: {x: 0, y: 206.66504}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &507118957
 MonoBehaviour:
@@ -5443,9 +5443,9 @@ RectTransform:
   m_Father: {fileID: 1524574918}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 60, y: -17}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 34}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &741591928
@@ -11422,7 +11422,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1524574918
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11794,7 +11794,11 @@ MonoBehaviour:
   reverseClip: {fileID: 32900000, guid: 11ae420de4ab64940868169489c512e2, type: 3}
   pairsClip: {fileID: 32900000, guid: 56e36fed8c238bd4a94a2d7da4bb3c07, type: 3}
   colorsClip: {fileID: 32900000, guid: 086930cf13059ff4dbe2da7ac0e4206b, type: 3}
+  wormClip: {fileID: 32900000, guid: 0329fa112bce6504e9f6024cf9a980b0, type: 3}
   cloudsClip: {fileID: 32900000, guid: 45da04dcb893ee54492d42cdd475fbb0, type: 3}
+  bellClip: {fileID: 32900000, guid: bbec037622b04a3448eb64ac38d626b8, type: 3}
+  phoneClip: {fileID: 32900000, guid: 2d39274ee8d1b87419e0f341990e1069, type: 3}
+  rhymeClip: {fileID: 32900000, guid: b828aa41e61963846ad20ab384646279, type: 3}
 --- !u!1 &1552034998
 GameObject:
   m_ObjectHideFlags: 0
@@ -11828,9 +11832,9 @@ RectTransform:
   m_Father: {fileID: 1524574918}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 70, y: -91}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 120, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1552035000
@@ -12484,9 +12488,9 @@ RectTransform:
   m_Father: {fileID: 1524574918}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 60, y: -55}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 34}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1658461113
@@ -16097,7 +16101,11 @@ MonoBehaviour:
   reverseClip: {fileID: 8300000, guid: 56f8591778b5bc44f9f55f52595d8e78, type: 3}
   pairsClip: {fileID: 8300000, guid: 5b7e35b4bb45c3045a98af3d7d46c87d, type: 3}
   colorsClip: {fileID: 8300000, guid: 7aeb034bcc7127f409d8256b25c601db, type: 3}
+  wormClip: {fileID: 8300000, guid: b0572a18d8cbbf147b7d4586a77174cc, type: 3}
   cloudsClip: {fileID: 8300000, guid: 2f36942dc66223f4090e481ad6b34a24, type: 3}
+  bellClip: {fileID: 8300000, guid: 605a493d44836094cb3e1b1adaff13cb, type: 3}
+  phoneClip: {fileID: 8300000, guid: 0a941bd372e0d524a859f0a68bf3282d, type: 3}
+  rhymeClip: {fileID: 8300000, guid: 8f8863642738de54bbfcb866b0037358, type: 3}
 --- !u!4 &2079343662
 Transform:
   m_ObjectHideFlags: 0
