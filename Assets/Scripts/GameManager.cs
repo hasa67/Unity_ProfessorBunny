@@ -117,6 +117,10 @@ public class GameManager : MonoBehaviour {
                 panelManager.ShowColorsPanel();
                 colorsGameManager.StartGame(rounds, level);
                 break;
+            case "worm":
+                panelManager.ShowWormPanel();
+                wormGameManager.StartGame(rounds, level);
+                break;
             case "clouds1":
                 panelManager.ShowCloudsPanel();
                 cloudsGameManeger.StartGame(rounds, level, 1);
@@ -191,8 +195,9 @@ public class GameManager : MonoBehaviour {
     }
 
     public void StartWormGame() {
-        panelManager.ShowWormPanel();
-        wormGameManager.StartGame(rounds, level);
+        ShowPausePanel();
+        currentGameName = "worm";
+        helpCoroutine = StartCoroutine(StartGameCo());
     }
 
     public void StartCloudsGame1() {
