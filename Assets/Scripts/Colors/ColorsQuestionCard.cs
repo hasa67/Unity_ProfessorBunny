@@ -11,7 +11,6 @@ public class ColorsQuestionCard : MonoBehaviour, IBeginDragHandler, IEndDragHand
 
     [HideInInspector] public Transform newParent;
 
-    // private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
     private Canvas canvas;
     private Transform initialParent;
@@ -21,7 +20,6 @@ public class ColorsQuestionCard : MonoBehaviour, IBeginDragHandler, IEndDragHand
     private void Awake() {
         canvas = FindObjectOfType<Canvas>();
 
-        // rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
         colorsGameManager = FindObjectOfType<ColorsGameManager>();
 
@@ -33,9 +31,7 @@ public class ColorsQuestionCard : MonoBehaviour, IBeginDragHandler, IEndDragHand
     }
 
     public void OnBeginDrag(PointerEventData eventData) {
-        // canvasGroup.alpha = 0.6f;
         transform.SetParent(transform.root);
-        // rectTransform.localScale = Vector3.one * 1.3f;
         transform.localScale = Vector3.one * 1.3f;
 
         if (answerSlot != null) {
@@ -48,22 +44,11 @@ public class ColorsQuestionCard : MonoBehaviour, IBeginDragHandler, IEndDragHand
     }
 
     public void OnDrag(PointerEventData eventData) {
-        // rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
         transform.position = eventData.position;
     }
 
     public void OnEndDrag(PointerEventData eventData) {
-        // if (eventData.pointerEnter != null) {
-        //     if (eventData.pointerEnter.GetComponent<ColorsAnswerSlot>() == null) {
-        //         PlaceBack();
-        //     }
-        // } else {
-        //     PlaceBack();
-        // }
-
-        PlaceBack();
-        // canvasGroup.alpha = 1f;
-        // rectTransform.localScale = Vector3.one;
+        PlaceBack(); ;
         transform.localScale = Vector3.one;
         canvasGroup.blocksRaycasts = true;
     }
@@ -74,9 +59,6 @@ public class ColorsQuestionCard : MonoBehaviour, IBeginDragHandler, IEndDragHand
         } else {
             this.transform.SetParent(newParent);
         }
-
-        // rectTransform.localPosition = Vector3.zero;
-        // rectTransform.rotation = Quaternion.Euler(Vector3.zero);
     }
 
     public void SetQuestionCard(QuestionCard card) {

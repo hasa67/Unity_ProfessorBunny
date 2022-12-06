@@ -21,8 +21,6 @@ public class ColorsAnswerSlot : MonoBehaviour, IDropHandler {
         if (!isFull) {
             isFull = true;
             eventData.pointerDrag.GetComponent<ColorsQuestionCard>().newParent = this.transform;
-            // eventData.pointerDrag.transform.SetParent(this.transform);
-            // eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
             eventData.pointerDrag.GetComponent<ColorsQuestionCard>().answerSlot = this;
 
             if (eventData.pointerDrag.GetComponent<ColorsQuestionCard>().answer == answer) {
@@ -30,9 +28,6 @@ public class ColorsAnswerSlot : MonoBehaviour, IDropHandler {
             }
 
             colorsGameManager.IsRoundFinished();
-            // if (eventData.pointerDrag != null) {
-
-            // }
         }
 
         eventData.pointerDrag.GetComponent<ColorsQuestionCard>().PlaceBack();
