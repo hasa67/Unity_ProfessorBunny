@@ -18,23 +18,24 @@ public class TrainAnswerSlot : MonoBehaviour, IDropHandler {
 
     public void OnDrop(PointerEventData eventData) {
         if (!isFull) {
-            if (eventData.pointerDrag != null) {
-                isFull = true;
-                eventData.pointerDrag.transform.SetParent(this.transform.parent);
-                eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
-                eventData.pointerDrag.GetComponent<RectTransform>().rotation = GetComponent<RectTransform>().rotation;
-                eventData.pointerDrag.GetComponent<TrainQuestionCard>().answerSlot = this;
+            isFull = true;
+            eventData.pointerDrag.GetComponent<TrainQuestionCard>().newParent = this.transform;
+            // eventData.pointerDrag.transform.SetParent(this.transform);
+            // eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
+            eventData.pointerDrag.transform.rotation = transform.rotation;
+            eventData.pointerDrag.GetComponent<TrainQuestionCard>().answerSlot = this;
 
-                if (eventData.pointerDrag.GetComponent<TrainQuestionCard>().answer == answer) {
-                    isCorrect = true;
-                }
-
-                trainGameManager.IsRoundFinished();
+            if (eventData.pointerDrag.GetComponent<TrainQuestionCard>().answer == answer) {
+                isCorrect = true;
             }
-        } else {
-            eventData.pointerDrag.GetComponent<TrainQuestionCard>().PlaceBack();
+
+            trainGameManager.IsRoundFinished();
+            // if (eventData.pointerDrag != null) {
+
+            // }
         }
 
+        eventData.pointerDrag.GetComponent<TrainQuestionCard>().PlaceBack();
         trainGameManager.AnswerSlotsBlink();
     }
 

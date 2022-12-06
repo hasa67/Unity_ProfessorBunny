@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class ColorsAnswerSlot : MonoBehaviour, IDropHandler {
+
     public string answer;
     public bool isFull;
     public bool isCorrect;
@@ -18,21 +19,23 @@ public class ColorsAnswerSlot : MonoBehaviour, IDropHandler {
 
     public void OnDrop(PointerEventData eventData) {
         if (!isFull) {
-            if (eventData.pointerDrag != null) {
-                isFull = true;
-                eventData.pointerDrag.transform.SetParent(this.transform);
-                eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
-                eventData.pointerDrag.GetComponent<ColorsQuestionCard>().answerSlot = this;
+            isFull = true;
+            eventData.pointerDrag.GetComponent<ColorsQuestionCard>().newParent = this.transform;
+            // eventData.pointerDrag.transform.SetParent(this.transform);
+            // eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
+            eventData.pointerDrag.GetComponent<ColorsQuestionCard>().answerSlot = this;
 
-                if (eventData.pointerDrag.GetComponent<ColorsQuestionCard>().answer == answer) {
-                    isCorrect = true;
-                }
-
-                colorsGameManager.IsRoundFinished();
+            if (eventData.pointerDrag.GetComponent<ColorsQuestionCard>().answer == answer) {
+                isCorrect = true;
             }
-        } else {
-            eventData.pointerDrag.GetComponent<ColorsQuestionCard>().PlaceBack();
+
+            colorsGameManager.IsRoundFinished();
+            // if (eventData.pointerDrag != null) {
+
+            // }
         }
+
+        eventData.pointerDrag.GetComponent<ColorsQuestionCard>().PlaceBack();
     }
 
     public void Initialize() {
