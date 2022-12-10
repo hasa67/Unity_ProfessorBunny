@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5522606423343656303}
   - component: {fileID: 7465150281796028766}
   - component: {fileID: -6791028819097745493}
+  - component: {fileID: -1262277068774659636}
   m_Layer: 5
   m_Name: WormAnswerSlot
   m_TagString: Untagged
@@ -91,3 +92,27 @@ MonoBehaviour:
   answer: 
   isFull: 0
   isCorrect: 0
+--- !u!114 &-1262277068774659636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5522606423343656297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 4
+  m_StartCorner: 0
+  m_StartAxis: 0
+  m_CellSize: {x: 110, y: 90}
+  m_Spacing: {x: 0, y: 0}
+  m_Constraint: 0
+  m_ConstraintCount: 2

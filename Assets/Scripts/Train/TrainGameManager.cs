@@ -10,6 +10,8 @@ public class TrainGameManager : MonoBehaviour {
     public GameObject train;
     public GameObject questionSlotsPanel;
 
+    public int additionalTouch;
+
     private int remainingRounds;
     private int totalRounds;
     private int score;
@@ -38,6 +40,7 @@ public class TrainGameManager : MonoBehaviour {
 
     private void Initialize() {
         score = 0;
+        additionalTouch = 0;
         gameManager.UpdateScoreText(score, totalRounds);
 
         currentTrainCards.Clear();
@@ -150,7 +153,7 @@ public class TrainGameManager : MonoBehaviour {
     }
 
     private void AddScore() {
-        gameManager.AddScore("train", score, totalRounds, 0);
+        gameManager.AddScore("train", score, totalRounds, 0, additionalTouch);
     }
 
     private float TrainArrive() {

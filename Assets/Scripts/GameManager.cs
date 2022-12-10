@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour {
     [HideInInspector] public PhoneGameManager phoneGameManager;
     [HideInInspector] public RhymeGameManager rhymeGameManager;
 
-    private List<Score> scoreList = new List<Score>();
+    public List<Score> scoreList = new List<Score>();
     private int score;
     private PanelManager panelManager;
     private AudioManager audioManager;
@@ -238,13 +238,14 @@ public class GameManager : MonoBehaviour {
         scoreText.text = score.ToString() + "/" + totalRounds.ToString();
     }
 
-    public void AddScore(string name, int score, int rounds, int level) {
+    public void AddScore(string name, int score, int rounds, int level, int optional = 0) {
         Score newScore = new Score();
         newScore.name = name;
         newScore.score = score;
         newScore.rounds = rounds;
         newScore.level = level;
         newScore.time = timer;
+        newScore.optional = optional;
         scoreList.Add(newScore);
 
         ResetStopwatch();

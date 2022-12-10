@@ -18,21 +18,18 @@ public class WormAnswerSlot : MonoBehaviour, IDropHandler {
 
     public void OnDrop(PointerEventData eventData) {
         if (!isFull) {
-            if (eventData.pointerDrag != null) {
-                isFull = true;
-                eventData.pointerDrag.transform.SetParent(this.transform);
-                eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
-                eventData.pointerDrag.GetComponent<WormQuestionCard>().answerSlot = this;
+            isFull = true;
+            eventData.pointerDrag.GetComponent<WormQuestionCard>().newParent = this.transform;
+            eventData.pointerDrag.GetComponent<WormQuestionCard>().answerSlot = this;
 
-                if (eventData.pointerDrag.GetComponent<WormQuestionCard>().answer == answer) {
-                    isCorrect = true;
-                }
-
-                wormGameManager.IsRoundFinished();
+            if (eventData.pointerDrag.GetComponent<WormQuestionCard>().answer == answer) {
+                isCorrect = true;
             }
-        } else {
-            eventData.pointerDrag.GetComponent<WormQuestionCard>().PlaceBack();
+
+            wormGameManager.IsRoundFinished();
         }
+
+        eventData.pointerDrag.GetComponent<WormQuestionCard>().PlaceBack();
     }
 
     public void Initialize() {

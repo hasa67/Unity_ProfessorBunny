@@ -40,6 +40,8 @@ public class TrainQuestionCard : MonoBehaviour, IBeginDragHandler, IEndDragHandl
             answerSlot.isFull = false;
             answerSlot.isCorrect = false;
             answerSlot = null;
+
+            trainGameManager.additionalTouch++;
         }
 
         trainGameManager.AnswerSlotsBlink();

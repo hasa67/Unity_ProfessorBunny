@@ -48,7 +48,7 @@ public class ColorsQuestionCard : MonoBehaviour, IBeginDragHandler, IEndDragHand
     }
 
     public void OnEndDrag(PointerEventData eventData) {
-        PlaceBack(); ;
+        PlaceBack();
         transform.localScale = Vector3.one;
         canvasGroup.blocksRaycasts = true;
     }

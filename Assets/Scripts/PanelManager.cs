@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PanelManager : MonoBehaviour {
+    public GameObject infoPanel;
     public GameObject loginPanel;
     public GameObject mainPanel;
     public GameObject trainPanel;
@@ -113,5 +114,13 @@ public class PanelManager : MonoBehaviour {
 
     public void IsControllable(bool isControllable) {
         blockPanel.SetActive(!isControllable);
+    }
+
+    public void InfoPanel() {
+        if (infoPanel.activeInHierarchy == true) {
+            infoPanel.SetActive(false);
+        } else {
+            infoPanel.SetActive(true);
+        }
     }
 }

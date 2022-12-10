@@ -9,4 +9,5 @@ public class Score {
     public int rounds;
     public int level;
     public float time;
+    public int optional;
 }

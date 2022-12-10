@@ -4,13 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class WormQuestionCard : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerUpHandler {
+public class WormQuestionCard : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler {
 
     public Text cardText;
     public string answer;
     public WormAnswerSlot answerSlot;
 
-    private RectTransform rectTransform;
+    [HideInInspector] public Transform newParent;
+
+    // private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
     private Canvas canvas;
     private Transform initialParent;
@@ -20,7 +22,7 @@ public class WormQuestionCard : MonoBehaviour, IPointerDownHandler, IBeginDragHa
     private void Awake() {
         canvas = FindObjectOfType<Canvas>();
 
-        rectTransform = GetComponent<RectTransform>();
+        // rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
         wormGameManager = FindObjectOfType<WormGameManager>();
 
@@ -31,53 +33,39 @@ public class WormQuestionCard : MonoBehaviour, IPointerDownHandler, IBeginDragHa
         initialParent = this.transform.parent;
     }
 
-    public void OnPointerDown(PointerEventData eventData) {
-        canvasGroup.alpha = 0.6f;
-        rectTransform.localScale = Vector3.one * 1.3f;
+    public void OnBeginDrag(PointerEventData eventData) {
+        transform.SetParent(transform.root);
+        transform.localScale = Vector3.one * 1.3f;
 
         if (answerSlot != null) {
             answerSlot.isFull = false;
-            if (answerSlot.isCorrect) {
-                answerSlot.isCorrect = false;
-            }
+            answerSlot.isCorrect = false;
             answerSlot = null;
         }
-    }
 
-    public void OnPointerUp(PointerEventData eventData) {
-        canvasGroup.alpha = 1f;
-        rectTransform.localScale = Vector3.one;
-    }
-
-    public void OnBeginDrag(PointerEventData eventData) {
         canvasGroup.blocksRaycasts = false;
     }
 
     public void OnDrag(PointerEventData eventData) {
-        rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
+        transform.position = eventData.position;
     }
 
     public void OnEndDrag(PointerEventData eventData) {
-        if (eventData.pointerEnter != null) {
-            if (eventData.pointerEnter.GetComponent<WormAnswerSlot>() == null) {
-                PlaceBack();
-            }
-        } else {
-            PlaceBack();
-        }
-
+        PlaceBack();
+        transform.localScale = Vector3.one;
         canvasGroup.blocksRaycasts = true;
     }
 
     public void PlaceBack() {
-        this.transform.SetParent(initialParent);
-        rectTransform.localPosition = Vector3.zero;
-        rectTransform.rotation = Quaternion.Euler(Vector3.zero);
+        if (answerSlot == null) {
+            this.transform.SetParent(initialParent);
+        } else {
+            this.transform.SetParent(newParent);
+        }
     }
 
     public void SetQuestionCard(QuestionCard inputCard) {
         answer = inputCard.answer;
         cardText.text = answer;
-        // GetComponent<Image>().sprite = card.sprite;
     }
 }
