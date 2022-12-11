@@ -41,7 +41,7 @@ public class TrainQuestionCard : MonoBehaviour, IBeginDragHandler, IEndDragHandl
             answerSlot.isCorrect = false;
             answerSlot = null;
 
-            trainGameManager.additionalTouch++;
+            trainGameManager.additionalTouch--;
         }
 
         trainGameManager.AnswerSlotsBlink();

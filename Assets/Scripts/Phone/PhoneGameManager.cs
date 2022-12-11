@@ -105,7 +105,7 @@ public class PhoneGameManager : MonoBehaviour {
             currentAnswers.Add(currentQuestionCards[i].answer);
 
             delay = audioSource.clip.length;
-            yield return new WaitForSeconds(delay + 0.5f);
+            yield return new WaitForSeconds(delay + 1f);
         }
         gameManager.IsControllable(true);
         gameManager.Stopwatch(true);

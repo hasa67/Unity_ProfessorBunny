@@ -41,6 +41,8 @@ public class WormQuestionCard : MonoBehaviour, IBeginDragHandler, IEndDragHandle
             answerSlot.isFull = false;
             answerSlot.isCorrect = false;
             answerSlot = null;
+
+            wormGameManager.additionalTouch--;
         }
 
         canvasGroup.blocksRaycasts = false;

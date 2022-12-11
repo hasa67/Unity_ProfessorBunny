@@ -12,6 +12,8 @@ public class ColorsGameManager : MonoBehaviour {
     public GameObject answerSlotsPanel;
     public GameObject questionsCover;
 
+    [HideInInspector] public int additionalTouch;
+
     private int remainingRounds;
     private int totalRounds;
     private int gameLevel;
@@ -42,6 +44,7 @@ public class ColorsGameManager : MonoBehaviour {
 
     private void Initialize() {
         score = 0;
+        additionalTouch = 0;
         gameManager.UpdateScoreText(score, totalRounds);
 
         questionSlots = GameObject.FindGameObjectsWithTag("QuestionSlot").ToList();
@@ -159,7 +162,7 @@ public class ColorsGameManager : MonoBehaviour {
     }
 
     private void AddScore() {
-        gameManager.AddScore("colors", score, totalRounds, gameLevel);
+        gameManager.AddScore("colors", score, totalRounds, gameLevel, additionalTouch);
     }
 
     private float PaletteArrive() {

@@ -10,7 +10,7 @@ public class TrainGameManager : MonoBehaviour {
     public GameObject train;
     public GameObject questionSlotsPanel;
 
-    public int additionalTouch;
+    [HideInInspector] public int additionalTouch;
 
     private int remainingRounds;
     private int totalRounds;

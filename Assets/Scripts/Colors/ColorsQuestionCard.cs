@@ -38,6 +38,8 @@ public class ColorsQuestionCard : MonoBehaviour, IBeginDragHandler, IEndDragHand
             answerSlot.isFull = false;
             answerSlot.isCorrect = false;
             answerSlot = null;
+
+            colorsGameManager.additionalTouch--;
         }
 
         canvasGroup.blocksRaycasts = false;
