@@ -69,7 +69,7 @@ public class PhoneGameManager : MonoBehaviour {
 
     public void NextRound() {
         if (remainingRounds <= 0) {
-            gameManager.AddScore("phone", score, totalRounds, gameLevel);
+            gameManager.AddScore("phone", score, score, totalRounds, gameLevel);
             gameManager.EndGame();
             return;
         }

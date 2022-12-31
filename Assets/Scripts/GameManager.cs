@@ -96,6 +96,14 @@ public class GameManager : MonoBehaviour {
         audioManager.StopPlay();
         videoManager.ClearVideoClip();
 
+        StartCoroutine(StartButtonCo());
+    }
+
+    IEnumerator StartButtonCo() {
+        panelManager.ShowCountPanel();
+        audioManager.PlayCountClip();
+        yield return new WaitForSeconds(3f);
+
         switch (currentGameName) {
             case "train":
                 panelManager.ShowTrainPanel();
@@ -238,10 +246,11 @@ public class GameManager : MonoBehaviour {
         scoreText.text = score.ToString() + "/" + totalRounds.ToString();
     }
 
-    public void AddScore(string name, int score, int rounds, int level, int optional = 0) {
+    public void AddScore(string name, int score1, int score2, int rounds, int level, int optional = 0) {
         Score newScore = new Score();
         newScore.name = name;
-        newScore.score = score;
+        newScore.score1 = score1;
+        newScore.score2 = score2;
         newScore.rounds = rounds;
         newScore.level = level;
         newScore.time = timer;
@@ -256,10 +265,12 @@ public class GameManager : MonoBehaviour {
             string scoreString = "";
             for (int i = 0; i < scoreList.Count; i++) {
                 scoreString += scoreList[i].name + ",";
-                scoreString += scoreList[i].score.ToString() + ",";
+                scoreString += scoreList[i].score1.ToString() + ",";
+                scoreString += scoreList[i].score2.ToString() + ",";
                 scoreString += scoreList[i].rounds.ToString() + ",";
                 scoreString += scoreList[i].level.ToString() + ",";
-                scoreString += scoreList[i].time.ToString();
+                scoreString += scoreList[i].time.ToString() + ",";
+                scoreString += scoreList[i].optional.ToString();
                 if (i != scoreList.Count - 1) {
                     scoreString += "\n";
                 }
