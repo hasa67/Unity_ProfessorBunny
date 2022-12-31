@@ -1278,6 +1278,7 @@ MonoBehaviour:
   questionSlotsPanel: {fileID: 1128414050}
   answerSlotsPanel: {fileID: 1623716867}
   questionsCover: {fileID: 827043622}
+  additionalTouch: 0
 --- !u!95 &252754287
 Animator:
   serializedVersion: 3
@@ -11155,6 +11156,7 @@ MonoBehaviour:
   questionSlotsPanel: {fileID: 458529598}
   answerSlotsPanel: {fileID: 413624088}
   questionsCover: {fileID: 1999857891}
+  additionalTouch: 0
 --- !u!1 &1353317942
 GameObject:
   m_ObjectHideFlags: 0
@@ -11353,7 +11355,7 @@ MonoBehaviour:
   bellQuestionPrefab: {fileID: 2877412462082156803, guid: 75ef1ff1681f32945bcce4c149b48418, type: 3}
   questionSlotsPanel: {fileID: 1193702241}
   bell: {fileID: 1309443503}
-  waitTime: 1
+  waitTime: 1.2
 --- !u!1001 &1394861627
 PrefabInstance:
   m_ObjectHideFlags: 0

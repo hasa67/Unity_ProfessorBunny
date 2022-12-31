@@ -100,7 +100,7 @@ public class BellGameManager : MonoBehaviour {
             gameManager.IsControllable(false);
 
             InstantiateQuestionCard(i);
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(1.2f);
 
             gameManager.IsControllable(true);
             if (isCorrect) {
