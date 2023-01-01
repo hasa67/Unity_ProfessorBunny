@@ -18,7 +18,9 @@ public class WormGameManager : MonoBehaviour {
     private int remainingRounds;
     private int totalRounds;
     private int gameLevel;
-    private int score;
+    private int score1;
+    private int score2;
+    private int maxScore;
     private GameManager gameManager;
     private List<WormQuestionCard> currentQuestionCards = new List<WormQuestionCard>();
     private List<WormAnswerSlot> answerSlots = new List<WormAnswerSlot>();
@@ -50,9 +52,11 @@ public class WormGameManager : MonoBehaviour {
     }
 
     private void Initialize() {
-        score = 0;
+        score1 = 0;
+        score2 = 0;
+        maxScore = 0;
         additionalTouch = 0;
-        gameManager.UpdateScoreText(score, totalRounds);
+        gameManager.UpdateScoreText(score1, totalRounds);
 
         questionSlots = GameObject.FindGameObjectsWithTag("QuestionSlot").ToList();
         questionSlots = questionSlots.OrderBy(go => go.name).ToList();
@@ -132,10 +136,13 @@ public class WormGameManager : MonoBehaviour {
             }
         }
 
-        if (i == answerSlots.Count) {
-            score += j;
-            gameManager.UpdateScoreText(score, totalRounds);
+        if (j == answerSlots.Count) {
+            score1++;
+            gameManager.UpdateScoreText(score1, totalRounds);
+        }
 
+        if (i == answerSlots.Count) {
+            score2 += j;
             StartCoroutine(IsRoundFinishedCo());
         }
     }
@@ -152,7 +159,8 @@ public class WormGameManager : MonoBehaviour {
     }
 
     private void AddScore() {
-        gameManager.AddScore("worm", score, totalRounds, gameLevel, additionalTouch);
+        maxScore = 5 * totalRounds;
+        gameManager.AddScore("worm", score1, totalRounds, score2, maxScore, gameLevel, additionalTouch);
     }
 
     private float WormArrive() {

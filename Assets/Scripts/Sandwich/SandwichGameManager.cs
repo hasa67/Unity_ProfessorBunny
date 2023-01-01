@@ -13,6 +13,7 @@ public class SandwichGameManager : MonoBehaviour {
     private int score1;
     private int score2;
     private int remainingRounds;
+    private int maxScore;
     private int totalRounds;
     private GameManager gameManager;
     private List<SandwichQuestionCard> currentQuestionCards = new List<SandwichQuestionCard>();
@@ -39,6 +40,7 @@ public class SandwichGameManager : MonoBehaviour {
     private void Initialize() {
         score1 = 0;
         score2 = 0;
+        maxScore = 0;
         gameManager.UpdateScoreText(score1, totalRounds);
 
         questionSlots = GameObject.FindGameObjectsWithTag("QuestionSlot");
@@ -49,7 +51,8 @@ public class SandwichGameManager : MonoBehaviour {
 
     public void NextRound() {
         if (remainingRounds <= 0) {
-            gameManager.AddScore("sandwich", score1, score2, totalRounds, 0);
+            maxScore = totalRounds * 4;
+            gameManager.AddScore("sandwich", score1, totalRounds, score2, maxScore, 0);
             gameManager.EndGame();
             return;
         }

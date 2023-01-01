@@ -13,7 +13,9 @@ public class PhoneGameManager : MonoBehaviour {
     public GameObject phone;
     public Image numbersPanel;
 
-    private int score;
+    private int score1;
+    private int score2;
+    private int maxScore;
     private int remainingRounds;
     private int totalRounds;
     private int gameLevel;
@@ -53,8 +55,10 @@ public class PhoneGameManager : MonoBehaviour {
     }
 
     private void Initialize() {
-        score = 0;
-        gameManager.UpdateScoreText(score, totalRounds);
+        score1 = 0;
+        score2 = 0;
+        maxScore = 0;
+        gameManager.UpdateScoreText(score1, totalRounds);
 
         dialKeys = FindObjectsOfType<PhoneQuestionCard>().ToList();
         dialKeys = dialKeys.OrderBy(go => go.name).ToList();
@@ -69,7 +73,8 @@ public class PhoneGameManager : MonoBehaviour {
 
     public void NextRound() {
         if (remainingRounds <= 0) {
-            gameManager.AddScore("phone", score, score, totalRounds, gameLevel);
+            maxScore = 5 * totalRounds;
+            gameManager.AddScore("phone", score1, totalRounds, score2, maxScore, gameLevel);
             gameManager.EndGame();
             return;
         }
@@ -129,8 +134,8 @@ public class PhoneGameManager : MonoBehaviour {
         yield return new WaitForSeconds(1f);
 
         if (IsCorrect()) {
-            score++;
-            gameManager.UpdateScoreText(score, totalRounds);
+            score1++;
+            gameManager.UpdateScoreText(score1, totalRounds);
             audioManager.PlayCorrectClip();
             numbersPanel.color = new Color32(0, 255, 0, 200);
         } else {
@@ -150,6 +155,9 @@ public class PhoneGameManager : MonoBehaviour {
     private bool IsCorrect() {
         bool output = true;
         for (int i = 0; i < selectedAnswers.Count; i++) {
+            if (selectedAnswers[i] == currentAnswers[i]) {
+                score2++;
+            }
             if (selectedAnswers[i] != currentAnswers[i]) {
                 output = false;
                 break;

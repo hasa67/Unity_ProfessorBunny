@@ -6,8 +6,9 @@ using UnityEngine;
 public class Score {
     public string name;
     public int score1; // reduced correct
-    public int score2; // total correct
     public int rounds;
+    public int score2; // total correct
+    public int maxScore; // max possible score
     public int level;
     public float time;
     public int optional; // additional info (touch, etc.)

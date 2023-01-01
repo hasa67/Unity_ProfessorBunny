@@ -62,7 +62,7 @@ public class BellGameManager : MonoBehaviour {
 
     public void NextRound() {
         if (remainingRounds <= 0) {
-            gameManager.AddScore("bell", score, score, totalRounds, gameLevel);
+            gameManager.AddScore("bell", score, totalRounds, score, totalRounds, gameLevel);
             gameManager.EndGame();
             return;
         }

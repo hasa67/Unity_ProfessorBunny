@@ -16,6 +16,7 @@ public class TrainGameManager : MonoBehaviour {
     private int totalRounds;
     private int score1;
     private int score2;
+    private int maxScore;
     private GameManager gameManager;
     private List<QuestionCard> currentTrainCards = new List<QuestionCard>();
     private List<TrainQuestionCard> currentQuestionCards = new List<TrainQuestionCard>();
@@ -42,6 +43,7 @@ public class TrainGameManager : MonoBehaviour {
     private void Initialize() {
         score1 = 0;
         score2 = 0;
+        maxScore = 0;
         additionalTouch = 0;
         gameManager.UpdateScoreText(score1, totalRounds);
 
@@ -156,7 +158,8 @@ public class TrainGameManager : MonoBehaviour {
     }
 
     private void AddScore() {
-        gameManager.AddScore("train", score1, score2, totalRounds, 0, additionalTouch);
+        maxScore = 5 * totalRounds;
+        gameManager.AddScore("train", score1, totalRounds, score2, maxScore, 0, additionalTouch);
     }
 
     private float TrainArrive() {

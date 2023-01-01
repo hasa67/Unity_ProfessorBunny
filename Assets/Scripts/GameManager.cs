@@ -246,12 +246,13 @@ public class GameManager : MonoBehaviour {
         scoreText.text = score.ToString() + "/" + totalRounds.ToString();
     }
 
-    public void AddScore(string name, int score1, int score2, int rounds, int level, int optional = 0) {
+    public void AddScore(string name, int score1, int rounds, int score2, int maxScore, int level, int optional = 0) {
         Score newScore = new Score();
         newScore.name = name;
         newScore.score1 = score1;
-        newScore.score2 = score2;
         newScore.rounds = rounds;
+        newScore.score2 = score2;
+        newScore.maxScore = maxScore;
         newScore.level = level;
         newScore.time = timer;
         newScore.optional = optional;

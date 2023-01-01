@@ -12,6 +12,7 @@ public class ReverseGameManager : MonoBehaviour {
 
     private int score1;
     private int score2;
+    private int maxScore;
     private int selectedCards;
     private int remainingRounds;
     private int totalRounds;
@@ -72,7 +73,12 @@ public class ReverseGameManager : MonoBehaviour {
 
     public void NextRound() {
         if (remainingRounds <= 0) {
-            gameManager.AddScore("reverse", score1, score2, totalRounds, gameLevel);
+            if (gameLevel <= 2) {
+                maxScore = totalRounds;
+            } else {
+                maxScore = totalRounds * 2;
+            }
+            gameManager.AddScore("reverse", score1, totalRounds, score2, maxScore, gameLevel);
             gameManager.EndGame();
             return;
         }

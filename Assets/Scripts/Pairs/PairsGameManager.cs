@@ -12,6 +12,7 @@ public class PairsGameManager : MonoBehaviour {
     private float previewWaitTime = 4f;
     private int score1;
     private int score2;
+    private int maxScore;
     private int realScore;
     private int remainingRounds;
     private int totalRounds;
@@ -46,6 +47,7 @@ public class PairsGameManager : MonoBehaviour {
     private void Initialize() {
         score1 = 0;
         score2 = 0;
+        maxScore = 0;
         gameManager.UpdateScoreText(score1, totalRounds);
         realScore = 8;
 
@@ -66,7 +68,13 @@ public class PairsGameManager : MonoBehaviour {
 
     public void NextRound() {
         if (remainingRounds <= 0) {
-            gameManager.AddScore("pairs", score1, score2, totalRounds, gameLevel, realScore / 2);
+            maxScore = (2 * gameLevel + 2) * totalRounds;
+            score2 = maxScore * 2 + score1;
+            if (score2 < 0) {
+                score2 = 0;
+            }
+
+            gameManager.AddScore("pairs", score1, totalRounds, score2, maxScore, gameLevel, realScore / 2);
             gameManager.EndGame();
             return;
         }

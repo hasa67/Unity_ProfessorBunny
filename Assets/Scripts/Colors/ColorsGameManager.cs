@@ -17,7 +17,9 @@ public class ColorsGameManager : MonoBehaviour {
     private int remainingRounds;
     private int totalRounds;
     private int gameLevel;
-    private int score;
+    private int score1;
+    private int score2;
+    private int maxScore;
     private GameManager gameManager;
     private List<ColorsQuestionCard> currentQuestionCards = new List<ColorsQuestionCard>();
     private List<ColorsAnswerSlot> answerSlots = new List<ColorsAnswerSlot>();
@@ -43,9 +45,11 @@ public class ColorsGameManager : MonoBehaviour {
     }
 
     private void Initialize() {
-        score = 0;
+        score1 = 0;
+        score2 = 0;
+        maxScore = 0;
         additionalTouch = 0;
-        gameManager.UpdateScoreText(score, totalRounds);
+        gameManager.UpdateScoreText(score1, totalRounds);
 
         questionSlots = GameObject.FindGameObjectsWithTag("QuestionSlot").ToList();
         questionSlots = questionSlots.OrderBy(go => go.name).ToList();
@@ -142,10 +146,13 @@ public class ColorsGameManager : MonoBehaviour {
             }
         }
 
-        if (i == answerSlots.Count) {
-            score += j;
-            gameManager.UpdateScoreText(score, totalRounds);
+        if (j == answerSlots.Count) {
+            score1++;
+            gameManager.UpdateScoreText(score1, totalRounds);
+        }
 
+        if (i == answerSlots.Count) {
+            score2 += j;
             StartCoroutine(IsRoundFinishedCo());
         }
     }
@@ -162,7 +169,8 @@ public class ColorsGameManager : MonoBehaviour {
     }
 
     private void AddScore() {
-        gameManager.AddScore("colors", score, totalRounds, gameLevel, additionalTouch);
+        maxScore = answerSlots.Count * totalRounds;
+        gameManager.AddScore("colors", score1, totalRounds, score2, maxScore, gameLevel, additionalTouch);
     }
 
     private float PaletteArrive() {
