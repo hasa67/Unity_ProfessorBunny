@@ -53,7 +53,7 @@ public class RhymeGameManager : MonoBehaviour {
 
     public void NextRound() {
         if (remainingRounds <= 0) {
-            gameManager.AddScore("rhyme", score, totalRounds, 0);
+            gameManager.AddScore("rhyme", score, score, totalRounds, 0);
             gameManager.EndGame();
             return;
         }

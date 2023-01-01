@@ -18,6 +18,7 @@ public class PanelManager : MonoBehaviour {
     public GameObject phonePanel;
     public GameObject rhymePanel;
     public GameObject pausePanel;
+    public GameObject countPanel;
 
     private List<GameObject> panelsList = new List<GameObject>();
     private GameManager gameManager;
@@ -37,6 +38,7 @@ public class PanelManager : MonoBehaviour {
         panelsList.Add(phonePanel);
         panelsList.Add(rhymePanel);
         panelsList.Add(pausePanel);
+        panelsList.Add(countPanel);
 
         gameManager = FindObjectOfType<GameManager>();
     }
@@ -60,6 +62,11 @@ public class PanelManager : MonoBehaviour {
     public void ShowPausePanel() {
         HideAllPanels();
         pausePanel.SetActive(true);
+    }
+
+    public void ShowCountPanel() {
+        HideAllPanels();
+        countPanel.SetActive(true);
     }
 
     public void ShowTrainPanel() {
