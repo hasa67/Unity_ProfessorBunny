@@ -10,8 +10,7 @@ public class PairsGameManager : MonoBehaviour {
     public float cardFlipTime;
 
     private float previewWaitTime = 4f;
-    private int score1;
-    private int score2;
+    private int score;
     private int realScore;
     private int remainingRounds;
     private int totalRounds;
@@ -44,9 +43,8 @@ public class PairsGameManager : MonoBehaviour {
     }
 
     private void Initialize() {
-        score1 = 0;
-        score2 = 0;
-        gameManager.UpdateScoreText(score1, totalRounds);
+        score = 0;
+        gameManager.UpdateScoreText(score, totalRounds);
         realScore = 8;
 
         questionSlots = GameObject.FindGameObjectsWithTag("QuestionSlot").ToList();
@@ -66,7 +64,7 @@ public class PairsGameManager : MonoBehaviour {
 
     public void NextRound() {
         if (remainingRounds <= 0) {
-            gameManager.AddScore("pairs", score1, score2, totalRounds, gameLevel, realScore / 2);
+            gameManager.AddScore("pairs", score, totalRounds, gameLevel, realScore / 2);
             gameManager.EndGame();
             return;
         }
@@ -114,9 +112,9 @@ public class PairsGameManager : MonoBehaviour {
     }
 
     public void IsCorrect() {
-        score1--;
+        score--;
         realScore--;
-        gameManager.UpdateScoreText(score1, totalRounds);
+        gameManager.UpdateScoreText(score, totalRounds);
         if (selectedCards.Count == 2) {
             StartCoroutine(IsCorrectCo());
         }

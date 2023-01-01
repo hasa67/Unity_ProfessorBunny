@@ -62,7 +62,7 @@ public class BellGameManager : MonoBehaviour {
 
     public void NextRound() {
         if (remainingRounds <= 0) {
-            gameManager.AddScore("bell", score, score, totalRounds, gameLevel);
+            gameManager.AddScore("bell", score, totalRounds, gameLevel);
             gameManager.EndGame();
             return;
         }
@@ -100,7 +100,7 @@ public class BellGameManager : MonoBehaviour {
             gameManager.IsControllable(false);
 
             InstantiateQuestionCard(i);
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(1.2f);
 
             gameManager.IsControllable(true);
             if (isCorrect) {

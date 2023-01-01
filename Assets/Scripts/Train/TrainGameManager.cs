@@ -14,8 +14,7 @@ public class TrainGameManager : MonoBehaviour {
 
     private int remainingRounds;
     private int totalRounds;
-    private int score1;
-    private int score2;
+    private int score;
     private GameManager gameManager;
     private List<QuestionCard> currentTrainCards = new List<QuestionCard>();
     private List<TrainQuestionCard> currentQuestionCards = new List<TrainQuestionCard>();
@@ -40,10 +39,9 @@ public class TrainGameManager : MonoBehaviour {
     }
 
     private void Initialize() {
-        score1 = 0;
-        score2 = 0;
+        score = 0;
         additionalTouch = 0;
-        gameManager.UpdateScoreText(score1, totalRounds);
+        gameManager.UpdateScoreText(score, totalRounds);
 
         currentTrainCards.Clear();
         foreach (var card in trainCards) {
@@ -134,12 +132,11 @@ public class TrainGameManager : MonoBehaviour {
         }
 
         if (j == answerSlots.Count) {
-            score1++;
-            gameManager.UpdateScoreText(score1, totalRounds);
+            score++;
+            gameManager.UpdateScoreText(score, totalRounds);
         }
 
         if (i == answerSlots.Count) {
-            score2 += j;
             StartCoroutine(IsRoundFinishedCo());
         }
     }
@@ -156,7 +153,7 @@ public class TrainGameManager : MonoBehaviour {
     }
 
     private void AddScore() {
-        gameManager.AddScore("train", score1, score2, totalRounds, 0, additionalTouch);
+        gameManager.AddScore("train", score, totalRounds, 0, additionalTouch);
     }
 
     private float TrainArrive() {

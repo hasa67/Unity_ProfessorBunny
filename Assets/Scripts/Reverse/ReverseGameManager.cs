@@ -10,8 +10,7 @@ public class ReverseGameManager : MonoBehaviour {
     public GameObject questionSlotsPanel;
     public float cardFlipTime;
 
-    private int score1;
-    private int score2;
+    private int score;
     private int selectedCards;
     private int remainingRounds;
     private int totalRounds;
@@ -46,9 +45,8 @@ public class ReverseGameManager : MonoBehaviour {
     }
 
     private void Initialize() {
-        score1 = 0;
-        score2 = 0;
-        gameManager.UpdateScoreText(score1, totalRounds);
+        score = 0;
+        gameManager.UpdateScoreText(score, totalRounds);
 
         questionSlots = GameObject.FindGameObjectsWithTag("QuestionSlot").ToList();
         answerSlots = GameObject.FindGameObjectsWithTag("AnswerSlot").ToList();
@@ -72,7 +70,7 @@ public class ReverseGameManager : MonoBehaviour {
 
     public void NextRound() {
         if (remainingRounds <= 0) {
-            gameManager.AddScore("reverse", score1, score2, totalRounds, gameLevel);
+            gameManager.AddScore("reverse", score, totalRounds, gameLevel);
             gameManager.EndGame();
             return;
         }
@@ -162,13 +160,12 @@ public class ReverseGameManager : MonoBehaviour {
             }
         }
         if (i == answerSlots.Count()) {
-            score1++;
-            gameManager.UpdateScoreText(score1, totalRounds);
+            score++;
+            gameManager.UpdateScoreText(score, totalRounds);
             audioManager.PlayCorrectClip();
         } else {
             audioManager.PlayWrongClip();
         }
-        score2 += i;
         yield return new WaitForSeconds(1f);
 
         float delay = CardsLeave();

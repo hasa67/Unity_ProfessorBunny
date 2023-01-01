@@ -8,7 +8,6 @@ public class AudioManager : MonoBehaviour {
 
     public AudioClip correctClip;
     public AudioClip wrongClip;
-    public AudioClip countClip;
     public AudioClip[] cardDealClip;
 
     public AudioClip helpClip;
@@ -31,11 +30,6 @@ public class AudioManager : MonoBehaviour {
 
     public void PlayWrongClip() {
         audioSource.clip = wrongClip;
-        audioSource.Play();
-    }
-
-    public void PlayCountClip() {
-        audioSource.clip = countClip;
         audioSource.Play();
     }
 

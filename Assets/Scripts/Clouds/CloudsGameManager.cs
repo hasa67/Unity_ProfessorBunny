@@ -69,7 +69,7 @@ public class CloudsGameManager : MonoBehaviour {
 
     public void NextRound() {
         if (remainingRounds <= 0) {
-            gameManager.AddScore(gameName, score, score, totalRounds, gameLevel);
+            gameManager.AddScore(gameName, score, totalRounds, gameLevel);
             gameManager.EndGame();
             return;
         }

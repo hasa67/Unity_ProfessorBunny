@@ -10,8 +10,7 @@ public class SandwichGameManager : MonoBehaviour {
     public GameObject topBread;
     public GameObject questionSlotsPanel;
 
-    private int score1;
-    private int score2;
+    private int score;
     private int remainingRounds;
     private int totalRounds;
     private GameManager gameManager;
@@ -37,9 +36,8 @@ public class SandwichGameManager : MonoBehaviour {
     }
 
     private void Initialize() {
-        score1 = 0;
-        score2 = 0;
-        gameManager.UpdateScoreText(score1, totalRounds);
+        score = 0;
+        gameManager.UpdateScoreText(score, totalRounds);
 
         questionSlots = GameObject.FindGameObjectsWithTag("QuestionSlot");
 
@@ -49,7 +47,7 @@ public class SandwichGameManager : MonoBehaviour {
 
     public void NextRound() {
         if (remainingRounds <= 0) {
-            gameManager.AddScore("sandwich", score1, score2, totalRounds, 0);
+            gameManager.AddScore("sandwich", score, totalRounds, 0);
             gameManager.EndGame();
             return;
         }
@@ -128,8 +126,8 @@ public class SandwichGameManager : MonoBehaviour {
         gameManager.IsControllable(false);
 
         if (IsCorrect()) {
-            score1++;
-            gameManager.UpdateScoreText(score1, totalRounds);
+            score++;
+            gameManager.UpdateScoreText(score, totalRounds);
         }
 
 
@@ -156,7 +154,6 @@ public class SandwichGameManager : MonoBehaviour {
         if (i == answerSlots.Count) {
             output = true;
         }
-        score2 += i;
         return output;
     }
 
