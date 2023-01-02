@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour {
     public Button startButton;
     public Button repeatButton;
     public Slider starsSlider;
+    public ParticleSystem[] particles;
 
     [Range(1, 10)] public int rounds;
     [Range(1, 3)] public int level;
@@ -262,18 +263,23 @@ public class GameManager : MonoBehaviour {
             starsSlider.value = filler;
             if (starsFilled == 0 && filler >= 1) {
                 audioManager.PlayStarClip(starsFilled);
+                particles[starsFilled].Play();
                 starsFilled++;
             } else if (starsFilled == 1 && filler >= 2) {
                 audioManager.PlayStarClip(starsFilled);
+                particles[starsFilled].Play();
                 starsFilled++;
             } else if (starsFilled == 2 && filler >= 3) {
                 audioManager.PlayStarClip(starsFilled);
+                particles[starsFilled].Play();
                 starsFilled++;
             } else if (starsFilled == 3 && filler >= 4) {
                 audioManager.PlayStarClip(starsFilled);
+                particles[starsFilled].Play();
                 starsFilled++;
             } else if (starsFilled == 4 && filler >= 5) {
                 audioManager.PlayStarClip(starsFilled);
+                particles[starsFilled].Play();
                 starsFilled++;
             }
             yield return null;
