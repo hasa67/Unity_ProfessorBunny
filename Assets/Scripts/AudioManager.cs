@@ -9,6 +9,8 @@ public class AudioManager : MonoBehaviour {
     public AudioClip correctClip;
     public AudioClip wrongClip;
     public AudioClip countClip;
+    public AudioClip starChargingClip;
+    public AudioClip[] StarClip;
     public AudioClip[] cardDealClip;
 
     public AudioClip helpClip;
@@ -42,6 +44,16 @@ public class AudioManager : MonoBehaviour {
     public void PlayCardDealSound() {
         audioSource.clip = cardDealClip[Random.Range(0, cardDealClip.Length)];
         audioSource.Play();
+    }
+
+    public void PlayStarChargingSound() {
+        audioSource.clip = starChargingClip;
+        audioSource.Play();
+    }
+
+    public void PlayStarClip(int starNumber) {
+        helpAudioSource.clip = StarClip[starNumber];
+        helpAudioSource.Play();
     }
 
     public void SetGameClip(string gameName) {
@@ -98,5 +110,13 @@ public class AudioManager : MonoBehaviour {
     public void StopPlay() {
         audioSource.Stop();
         helpAudioSource.Stop();
+    }
+
+    public void StopPlay1() {
+        audioSource.Stop();
+    }
+
+    public void StopPlay2() {
+        audioSource.Stop();
     }
 }

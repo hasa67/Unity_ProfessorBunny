@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour {
     public float previewWaitTime;
     public Button startButton;
     public Button repeatButton;
+    public Slider starsSlider;
 
     [Range(1, 10)] public int rounds;
     [Range(1, 3)] public int level;
@@ -239,6 +240,47 @@ public class GameManager : MonoBehaviour {
     }
 
     public void EndGame() {
+        StartCoroutine(EndGameCo());
+    }
+
+    IEnumerator EndGameCo() {
+        panelManager.ShowStarsPanel();
+
+        float newMin = 0.5f;
+        float newMax = 5f;
+        float oldMin = 0f;
+        float oldMax = scoreList[scoreList.Count - 1].maxScore;
+
+        float oldScore = scoreList[scoreList.Count - 1].score2;
+        float newScore = (((oldScore - oldMin) * (newMax - newMin)) / (oldMax - oldMin)) + 0.5f;
+
+        audioManager.PlayStarChargingSound();
+        int starsFilled = 0;
+        float filler = 0f;
+        while (filler < newScore) {
+            filler += 2f * Time.deltaTime;
+            starsSlider.value = filler;
+            if (starsFilled == 0 && filler >= 1) {
+                audioManager.PlayStarClip(starsFilled);
+                starsFilled++;
+            } else if (starsFilled == 1 && filler >= 2) {
+                audioManager.PlayStarClip(starsFilled);
+                starsFilled++;
+            } else if (starsFilled == 2 && filler >= 3) {
+                audioManager.PlayStarClip(starsFilled);
+                starsFilled++;
+            } else if (starsFilled == 3 && filler >= 4) {
+                audioManager.PlayStarClip(starsFilled);
+                starsFilled++;
+            } else if (starsFilled == 4 && filler >= 5) {
+                audioManager.PlayStarClip(starsFilled);
+                starsFilled++;
+            }
+            yield return null;
+        }
+        audioManager.StopPlay1();
+
+        yield return new WaitForSeconds(2f);
         panelManager.ShowMainPanel();
     }
 
