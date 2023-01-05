@@ -41,6 +41,8 @@ public class GameManager : MonoBehaviour {
 
     public List<Score> scoreList = new List<Score>();
     private int score;
+    private int gameCount;
+    private bool isPlayingReal;
     private PanelManager panelManager;
     private AudioManager audioManager;
     private VideoManager videoManager;
@@ -68,6 +70,8 @@ public class GameManager : MonoBehaviour {
     }
 
     public void Initialize() {
+        gameCount = 1;
+        isPlayingReal = false;
         playerName = PlayerPrefs.GetString("PlayerName");
         panelManager.ShowMainPanel();
         playerNameText.text = playerName;
@@ -82,10 +86,7 @@ public class GameManager : MonoBehaviour {
         timerText.text = timer.ToString();
 
         levelText.text = "Level " + levelSlider.value.ToString();
-        level = Mathf.RoundToInt(levelSlider.value);
-
         roundsText.text = roundsSlider.value.ToString() + " Rounds";
-        rounds = Mathf.RoundToInt(roundsSlider.value);
     }
 
     private void ShowPausePanel() {
@@ -97,6 +98,10 @@ public class GameManager : MonoBehaviour {
         StopCoroutine(helpCoroutine);
         audioManager.StopPlay();
         videoManager.ClearVideoClip();
+        if (!isPlayingReal) {
+            level = Mathf.RoundToInt(levelSlider.value);
+            rounds = Mathf.RoundToInt(roundsSlider.value);
+        }
 
         StartCoroutine(StartButtonCo());
     }
@@ -174,6 +179,48 @@ public class GameManager : MonoBehaviour {
         yield return new WaitForSeconds(waitTime);
     }
 
+    public void StartTest() {
+        isPlayingReal = true;
+        ShowPausePanel();
+        // rounds = 3;
+        rounds = Mathf.RoundToInt(roundsSlider.value);
+        if (gameCount <= 3) {
+            currentGameName = "pairs";
+            level = gameCount;
+        } else if (gameCount <= 6) {
+            currentGameName = "reverse";
+            level = gameCount - 3;
+        } else if (gameCount <= 7) {
+            currentGameName = "sandwich";
+        } else if (gameCount <= 8) {
+            currentGameName = "train";
+        } else if (gameCount <= 9) {
+            currentGameName = "clouds1";
+        } else if (gameCount <= 10) {
+            currentGameName = "clouds2";
+        } else if (gameCount <= 13) {
+            currentGameName = "colors";
+            level = gameCount - 10;
+        } else if (gameCount <= 16) {
+            currentGameName = "bell";
+            level = gameCount - 13;
+        } else if (gameCount <= 17) {
+            currentGameName = "rhyme";
+        } else if (gameCount <= 20) {
+            currentGameName = "worm";
+            level = gameCount - 17;
+        } else if (gameCount <= 23) {
+            currentGameName = "phone";
+            level = gameCount - 20;
+        } else {
+            isPlayingReal = false;
+            panelManager.ShowMainPanel();
+            Debug.Log("gameCount ot of range!");
+        }
+
+        helpCoroutine = StartCoroutine(StartGameCo());
+    }
+
     public void StartTrainGame() {
         ShowPausePanel();
         currentGameName = "train";
@@ -241,6 +288,9 @@ public class GameManager : MonoBehaviour {
     }
 
     public void EndGame() {
+        if (isPlayingReal) {
+            gameCount++;
+        }
         StartCoroutine(EndGameCo());
     }
 
@@ -285,9 +335,13 @@ public class GameManager : MonoBehaviour {
             yield return null;
         }
         audioManager.StopPlay1();
-
         yield return new WaitForSeconds(2f);
-        panelManager.ShowMainPanel();
+
+        if (isPlayingReal) {
+            StartTest();
+        } else {
+            panelManager.ShowMainPanel();
+        }
     }
 
     public void UpdateScoreText(int score, int totalRounds) {

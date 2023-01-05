@@ -12,6 +12,7 @@ public class PhoneGameManager : MonoBehaviour {
     public GameObject phoneQuestionPrefab;
     public GameObject phone;
     public Image numbersPanel;
+    public GameObject trashBin;
 
     private int score1;
     private int score2;
@@ -19,7 +20,7 @@ public class PhoneGameManager : MonoBehaviour {
     private int remainingRounds;
     private int totalRounds;
     private int gameLevel;
-    private int questionsCount = 5;
+    private int questionsCount;
     private AudioSource audioSource;
     private GameManager gameManager;
     private AudioManager audioManager;
@@ -45,6 +46,7 @@ public class PhoneGameManager : MonoBehaviour {
         remainingRounds = roundCount;
         totalRounds = roundCount;
         gameLevel = level;
+        questionsCount = gameLevel + 2;
         Initialize();
 
         if (remainingRounds > 0) {
@@ -69,11 +71,23 @@ public class PhoneGameManager : MonoBehaviour {
 
         answerSlots = GameObject.FindGameObjectsWithTag("AnswerSlot").ToList();
         answerSlots = answerSlots.OrderBy(go => go.name).ToList();
+
+        foreach (var slot in answerSlots) {
+            slot.transform.SetParent(numbersPanel.transform);
+        }
+        if (gameLevel <= 2) {
+            answerSlots[answerSlots.Count - 1].transform.SetParent(trashBin.transform);
+            answerSlots.RemoveAt(answerSlots.Count - 1);
+            if (gameLevel <= 1) {
+                answerSlots[answerSlots.Count - 1].transform.SetParent(trashBin.transform);
+                answerSlots.RemoveAt(answerSlots.Count - 1);
+            }
+        }
     }
 
     public void NextRound() {
         if (remainingRounds <= 0) {
-            maxScore = 5 * totalRounds;
+            maxScore = (gameLevel + 2) * totalRounds;
             gameManager.AddScore("phone", score1, totalRounds, score2, maxScore, gameLevel);
             gameManager.EndGame();
             return;
@@ -86,6 +100,7 @@ public class PhoneGameManager : MonoBehaviour {
         selectedAnswers.Clear();
 
         MyFunctions.ShuffleQuestionCard(phoneCards[gameLevel - 1]);
+        MyFunctions.ShuffleQuestionCard(phoneCards[0]);
         for (int i = 0; i < dialKeys.Count; i++) {
             dialKeys[i].SetQuestionCard(phoneCards[gameLevel - 1][i]);
         }
@@ -160,7 +175,7 @@ public class PhoneGameManager : MonoBehaviour {
             }
             if (selectedAnswers[i] != currentAnswers[i]) {
                 output = false;
-                break;
+                // break;
             }
         }
         return output;

@@ -6,6 +6,7 @@ public class PanelManager : MonoBehaviour {
     public GameObject infoPanel;
     public GameObject loginPanel;
     public GameObject mainPanel;
+    public GameObject startPanel;
     public GameObject trainPanel;
     public GameObject blockPanel;
     public GameObject sandwichPanel;
@@ -27,6 +28,7 @@ public class PanelManager : MonoBehaviour {
     private void Awake() {
         panelsList.Add(loginPanel);
         panelsList.Add(mainPanel);
+        panelsList.Add(startPanel);
         panelsList.Add(trainPanel);
         panelsList.Add(sandwichPanel);
         panelsList.Add(blockPanel);
@@ -59,6 +61,11 @@ public class PanelManager : MonoBehaviour {
     public void ShowMainPanel() {
         HideAllPanels();
         mainPanel.SetActive(true);
+    }
+
+    public void ShowStartPanel() {
+        HideAllPanels();
+        startPanel.SetActive(true);
     }
 
     public void ShowPausePanel() {
