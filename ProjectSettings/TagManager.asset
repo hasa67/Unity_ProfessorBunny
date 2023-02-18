@@ -6,6 +6,8 @@ TagManager:
   tags:
   - QuestionSlot
   - AnswerSlot
+  - UploadButton
+  - PlayButton
   layers:
   - Default
   - TransparentFX

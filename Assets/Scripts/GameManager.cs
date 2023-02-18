@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 
 public class GameManager : MonoBehaviour {
-
+    public bool isDebugging;
     public string playerName;
     public Text scoreText;
     public Text timerText;
@@ -14,7 +14,6 @@ public class GameManager : MonoBehaviour {
     public Text levelText;
     public Slider roundsSlider;
     public Text roundsText;
-    public Button uploadButton;
     public float roundsWaitTime;
     public float previewWaitTime;
     public Button startButton;
@@ -40,9 +39,11 @@ public class GameManager : MonoBehaviour {
     [HideInInspector] public RhymeGameManager rhymeGameManager;
 
     public List<Score> scoreList = new List<Score>();
+    public List<bool> replayList = new List<bool>();
+    private bool isTestFunction = false;
     private int score;
+    private int gameStage;
     private int gameCount;
-    private bool isPlayingReal;
     private PanelManager panelManager;
     private AudioManager audioManager;
     private VideoManager videoManager;
@@ -70,12 +71,17 @@ public class GameManager : MonoBehaviour {
     }
 
     public void Initialize() {
-        gameCount = 1;
-        isPlayingReal = false;
+        gameStage = 1;
         playerName = PlayerPrefs.GetString("PlayerName");
-        panelManager.ShowMainPanel();
-        playerNameText.text = playerName;
 
+        if (isDebugging) {
+            panelManager.ShowMainPanel();
+        } else {
+            panelManager.ShowStartPanel();
+            audioManager.PlayMenuBackgrounMusic();
+        }
+
+        playerNameText.text = playerName;
         Stopwatch(false);
     }
 
@@ -83,10 +89,12 @@ public class GameManager : MonoBehaviour {
         if (stopWatch == true) {
             timer += Time.deltaTime;
         }
-        timerText.text = timer.ToString();
 
-        levelText.text = "Level " + levelSlider.value.ToString();
-        roundsText.text = roundsSlider.value.ToString() + " Rounds";
+        if (isDebugging) {
+            timerText.text = timer.ToString();
+            levelText.text = "Level " + levelSlider.value.ToString();
+            roundsText.text = roundsSlider.value.ToString() + " Rounds";
+        }
     }
 
     private void ShowPausePanel() {
@@ -96,11 +104,13 @@ public class GameManager : MonoBehaviour {
 
     public void StartGameButton() {
         StopCoroutine(helpCoroutine);
-        audioManager.StopPlay();
+        audioManager.StopAllSources();
         videoManager.ClearVideoClip();
-        if (!isPlayingReal) {
-            level = Mathf.RoundToInt(levelSlider.value);
+        if (isDebugging) {
             rounds = Mathf.RoundToInt(roundsSlider.value);
+            if (!isTestFunction) {
+                level = Mathf.RoundToInt(levelSlider.value);
+            }
         }
 
         StartCoroutine(StartButtonCo());
@@ -164,7 +174,7 @@ public class GameManager : MonoBehaviour {
 
     public void RepeatHelpVoice() {
         StopCoroutine(helpCoroutine);
-        audioManager.StopPlay();
+        audioManager.StopAllSources();
         helpCoroutine = StartCoroutine(StartGameCo());
     }
 
@@ -172,18 +182,47 @@ public class GameManager : MonoBehaviour {
         audioManager.SetGameClip(currentGameName);
         videoManager.SetVideoClip(currentGameName);
 
-        float waitTime = audioManager.PlayClip();
-        yield return new WaitForSeconds(waitTime);
-        yield return new WaitForSeconds(0.5f);
-        waitTime = audioManager.PlayHelpClip();
+        float waitTime = audioManager.PlaySource1();
         yield return new WaitForSeconds(waitTime);
     }
 
+    public void StartTestButton() {
+        isTestFunction = true;
+        gameCount = 1;
+        scoreList.Clear();
+        StartTest();
+    }
+
     public void StartTest() {
-        isPlayingReal = true;
+        audioManager.StopAllSources();
         ShowPausePanel();
-        // rounds = 3;
-        rounds = Mathf.RoundToInt(roundsSlider.value);
+
+        if (isDebugging) {
+            rounds = Mathf.RoundToInt(roundsSlider.value);
+        } else {
+            rounds = 3;
+        }
+
+        // stage finished
+        if (gameCount > 23 || gameStage > 2) {
+            isTestFunction = false;
+            if (isDebugging) {
+                panelManager.ShowMainPanel();
+            } else {
+                panelManager.ShowUploadPanel();
+            }
+            gameStage++;
+            return;
+        }
+
+        if (gameStage == 2) {
+            if (replayList[gameCount - 1] == false) {
+                gameCount++;
+                StartTest();
+                return;
+            }
+        }
+
         if (gameCount <= 3) {
             currentGameName = "pairs";
             level = gameCount;
@@ -212,13 +251,20 @@ public class GameManager : MonoBehaviour {
         } else if (gameCount <= 23) {
             currentGameName = "phone";
             level = gameCount - 20;
-        } else {
-            isPlayingReal = false;
-            panelManager.ShowMainPanel();
-            Debug.Log("gameCount ot of range!");
         }
 
         helpCoroutine = StartCoroutine(StartGameCo());
+    }
+
+    public void NextStage() {
+        if (gameStage == 2) {
+            StartTestButton();
+        } else {
+            Button playButton = GameObject.FindGameObjectWithTag("PlayButton").GetComponent<Button>();
+            Text playButtonText = playButton.GetComponentInChildren<Text>();
+            playButtonText.text = "بازی تمام شد";
+            playButton.interactable = false;
+        }
     }
 
     public void StartTrainGame() {
@@ -288,9 +334,7 @@ public class GameManager : MonoBehaviour {
     }
 
     public void EndGame() {
-        if (isPlayingReal) {
-            gameCount++;
-        }
+        gameCount++;
         StartCoroutine(EndGameCo());
     }
 
@@ -334,10 +378,10 @@ public class GameManager : MonoBehaviour {
             }
             yield return null;
         }
-        audioManager.StopPlay1();
+        audioManager.StopSource1();
         yield return new WaitForSeconds(2f);
 
-        if (isPlayingReal) {
+        if (isTestFunction) {
             StartTest();
         } else {
             panelManager.ShowMainPanel();
@@ -360,7 +404,87 @@ public class GameManager : MonoBehaviour {
         newScore.optional = optional;
         scoreList.Add(newScore);
 
+        if (isTestFunction && gameStage == 1) {
+            UpdateReplayList();
+        }
+
         ResetStopwatch();
+    }
+
+    private void UpdateReplayList() {
+        Score score = scoreList[scoreList.Count - 1];
+        bool replay = true;
+        switch (score.name) {
+            case "train":
+                if (score.time <= 20 && score.score1 >= 2) {
+                    replay = false;
+                }
+                break;
+            case "sandwich":
+                if (score.time <= 10 && score.score1 >= 2) {
+                    replay = false;
+                }
+                break;
+            case "reverse":
+                if ((score.level == 1 && score.time <= 6 && score.score1 >= 2) ||
+                    (score.level == 2 && score.time <= 10 && score.score1 >= 2) ||
+                    (score.level == 3 && score.time <= 16 && score.score2 >= 4)) {
+                    replay = false;
+                }
+                break;
+            case "pairs":
+                if ((score.level == 1 && score.time <= 7 && score.optional >= -1) ||
+                    (score.level == 2 && score.time <= 12 && score.optional >= -2) ||
+                    (score.level == 3 && score.time <= 22 && score.optional >= -2)) {
+                    replay = false;
+                }
+                break;
+            case "colors":
+                if ((score.level == 1 && score.time <= 16 && score.score1 >= 2) ||
+                    (score.level == 2 && score.time <= 21 && score.score1 >= 2) ||
+                    (score.level == 3 && score.time <= 26 && score.score1 >= 2)) {
+                    replay = false;
+                }
+                break;
+            case "worm":
+                if ((score.level == 1 && score.time <= 22 && score.score1 >= 2) ||
+                    (score.level == 2 && score.time <= 23 && score.score1 >= 2) ||
+                    (score.level == 3 && score.time <= 25 && score.score1 >= 2)) {
+                    replay = false;
+                }
+                break;
+            case "clouds1":
+                if (score.time <= 5 && score.score1 >= 2) {
+                    replay = false;
+                }
+                break;
+            case "clouds2":
+                if (score.time <= 8 && score.score1 >= 2) {
+                    replay = false;
+                }
+                break;
+            case "bell":
+                if (score.time <= 3.6f && score.score1 >= 2) {
+                    replay = false;
+                }
+                break;
+            case "phone":
+                if ((score.level == 1 && score.time <= 7 && score.score1 >= 2) ||
+                    (score.level == 2 && score.time <= 10 && score.score1 >= 2) ||
+                    (score.level == 3 && score.time <= 16 && score.score1 >= 2)) {
+                    replay = false;
+                }
+                break;
+            case "rhyme":
+                if (score.time <= 10 && score.score1 >= 2) {
+                    replay = false;
+                }
+                break;
+            default:
+                Debug.Log("replayList: gameName not found!");
+                break;
+        }
+        replayList.Add(replay);
     }
 
     public void UploadScore() {
@@ -369,8 +493,9 @@ public class GameManager : MonoBehaviour {
             for (int i = 0; i < scoreList.Count; i++) {
                 scoreString += scoreList[i].name + ",";
                 scoreString += scoreList[i].score1.ToString() + ",";
-                scoreString += scoreList[i].score2.ToString() + ",";
                 scoreString += scoreList[i].rounds.ToString() + ",";
+                scoreString += scoreList[i].score2.ToString() + ",";
+                scoreString += scoreList[i].maxScore.ToString() + ",";
                 scoreString += scoreList[i].level.ToString() + ",";
                 scoreString += scoreList[i].time.ToString() + ",";
                 scoreString += scoreList[i].optional.ToString();
@@ -387,12 +512,31 @@ public class GameManager : MonoBehaviour {
     }
 
     IEnumerator UploadScoreCo(string scoreString) {
-        Text buttonText = uploadButton.GetComponentInChildren<Text>();
-        buttonText.text = "uploading ...";
+        Button uploadButton = GameObject.FindGameObjectWithTag("UploadButton").GetComponent<Button>();
+        Button playButton = GameObject.FindGameObjectWithTag("PlayButton").GetComponent<Button>();
+
+        string uploadingText;
+        string errorText;
+        string doneText;
+
+        bool isUploaded = false;
+
+        if (isDebugging) {
+            uploadingText = "uploading ...";
+            errorText = "error!";
+            doneText = "done!";
+        } else {
+            uploadingText = "در حال بارگذاری";
+            errorText = "خطا";
+            doneText = "اتمام بارگذاری";
+        }
+
+        Text uploadButtonText = uploadButton.GetComponentInChildren<Text>();
+        uploadButtonText.text = uploadingText;
         uploadButton.interactable = false;
 
         WWWForm form = new WWWForm();
-        form.AddField("entry.1429677245", playerName);
+        form.AddField("entry.1429677245", playerName + " - " + gameStage.ToString());
         form.AddField("entry.454959095", scoreString);
         byte[] rawData = form.data;
 
@@ -400,17 +544,30 @@ public class GameManager : MonoBehaviour {
         yield return www.SendWebRequest();
         if (www.result == UnityWebRequest.Result.ConnectionError) {
             Debug.Log(www.error);
-            buttonText.text = "error!";
+            uploadButtonText.text = errorText;
             audioManager.PlayWrongClip();
+            isUploaded = false;
         } else {
             Debug.Log("upload completed");
-            buttonText.text = "done!";
+            uploadButtonText.text = doneText;
             audioManager.PlayCorrectClip();
+            isUploaded = true;
         }
 
         yield return new WaitForSeconds(2f);
-        uploadButton.interactable = true;
-        buttonText.text = "Upload";
+
+        if (isDebugging) {
+            uploadButton.interactable = true;
+            uploadButtonText.text = "Upload";
+            playButton.interactable = true;
+        } else {
+            if (isUploaded) {
+                playButton.interactable = true;
+            } else {
+                uploadButton.interactable = true;
+                uploadButtonText.text = "بارگذاری نتایج";
+            }
+        }
     }
 
     public void IsControllable(bool isControllable) {

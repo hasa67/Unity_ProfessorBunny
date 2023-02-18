@@ -10,8 +10,8 @@ public class BellGameManager : MonoBehaviour {
     public GameObject bellQuestionPrefab;
     public GameObject questionSlotsPanel;
     public GameObject bell;
-    public float waitTime;
 
+    private float waitTime = 1.2f;
     private int score;
     private int remainingRounds;
     private int totalRounds;

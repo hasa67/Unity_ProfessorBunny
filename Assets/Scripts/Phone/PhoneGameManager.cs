@@ -26,9 +26,10 @@ public class PhoneGameManager : MonoBehaviour {
     private AudioManager audioManager;
     private List<PhoneQuestionCard> dialKeys = new List<PhoneQuestionCard>();
     private List<List<QuestionCard>> phoneCards = new List<List<QuestionCard>>();
+    private List<QuestionCard> currentDialCards = new List<QuestionCard>();
     private List<QuestionCard> currentQuestionCards = new List<QuestionCard>();
-    public List<string> currentAnswers = new List<string>();
-    public List<string> selectedAnswers = new List<string>();
+    private List<string> currentAnswers = new List<string>();
+    private List<string> selectedAnswers = new List<string>();
     private List<GameObject> answerSlots = new List<GameObject>();
 
     void Awake() {
@@ -64,14 +65,12 @@ public class PhoneGameManager : MonoBehaviour {
 
         dialKeys = FindObjectsOfType<PhoneQuestionCard>().ToList();
         dialKeys = dialKeys.OrderBy(go => go.name).ToList();
-
         for (int i = 0; i < dialKeys.Count; i++) {
             dialKeys[i].Initialize(i);
         }
 
         answerSlots = GameObject.FindGameObjectsWithTag("AnswerSlot").ToList();
         answerSlots = answerSlots.OrderBy(go => go.name).ToList();
-
         foreach (var slot in answerSlots) {
             slot.transform.SetParent(numbersPanel.transform);
         }
@@ -95,17 +94,20 @@ public class PhoneGameManager : MonoBehaviour {
         remainingRounds--;
 
         ResetPhone();
+        currentDialCards.Clear();
         currentQuestionCards.Clear();
         currentAnswers.Clear();
         selectedAnswers.Clear();
 
         MyFunctions.ShuffleQuestionCard(phoneCards[gameLevel - 1]);
-        MyFunctions.ShuffleQuestionCard(phoneCards[0]);
         for (int i = 0; i < dialKeys.Count; i++) {
             dialKeys[i].SetQuestionCard(phoneCards[gameLevel - 1][i]);
+            currentDialCards.Add(phoneCards[gameLevel - 1][i]);
         }
+
+        MyFunctions.ShuffleQuestionCard(currentDialCards);
         for (int i = 0; i < questionsCount; i++) {
-            currentQuestionCards.Add(phoneCards[gameLevel - 1][i]);
+            currentQuestionCards.Add(currentDialCards[i]);
         }
 
         StartCoroutine(PlaySoundsCo());

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PanelManager : MonoBehaviour {
     public GameObject infoPanel;
@@ -21,6 +22,7 @@ public class PanelManager : MonoBehaviour {
     public GameObject pausePanel;
     public GameObject countPanel;
     public GameObject starsPanel;
+    public GameObject uploadPanel;
 
     private List<GameObject> panelsList = new List<GameObject>();
     private GameManager gameManager;
@@ -43,6 +45,7 @@ public class PanelManager : MonoBehaviour {
         panelsList.Add(pausePanel);
         panelsList.Add(countPanel);
         panelsList.Add(starsPanel);
+        panelsList.Add(uploadPanel);
 
         gameManager = FindObjectOfType<GameManager>();
     }
@@ -81,6 +84,16 @@ public class PanelManager : MonoBehaviour {
     public void ShowStarsPanel() {
         HideAllPanels();
         starsPanel.SetActive(true);
+    }
+
+    public void ShowUploadPanel() {
+        HideAllPanels();
+        uploadPanel.SetActive(true);
+        Button uploadButton = GameObject.FindGameObjectWithTag("UploadButton").GetComponent<Button>();
+        uploadButton.GetComponentInChildren<Text>().text = "بارگذاری نتایج";
+        uploadButton.interactable = true;
+        Button playButton = GameObject.FindGameObjectWithTag("PlayButton").GetComponent<Button>();
+        playButton.interactable = false;
     }
 
     public void ShowTrainPanel() {
