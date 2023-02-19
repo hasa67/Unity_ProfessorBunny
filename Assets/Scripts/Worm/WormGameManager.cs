@@ -15,6 +15,7 @@ public class WormGameManager : MonoBehaviour {
 
     public int additionalTouch;
 
+    private float[] previewWaitTime = { 6f, 7f, 8f };
     private int remainingRounds;
     private int totalRounds;
     private int gameLevel;
@@ -22,6 +23,7 @@ public class WormGameManager : MonoBehaviour {
     private int score2;
     private int maxScore;
     private GameManager gameManager;
+    private AudioManager audioManager;
     private List<WormQuestionCard> currentQuestionCards = new List<WormQuestionCard>();
     private List<WormAnswerSlot> answerSlots = new List<WormAnswerSlot>();
     private List<GameObject> previewAnswersList = new List<GameObject>();
@@ -32,6 +34,7 @@ public class WormGameManager : MonoBehaviour {
     void Awake() {
         gameManager = FindObjectOfType<GameManager>();
         gameManager.wormGameManager = this;
+        audioManager = FindObjectOfType<AudioManager>();
 
         wormCards.Add(wormCards1);
         wormCards.Add(wormCards2);
@@ -63,6 +66,8 @@ public class WormGameManager : MonoBehaviour {
 
         answerSlots = FindObjectsOfType<WormAnswerSlot>().ToList();
         answerSlots = answerSlots.OrderBy(go => go.name).ToList();
+
+        audioManager.PlayWormBackgroundMusic();
     }
 
     public void NextRound() {
@@ -113,7 +118,7 @@ public class WormGameManager : MonoBehaviour {
         PreviewAnswersOn();
         float delay = WormArrive();
         yield return new WaitForSeconds(delay);
-        yield return new WaitForSeconds(gameManager.previewWaitTime);
+        yield return new WaitForSeconds(previewWaitTime[gameLevel - 1]);
         PreviewAnswersOff();
 
         yield return new WaitForSeconds(delay);
@@ -172,6 +177,7 @@ public class WormGameManager : MonoBehaviour {
     }
 
     private float CoverOff() {
+        audioManager.PlayLeafClip();
         questionsCover.GetComponent<Animator>().SetBool("on", false);
         float length = questionsCover.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
         return length;

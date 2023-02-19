@@ -17,6 +17,7 @@ public class WormQuestionCard : MonoBehaviour, IBeginDragHandler, IEndDragHandle
     private Canvas canvas;
     private Transform initialParent;
     private WormGameManager wormGameManager;
+    private AudioManager audioManager;
 
 
     private void Awake() {
@@ -25,6 +26,7 @@ public class WormQuestionCard : MonoBehaviour, IBeginDragHandler, IEndDragHandle
         // rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
         wormGameManager = FindObjectOfType<WormGameManager>();
+        audioManager = FindObjectOfType<AudioManager>();
 
         answerSlot = null;
     }
@@ -34,6 +36,7 @@ public class WormQuestionCard : MonoBehaviour, IBeginDragHandler, IEndDragHandle
     }
 
     public void OnBeginDrag(PointerEventData eventData) {
+        audioManager.PlayPickupClip();
         transform.SetParent(transform.root);
         transform.localScale = Vector3.one * 1.3f;
 
@@ -56,6 +59,7 @@ public class WormQuestionCard : MonoBehaviour, IBeginDragHandler, IEndDragHandle
         PlaceBack();
         transform.localScale = Vector3.one;
         canvasGroup.blocksRaycasts = true;
+        audioManager.PlayDropClip();
     }
 
     public void PlaceBack() {

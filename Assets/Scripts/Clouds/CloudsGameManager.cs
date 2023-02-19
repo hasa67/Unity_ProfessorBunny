@@ -12,6 +12,7 @@ public class CloudsGameManager : MonoBehaviour {
     public GameObject questionSlotsPanel;
     public GameObject cloudsCover;
 
+    private float[] previewWaitTime = { 6f, 8f };
     private int score;
     private int remainingRounds;
     private int totalRounds;
@@ -91,7 +92,7 @@ public class CloudsGameManager : MonoBehaviour {
 
         float delay = CardsArrive();
         yield return new WaitForSeconds(delay);
-        yield return new WaitForSeconds(gameManager.previewWaitTime);
+        yield return new WaitForSeconds(previewWaitTime[countsLevel - 1]);
         delay = CloudsCoverIn();
         yield return new WaitForSeconds(delay);
         yield return new WaitForSeconds(0.1f);

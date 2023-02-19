@@ -21,6 +21,10 @@ public class AudioManager : MonoBehaviour {
     public AudioClip bellClip;
     public AudioClip phoneClip;
     public AudioClip rhymeClip;
+    public AudioClip pickupClip;
+    public AudioClip dropClip;
+    public AudioClip[] leafClips;
+    public AudioClip wormBackgrounMusic;
 
     private AudioSource audioSource1;
     private AudioSource audioSource2;
@@ -40,6 +44,11 @@ public class AudioManager : MonoBehaviour {
 
     public void PlayMenuBackgrounMusic() {
         musicSource.clip = menuBackgroundMusic;
+        musicSource.Play();
+    }
+
+    public void PlayWormBackgroundMusic() {
+        musicSource.clip = wormBackgrounMusic;
         musicSource.Play();
     }
 
@@ -71,6 +80,21 @@ public class AudioManager : MonoBehaviour {
     public void PlayStarClip(int starNumber) {
         audioSource2.clip = StarClip[starNumber];
         audioSource2.Play();
+    }
+
+    public void PlayPickupClip() {
+        audioSource1.clip = pickupClip;
+        audioSource1.Play();
+    }
+
+    public void PlayDropClip() {
+        audioSource2.clip = dropClip;
+        audioSource2.Play();
+    }
+
+    public void PlayLeafClip() {
+        audioSource1.clip = leafClips[Random.Range(0, leafClips.Length)];
+        audioSource1.Play();
     }
 
     public void SetGameClip(string gameName) {

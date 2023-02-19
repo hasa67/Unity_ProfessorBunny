@@ -15,6 +15,7 @@ public class ColorsQuestionCard : MonoBehaviour, IBeginDragHandler, IEndDragHand
     private Canvas canvas;
     private Transform initialParent;
     private ColorsGameManager colorsGameManager;
+    private AudioManager audioManager;
 
 
     private void Awake() {
@@ -22,6 +23,7 @@ public class ColorsQuestionCard : MonoBehaviour, IBeginDragHandler, IEndDragHand
 
         canvasGroup = GetComponent<CanvasGroup>();
         colorsGameManager = FindObjectOfType<ColorsGameManager>();
+        audioManager = FindObjectOfType<AudioManager>();
 
         answerSlot = null;
     }
@@ -31,6 +33,7 @@ public class ColorsQuestionCard : MonoBehaviour, IBeginDragHandler, IEndDragHand
     }
 
     public void OnBeginDrag(PointerEventData eventData) {
+        audioManager.PlayPickupClip();
         transform.SetParent(transform.root);
         transform.localScale = Vector3.one * 1.3f;
 
@@ -53,6 +56,7 @@ public class ColorsQuestionCard : MonoBehaviour, IBeginDragHandler, IEndDragHand
         PlaceBack();
         transform.localScale = Vector3.one;
         canvasGroup.blocksRaycasts = true;
+        audioManager.PlayDropClip();
     }
 
     public void PlaceBack() {

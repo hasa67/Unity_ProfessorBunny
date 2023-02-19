@@ -17,6 +17,7 @@ public class TrainQuestionCard : MonoBehaviour, IBeginDragHandler, IEndDragHandl
     private Canvas canvas;
     private Transform initialParent;
     private TrainGameManager trainGameManager;
+    private AudioManager audioManager;
 
 
     private void Awake() {
@@ -25,6 +26,7 @@ public class TrainQuestionCard : MonoBehaviour, IBeginDragHandler, IEndDragHandl
         canvasGroup = GetComponent<CanvasGroup>();
         audioSource = GetComponent<AudioSource>();
         trainGameManager = FindObjectOfType<TrainGameManager>();
+        audioManager = FindObjectOfType<AudioManager>();
 
         answerSlot = null;
     }
@@ -34,6 +36,7 @@ public class TrainQuestionCard : MonoBehaviour, IBeginDragHandler, IEndDragHandl
     }
 
     public void OnBeginDrag(PointerEventData eventData) {
+        audioManager.PlayPickupClip();
         transform.localScale = Vector3.one * 1.3f;
 
         if (answerSlot != null) {
@@ -57,6 +60,7 @@ public class TrainQuestionCard : MonoBehaviour, IBeginDragHandler, IEndDragHandl
         PlaceBack();
         transform.localScale = Vector3.one;
         canvasGroup.blocksRaycasts = true;
+        audioManager.PlayDropClip();
     }
 
     public void PlaceBack() {

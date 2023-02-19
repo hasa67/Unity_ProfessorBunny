@@ -38,8 +38,8 @@ public class GameManager : MonoBehaviour {
     [HideInInspector] public PhoneGameManager phoneGameManager;
     [HideInInspector] public RhymeGameManager rhymeGameManager;
 
-    public List<Score> scoreList = new List<Score>();
-    public List<bool> replayList = new List<bool>();
+    private List<Score> scoreList = new List<Score>();
+    private List<bool> replayList = new List<bool>();
     private bool isTestFunction = false;
     private int score;
     private int gameStage;
@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour {
     private PanelManager panelManager;
     private AudioManager audioManager;
     private VideoManager videoManager;
+    private SaveManager saveManager;
     private Coroutine helpCoroutine;
     private string currentGameName;
     private bool stopWatch;
@@ -59,6 +60,7 @@ public class GameManager : MonoBehaviour {
         panelManager = FindObjectOfType<PanelManager>();
         audioManager = FindObjectOfType<AudioManager>();
         videoManager = FindObjectOfType<VideoManager>();
+        saveManager = FindObjectOfType<SaveManager>();
     }
 
     void Start() {
@@ -71,6 +73,7 @@ public class GameManager : MonoBehaviour {
     }
 
     public void Initialize() {
+        gameCount = 1;
         gameStage = 1;
         playerName = PlayerPrefs.GetString("PlayerName");
 
@@ -188,8 +191,22 @@ public class GameManager : MonoBehaviour {
 
     public void StartTestButton() {
         isTestFunction = true;
-        gameCount = 1;
-        scoreList.Clear();
+
+        int count = PlayerPrefs.GetInt("gameCount", 0);
+        int stage = PlayerPrefs.GetInt("gameStage", 0);
+
+        if (count != 0) {
+            LoadGame();
+            if (count == 1 && stage == 2) {
+                scoreList.Clear();
+            }
+        }
+
+        if (stage == 3) {
+            audioManager.StopAllSources();
+            audioManager.PlayWrongClip();
+            return;
+        }
         StartTest();
     }
 
@@ -204,14 +221,13 @@ public class GameManager : MonoBehaviour {
         }
 
         // stage finished
-        if (gameCount > 23 || gameStage > 2) {
+        if (gameCount > 23) {
             isTestFunction = false;
             if (isDebugging) {
                 panelManager.ShowMainPanel();
             } else {
                 panelManager.ShowUploadPanel();
             }
-            gameStage++;
             return;
         }
 
@@ -257,8 +273,10 @@ public class GameManager : MonoBehaviour {
     }
 
     public void NextStage() {
+        scoreList.Clear();
         if (gameStage == 2) {
-            StartTestButton();
+            isTestFunction = true;
+            StartTest();
         } else {
             Button playButton = GameObject.FindGameObjectWithTag("PlayButton").GetComponent<Button>();
             Text playButtonText = playButton.GetComponentInChildren<Text>();
@@ -335,6 +353,9 @@ public class GameManager : MonoBehaviour {
 
     public void EndGame() {
         gameCount++;
+        if (isTestFunction) {
+            SaveGame();
+        }
         StartCoroutine(EndGameCo());
     }
 
@@ -489,20 +510,7 @@ public class GameManager : MonoBehaviour {
 
     public void UploadScore() {
         if (scoreList.Count > 0) {
-            string scoreString = "";
-            for (int i = 0; i < scoreList.Count; i++) {
-                scoreString += scoreList[i].name + ",";
-                scoreString += scoreList[i].score1.ToString() + ",";
-                scoreString += scoreList[i].rounds.ToString() + ",";
-                scoreString += scoreList[i].score2.ToString() + ",";
-                scoreString += scoreList[i].maxScore.ToString() + ",";
-                scoreString += scoreList[i].level.ToString() + ",";
-                scoreString += scoreList[i].time.ToString() + ",";
-                scoreString += scoreList[i].optional.ToString();
-                if (i != scoreList.Count - 1) {
-                    scoreString += "\n";
-                }
-            }
+            string scoreString = saveManager.ScoreList2String(scoreList);
             // Debug.Log(scoreString);
             StartCoroutine(UploadScoreCo(scoreString));
         } else {
@@ -552,6 +560,10 @@ public class GameManager : MonoBehaviour {
             uploadButtonText.text = doneText;
             audioManager.PlayCorrectClip();
             isUploaded = true;
+
+            gameCount = 1;
+            gameStage++;
+            SaveGame();
         }
 
         yield return new WaitForSeconds(2f);
@@ -580,5 +592,20 @@ public class GameManager : MonoBehaviour {
 
     public void Stopwatch(bool isActive) {
         stopWatch = isActive;
+    }
+
+    private void SaveGame() {
+        saveManager.SaveGame(scoreList, replayList, gameCount, gameStage);
+    }
+
+    private void LoadGame() {
+        string scoreString = PlayerPrefs.GetString("scoreString");
+        scoreList = saveManager.String2ScoreList(scoreString);
+
+        string replayString = PlayerPrefs.GetString("replayString");
+        replayList = saveManager.String2ReplayList(replayString);
+
+        gameCount = PlayerPrefs.GetInt("gameCount");
+        gameStage = PlayerPrefs.GetInt("gameStage");
     }
 }

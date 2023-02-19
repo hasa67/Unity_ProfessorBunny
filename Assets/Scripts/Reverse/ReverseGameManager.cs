@@ -10,6 +10,7 @@ public class ReverseGameManager : MonoBehaviour {
     public GameObject questionSlotsPanel;
     public float cardFlipTime;
 
+    private float[] previewWaitTime = { 4f, 7f, 9f };
     private int score1;
     private int score2;
     private int maxScore;
@@ -132,7 +133,7 @@ public class ReverseGameManager : MonoBehaviour {
         float delay = CardsArrive();
         yield return new WaitForSeconds(delay);
 
-        yield return new WaitForSeconds(gameManager.previewWaitTime / 2);
+        yield return new WaitForSeconds(previewWaitTime[gameLevel - 1]);
         foreach (var card in currentQuestionCards) {
             card.GetComponent<ReverseQuestionCard>().FlipCard();
         }

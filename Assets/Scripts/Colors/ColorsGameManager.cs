@@ -14,6 +14,7 @@ public class ColorsGameManager : MonoBehaviour {
 
     [HideInInspector] public int additionalTouch;
 
+    private float[] previewWaitTime = { 4f, 7f, 12f };
     private int remainingRounds;
     private int totalRounds;
     private int gameLevel;
@@ -123,7 +124,7 @@ public class ColorsGameManager : MonoBehaviour {
         PreviewAnswersOn();
         float delay = PaletteArrive();
         yield return new WaitForSeconds(delay);
-        yield return new WaitForSeconds(gameManager.previewWaitTime);
+        yield return new WaitForSeconds(previewWaitTime[gameLevel - 1]);
         PreviewAnswersOff();
 
         yield return new WaitForSeconds(delay);
@@ -174,6 +175,7 @@ public class ColorsGameManager : MonoBehaviour {
     }
 
     private float PaletteArrive() {
+        questionSlotsPanel.GetComponent<AudioSource>().Play();
         answerSlotsPanel.GetComponent<Animator>().SetBool("on", true);
         questionSlotsPanel.GetComponent<Animator>().SetBool("on", true);
         questionsCover.GetComponent<Animator>().SetBool("on", true);
@@ -182,12 +184,14 @@ public class ColorsGameManager : MonoBehaviour {
     }
 
     private float CoverOff() {
+        questionsCover.GetComponent<AudioSource>().Play();
         questionsCover.GetComponent<Animator>().SetBool("on", false);
         float length = questionsCover.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
         return length;
     }
 
     private float PaletteLeave() {
+        questionSlotsPanel.GetComponent<AudioSource>().Play();
         answerSlotsPanel.GetComponent<Animator>().SetBool("on", false);
         questionSlotsPanel.GetComponent<Animator>().SetBool("on", false);
         float length = answerSlotsPanel.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
