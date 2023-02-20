@@ -98,6 +98,7 @@ public class AudioManager : MonoBehaviour {
     }
 
     public void SetGameClip(string gameName) {
+        audioSource2.clip = helpClip;
         switch (gameName) {
             case "train":
                 audioSource1.clip = trainClip;
@@ -145,7 +146,7 @@ public class AudioManager : MonoBehaviour {
 
     public float PlaySource2() {
         audioSource2.Play();
-        return helpClip.length;
+        return audioSource1.clip.length;
     }
 
     public void StopAllSources() {

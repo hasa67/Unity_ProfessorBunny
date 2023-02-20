@@ -186,6 +186,8 @@ public class GameManager : MonoBehaviour {
         videoManager.SetVideoClip(currentGameName);
 
         float waitTime = audioManager.PlaySource1();
+        yield return new WaitForSeconds(waitTime + 0.5f);
+        waitTime = audioManager.PlaySource2();
         yield return new WaitForSeconds(waitTime);
     }
 
